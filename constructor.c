@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/06/28 12:53:08 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/02 16:10:04 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_cmd	*piping(t_cmd *left, t_cmd *right)
 {
 	t_pipe	*cmd;
 
-	cmd = malloc(sizeof(t_cmd));
+	cmd = malloc(sizeof(t_pipe) + 1);
 	cmd->type = PIPE;
 	cmd->left = left;
 	cmd->right = right;
@@ -27,7 +27,7 @@ t_cmd	*redirect(t_cmd	*exe, char *file, char *efile, int mode, int fd)
 {
 	t_redir	*cmd;
 	
-	cmd = malloc(sizeof(t_cmd));
+	cmd = malloc(sizeof(t_redir) + 1);
 	cmd->type = REDIR;
 	cmd->exe = exe;
 	cmd->file = file;
@@ -40,21 +40,41 @@ t_cmd	*redirect(t_cmd	*exe, char *file, char *efile, int mode, int fd)
 t_cmd	*exelior()
 {
 	t_exec	*cmd;
-	cmd = malloc (sizeof(t_cmd));
+	cmd = malloc (sizeof(t_exec) + 1);
 	cmd->type = EXEC;
 	return ((t_cmd*)cmd);
 }
 
-int	ft_strchr(char *s, char *skip)
+int	ft_strchr(char s, char *scan)
 {
-	int	i; 
+	int	i;
 
 	i = 0;
-	while (skip[i] && skip[i] != *s)
+	while (scan[i] && scan[i] != s)
 		i++;
-	if (i == ft_strlen(skip))
+	if (i == ft_strlen(scan))
 		return (0);
 	return (1);
+}
+
+int	ft_skip(char *s, char *skip)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (s[i])
+	{
+		j = 0;
+		while (skip[j])
+		{
+			if (skip[j] == s[i])
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
 int	exist(char **ps, char *es, char *token)
@@ -62,8 +82,13 @@ int	exist(char **ps, char *es, char *token)
 	char	*s;
 
 	s = *ps;
-	while (s < es && ft_strchr(s, " \t\n\v\f\r"))
+	//printf ("%s exist\n", s);
+	while (s < es && ft_strchr(*s, " \t\n\v\f\r"))
 		s++;
-	*ps = s;
-	return *s && ft_strchr(s, token);
+	//if (stat == 1)
+	//{
+		*ps = s;
+	return *s && ft_strchr(*s, token);
+	// }
+	//return *s && ft_skip(s, token);
 }

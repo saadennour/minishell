@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/06/29 18:56:21 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/02 18:30:30 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	get_token(char **ps, char *es, char **q, char **eq)
 	int		token;
 
 	s = *ps;
-	while (s < es && ft_strchr(s, " \t\n\f\v\r"))
+	while (s < es && ft_strchr(*s, " \t\n\f\v\r"))
 		s++;
 	if (q)
 		*q = s;
@@ -34,17 +34,15 @@ int	get_token(char **ps, char *es, char **q, char **eq)
 		token = followed(&s);
 	else
 		token = 'F';
-	while (s < es && !ft_strchr(s, " \t\n\f\v\r") && !ft_strchr(s, "|<>"))
+	while (s < es && !ft_strchr(*s, " \t\n\f\v\r") && !ft_strchr(*s, "|<>"))
 		s++;
 	if (eq)
 	{
-		//printf ("hna\n");
 		*eq = s;
 	}
-	while (s < es && ft_strchr(s, " \t\n\f\v\r"))
+	while (s < es && ft_strchr(*s, " \t\n\f\v\r"))
 		s++;
 	*ps = s;
-	//printf ("%s %s\n", *q, *eq);
 	return (token);
 }
 
@@ -52,17 +50,16 @@ t_cmd	*parseexec(char **ps, char *es)
 {
 	t_exec	*exec;
 	char	*q, *eq;
+	char	**two;
 	int		token , i;
 	t_cmd	*cmd;
 
 	i = 0;
 	cmd = exelior();
 	exec = (t_exec*)cmd;
-	//printf ("parsered\n");
 	cmd = parsered (cmd, ps ,es);
 	while (!exist(ps, es, "|"))
 	{
-		//printf ("1\n");
 		if ((token = get_token(ps, es, &q, &eq)) == 0)
 			break;
 		if (token != 'F')
@@ -70,8 +67,18 @@ t_cmd	*parseexec(char **ps, char *es)
 			printf ("Error\n");
 			exit (1);
 		}
-		exec->args[i] = q;
-		exec->erags[i] = eq;
+		if (ft_skip(q, "|"))
+		{
+			two = ft_split(q, '|');
+			exec->args[i] = two[i];
+			exec->erags[i] = two[i];
+			//printf ("hello %s, %s\n", two[i], two[i + 1]);
+		}
+		else
+		{
+			exec->args[i] = q;
+			exec->erags[i] = eq;
+		}
 		i++;
 		if (i >= 10)
 			exit (1);
@@ -88,7 +95,6 @@ t_cmd	*parsecmd(char *str)
 	t_cmd	*cmd;
 
 	es = str + ft_strlen(str);
-	//printf ("parsepipe\n");
 	cmd = parsepipe(&str, es);
 	exist (&str, es, "");
 	if (str != es)
@@ -96,6 +102,7 @@ t_cmd	*parsecmd(char *str)
 		printf ("Error\n");
 		exit (1);
 	}
+	//end_it(cmd);
 	return (cmd);
 }
 
@@ -103,7 +110,6 @@ t_cmd	*parsepipe(char	**ps, char *es)
 {
 	t_cmd	*cmd;
 
-	//printf ("parsexec\n");
 	cmd = parseexec(ps, es);
 	if (exist(ps, es, "|"))
 	{
@@ -121,7 +127,6 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es)
 
 	while (exist(ps, es, "<>"))
 	{
-		//printf ("salam\n");
 		token = get_token(ps, es, 0, 0);
 		if (get_token(ps, es, &q, &eq) != 'F')
 		{
@@ -130,7 +135,6 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es)
 		}
 		if (token == '<')
 		{
-			//printf ("mrhba\n");
 			cmd = redirect(cmd, q, eq, O_RDONLY, 0);
 			break;
 		}

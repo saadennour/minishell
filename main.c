@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/06/29 19:20:29 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/02 17:10:29 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int main(int ac, char **av, char **envp)
 {
 	int 	fd;
 	char	*buf;
+	int		c;
 
 	(void)ac;
 	(void)av;
@@ -95,8 +96,9 @@ int main(int ac, char **av, char **envp)
 	{
 		printdir();
 		buf = ft_read();
+		c = 0;
 		if (fork() == 0)
-			run_cmd(parsecmd(buf), envp);
+			run_cmd(parsecmd(buf), envp, &c);
 		wait(0);
 	}
 	return (0);
