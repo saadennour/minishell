@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/02 18:30:30 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/03 21:02:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ t_cmd	*parseexec(char **ps, char *es)
 		{
 			two = ft_split(q, '|');
 			exec->args[i] = two[i];
-			exec->erags[i] = two[i];
+			exec->erags[i] = 0;
 			//printf ("hello %s, %s\n", two[i], two[i + 1]);
 		}
 		else
 		{
 			exec->args[i] = q;
-			exec->erags[i] = eq;
+			exec->erags[i] = 0;
 		}
 		i++;
 		if (i >= 10)
@@ -91,12 +91,18 @@ t_cmd	*parseexec(char **ps, char *es)
 
 t_cmd	*parsecmd(char *str)
 {
-	char	*es;
+	char	*es = NULL;
 	t_cmd	*cmd;
 
+	if (str[0] == '|')
+	{
+		printf ("Error\n");
+		exit (1);
+	}
+	str = ft_path(str);
 	es = str + ft_strlen(str);
 	cmd = parsepipe(&str, es);
-	exist (&str, es, "");
+	//exist (&str, es, "");
 	if (str != es)
 	{
 		printf ("Error\n");

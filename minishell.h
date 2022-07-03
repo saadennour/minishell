@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/02 17:15:20 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/03 21:00:14 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
 char	*get_path(t_exec *exe, char **envp);
 int		lets_check(char *str);
+char	*ft_path(char *line);
 int		followed(char **s);
 t_cmd	*piping(t_cmd *left, t_cmd *right);
 t_cmd	*redirect(t_cmd	*exe, char *file, char *efile, int mode, int fd);

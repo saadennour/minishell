@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/02 17:10:29 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/03 00:06:15 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char *ft_lastcar(char *str, char c)
 }
 
 //printf the name directory
-void    printdir()
+char *    printdir()
 {
 	char *cwd;
 	char *dir;
@@ -52,50 +52,20 @@ void    printdir()
 	cwd = malloc(sizeof(char) * 1000);
 	getcwd(cwd, sizeof(char) * 1000);
 	dir = ft_lastcar(cwd, '/');
-	printf("-> %s ",dir);
+	return (dir);
 }
 
-char	*ft_read()
-{
-	int		size;
-	int		i;
-	//char 	**arg;
-	char	*inpt;
-
-	size = 0;
-	i = 0;
-	inpt = readline("");
-	//parsing(inpt);
-	// arg	 = ft_split(inpt,' ',&size);
-	// while (i < size)
-	// {
-	// 	printf ("%s\n", arg[i]);
-	// 	i++;
-	// }
-	//cmd = parsecmd(inpt);
-	return (inpt);
-}
 
 int main(int ac, char **av, char **envp)
 {
-	int 	fd;
 	char	*buf;
 	int		c;
 
 	(void)ac;
 	(void)av;
-	while ((fd = open("test.txt", O_RDWR)) >= 0)
-	{
-		if (fd >= 3)
-		{
-			close (fd);
-			break;
-		}
-	}
 	while (1)
 	{
-		printdir();
-		buf = ft_read();
+		buf = readline("-> minishell ");
 		c = 0;
 		if (fork() == 0)
 			run_cmd(parsecmd(buf), envp, &c);

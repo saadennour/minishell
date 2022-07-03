@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:02:03 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/06/28 18:57:27 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/03 20:59:44 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,49 @@ void	free_tab(char **path)
 	}
 }
 
-// static  int	search_path(char **env)
-// {
-// 	int	i;
+static char	*corrected(char *line, char *str)
+{
+	int	i;
+	int	j;
 
-// 	i = 0;
-// 	while (env[i])
-// 	{
-// 		if (!(strncmp(env[i], "PATH", 4)))
-// 			return (i);
-// 		i++;
-// 	}
-// 	return (0);
-// }
+	i = 0;
+	j = 0;
+	while (line[i])
+	{
+		if (line[i] == '|' && (line[i + 1] != ' ' || line[i - 1] != ' '))
+		{
+			str[j] = ' ';
+			str[j + 1] = '|';
+			str[j + 2] = ' ';
+			i++;
+			j += 3;
+		}
+		str[j] = line[i];
+		j++;
+		i++;
+	}
+	return (str);
+}
+
+char	*ft_path(char *line)
+{
+	int		i;
+	int		size;
+	int		count;
+	char	*str;
+	
+	i = 0;
+	count = 0;
+	size = ft_strlen(line);
+	while (line[i])
+	{
+		if (line[i] == '|' && (line[i + 1] != ' ' || line[i - 1] != ' '))
+			count++;
+		i++;
+	}
+	str = malloc(sizeof(char) * (size + (count * 2)));
+	return (corrected(line, str));
+}
 
 // char	**get_path(char *env)
 // {

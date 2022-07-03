@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/02 16:10:04 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/02 21:25:30 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,8 @@ int	exist(char **ps, char *es, char *token)
 	char	*s;
 
 	s = *ps;
-	//printf ("%s exist\n", s);
 	while (s < es && ft_strchr(*s, " \t\n\v\f\r"))
 		s++;
-	//if (stat == 1)
-	//{
 		*ps = s;
 	return *s && ft_strchr(*s, token);
-	// }
-	//return *s && ft_skip(s, token);
 }
