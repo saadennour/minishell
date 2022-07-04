@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/02 23:38:50 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/04 22:16:25 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 		if (access(cmd[j], F_OK) != -1)
 			return (cmd[j]);
 	}
-	printf ("minishell : command not found: %s\n", exec[0]);
+	printf ("minishell: %s: command not found\n", exec[0]);
 	return (0);
 }
 
@@ -125,12 +125,14 @@ char	*get_path(t_exec *exe, char **envp)
 void	run_cmd(t_cmd *cmd, char **envp, int *c)
 {
 	int 	p[2];
+	int		i;
 	char	*buf;
 	char	**ar;
 	t_exec	*exe;
 	t_pipe	*pip;
-	// t_redir	*red;
+	t_redir	*red;
 
+	i = 0;
 	if (cmd == 0)
 		exit (1);
 	if (cmd->type == EXEC)
@@ -140,7 +142,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 			exit (1);
 		buf = get_path(exe, envp);
 		ar = ft_split(exe->args[0], ' ');
-		//printf ("%s, %s, %s\n", buf, ar[0], ar[1]);
+		//printf ("%d %s, %s, %s, %s\n", i ,buf, ar[0], ar[1], ar[2]);
 		//exe->eargs should be a double pointer containing the cmd and args.
 		execve(buf, ar, envp);
 	}
@@ -170,5 +172,12 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		close(p[0]);
 		close(p[1]);
 		wait(0);
+	}
+	else if (cmd->type == REDIR)
+	{
+		red = (t_redir*)cmd;
+		close(red->fd);
+		open(red->file, red->mode, 777);
+		run_cmd(red->exe, envp, c);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/03 21:02:27 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/04 22:08:14 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,12 @@ t_cmd	*parseexec(char **ps, char *es)
 {
 	t_exec	*exec;
 	char	*q, *eq;
-	char	**two;
-	int		token , i;
+	char	**two, **one;
+	int		token , i, j;
 	t_cmd	*cmd;
 
 	i = 0;
+	j = 0;
 	cmd = exelior();
 	exec = (t_exec*)cmd;
 	cmd = parsered (cmd, ps ,es);
@@ -67,12 +68,21 @@ t_cmd	*parseexec(char **ps, char *es)
 			printf ("Error\n");
 			exit (1);
 		}
-		if (ft_skip(q, "|"))
+		if (ft_skip(q, "|") && i == 0)
 		{
 			two = ft_split(q, '|');
-			exec->args[i] = two[i];
-			exec->erags[i] = 0;
+			while (two[i])
+			{
+				exec->args[i] = two[i];
+				i++;
+			}
+			i = 0;
 			//printf ("hello %s, %s\n", two[i], two[i + 1]);
+		}
+		else if (ft_skip(q, "<>") && i == 0)
+		{
+			one = ft_split(q, '>');
+			exec->args[i] = one[i];
 		}
 		else
 		{
@@ -96,7 +106,7 @@ t_cmd	*parsecmd(char *str)
 
 	if (str[0] == '|')
 	{
-		printf ("Error\n");
+		printf ("minishell: syntax error near unexpected token '|'\n");
 		exit (1);
 	}
 	str = ft_path(str);
@@ -151,7 +161,7 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es)
 		}
 		else if (token == '+')
 		{
-			cmd = redirect (cmd, q, eq, O_WRONLY | O_CREAT, 1);
+			cmd = redirect (cmd, q, eq, O_WRONLY | O_CREAT | O_APPEND, 1);
 			break;
 		}
 		else if (token == '-')
