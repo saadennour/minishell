@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 18:21:16 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/05 21:00:37 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 	cmd = ft_split(&path[5], ':');
 	exec = ft_split((char*)*exe->args, ' ');
 	//printf ("%s %s\n", exec[0], exec[1]);
+	if(if_builtins(exec[0]) == 0)
+		exit(0);
 	if (access(exec[0], F_OK) != -1)
 		return (exec[0]);
 	while (cmd[++j])

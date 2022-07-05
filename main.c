@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/03 00:06:15 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/05 20:54:08 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,17 @@ char *    printdir()
 	return (dir);
 }
 
+char	*ft_read()
+{
+	char	*inpt;
+	
+	inpt = readline("-> minishell ");
+	while(if_builtins(inpt) == 0)
+	{
+		inpt = readline("-> minishell ");
+	}
+	return (inpt);
+}
 
 int main(int ac, char **av, char **envp)
 {
@@ -65,8 +76,8 @@ int main(int ac, char **av, char **envp)
 	(void)av;
 	while (1)
 	{
-		buf = readline("-> minishell ");
 		c = 0;
+		buf = ft_read();
 		if (fork() == 0)
 			run_cmd(parsecmd(buf), envp, &c);
 		wait(0);

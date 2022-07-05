@@ -8,6 +8,7 @@ SRCS =	main.c \
 		constructor.c \
 		tools.c \
 		parse.c \
+		builtins.c \
 
 all : $(NAME)
 

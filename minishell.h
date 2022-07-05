@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 00:50:46 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/05 20:54:47 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ t_cmd	*parsepipe(char	**ps, char *es);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es);
 void	run_cmd(t_cmd *cmd, char **envp, int *c);
 int		ft_strncmp(const char *first, const char *second, size_t length);
+int 	if_builtins(char *buf);
 
 #endif
