@@ -3,8 +3,7 @@
 int	ft_echo(char *buf)
 {
 	buf = buf + 4;
-	while (buf != '\0' && ft_strchr(*buf, " \t\n\f\v\r"))
-		buf++;
+	buf = ft_skip_spaces(buf);
 	if(*buf == '$')
 	{
 		printf("hey\n");
@@ -14,8 +13,7 @@ int	ft_echo(char *buf)
 	if(ft_strncmp(buf,"-n ",3) == 0)
 	{
 		buf = buf + 2;
-		while (buf != '\0' && ft_strchr(*buf, " \t\n\f\v\r"))
-			buf++;
+		buf = ft_skip_spaces(buf);
 		printf("%s",buf);
 		return (0);
 	}
@@ -29,6 +27,7 @@ int	ft_echo(char *buf)
 
 int if_builtins(char *buf)
 {
+
 	if(ft_strncmp(buf,"cd ",3) == 0)
 	{
 		if(chdir(buf + 3) < 0)

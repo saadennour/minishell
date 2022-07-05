@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 20:54:08 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/05 23:48:39 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,29 @@ char *ft_lastcar(char *str, char c)
 }
 
 //printf the name directory
-char *    printdir()
-{
-	char *cwd;
-	char *dir;
+// char *    printdir()
+// {
+// 	char *cwd;
+// 	char *dir;
 
-	cwd = malloc(sizeof(char) * 1000);
-	getcwd(cwd, sizeof(char) * 1000);
-	dir = ft_lastcar(cwd, '/');
-	return (dir);
-}
+// 	cwd = malloc(sizeof(char) * 1000);
+// 	getcwd(cwd, sizeof(char) * 1000);
+// 	dir = ft_lastcar(cwd, '/');
+// 	return (dir);
+// }
 
-char	*ft_read()
+
+
+char	*ft_read(char **envp)
 {
 	char	*inpt;
 	
 	inpt = readline("-> minishell ");
-	while(if_builtins(inpt) == 0)
+	inpt = ft_skip_spaces(inpt);
+	while(if_builtins(inpt) == 0 || if_dsigne(inpt,envp) == 0)
 	{
 		inpt = readline("-> minishell ");
+		inpt = ft_skip_spaces(inpt);
 	}
 	return (inpt);
 }
@@ -77,7 +81,7 @@ int main(int ac, char **av, char **envp)
 	while (1)
 	{
 		c = 0;
-		buf = ft_read();
+		buf = ft_read(envp);
 		if (fork() == 0)
 			run_cmd(parsecmd(buf), envp, &c);
 		wait(0);

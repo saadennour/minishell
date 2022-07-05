@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 21:00:37 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/05 23:42:43 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,4 +200,11 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		open(red->file, red->mode, 777);
 		run_cmd(red->exe, envp, c);
 	}
+}
+
+char	*ft_skip_spaces(char *inpt)
+{
+	while (inpt != '\0' && ft_strchr(*inpt, " \t\n\f\v\r"))
+			inpt++;
+	return(inpt);
 }

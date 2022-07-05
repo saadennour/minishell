@@ -9,6 +9,7 @@ SRCS =	main.c \
 		tools.c \
 		parse.c \
 		builtins.c \
+		ft_dsigne.c \
 
 all : $(NAME)
 
