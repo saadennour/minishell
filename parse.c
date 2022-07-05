@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/04 22:08:14 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/05 18:28:37 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ t_cmd	*parseexec(char **ps, char *es)
 	j = 0;
 	cmd = exelior();
 	exec = (t_exec*)cmd;
-	cmd = parsered (cmd, ps ,es);
 	while (!exist(ps, es, "|"))
 	{
+		cmd = parsered (cmd, ps ,es);
 		if ((token = get_token(ps, es, &q, &eq)) == 0)
 			break;
 		if (token != 'F')
@@ -77,14 +77,21 @@ t_cmd	*parseexec(char **ps, char *es)
 				i++;
 			}
 			i = 0;
-			//printf ("hello %s, %s\n", two[i], two[i + 1]);
 		}
 		else if (ft_skip(q, "<>") && i == 0)
 		{
-			one = ft_split(q, '>');
-			exec->args[i] = one[i];
+			if (ft_skip(q, ">"))
+				one = ft_split(q, '>');
+			else if (ft_skip(q, "<"))
+				one = ft_split(q, '<');
+			while (one[i])
+			{
+				exec->args[i] = one[i];
+				i++;
+			}
+			i = 0;
 		}
-		else
+		else if (i == 0)
 		{
 			exec->args[i] = q;
 			exec->erags[i] = 0;
@@ -140,33 +147,35 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es)
 	int		token;
 	char	*q;
 	char	*eq;
+	char	*clear;
 
 	while (exist(ps, es, "<>"))
 	{
 		token = get_token(ps, es, 0, 0);
 		if (get_token(ps, es, &q, &eq) != 'F')
 		{
-			printf ("Erroro\n");
+			printf ("Error\n");
 			exit (1);
 		}
+		clear = clean(q);
 		if (token == '<')
 		{
-			cmd = redirect(cmd, q, eq, O_RDONLY, 0);
+			cmd = redirect(cmd, clear, O_RDONLY, 0);
 			break;
 		}
 		else if (token == '>')
 		{
-			cmd = redirect(cmd, q, eq, O_WRONLY | O_CREAT | O_TRUNC, 1);
+			cmd = redirect(cmd, clear, O_WRONLY | O_CREAT | O_TRUNC, 1);
 			break;
 		}
 		else if (token == '+')
 		{
-			cmd = redirect (cmd, q, eq, O_WRONLY | O_CREAT | O_APPEND, 1);
+			cmd = redirect (cmd, clear, O_WRONLY | O_CREAT | O_APPEND, 1);
 			break;
 		}
 		else if (token == '-')
 		{
-			cmd = redirect (cmd, q ,eq , 0, 0);
+			cmd = redirect (cmd, clear, 0, 0);
 			break;
 		}
 	}

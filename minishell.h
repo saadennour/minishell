@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/03 21:00:14 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/05 00:50:46 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ typedef struct t_redir
 	int				type;
 	struct t_cmd	*exe;
 	char			*file;
-	char			*efile;
 	int				mode;
 	int				fd;
 }	t_redir;
 
 
 int	    ft_strlen(char *str);
+char	*clean(char *str);
 t_cmd	*end_it(t_cmd *cmd);
 char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
@@ -76,7 +76,7 @@ int		lets_check(char *str);
 char	*ft_path(char *line);
 int		followed(char **s);
 t_cmd	*piping(t_cmd *left, t_cmd *right);
-t_cmd	*redirect(t_cmd	*exe, char *file, char *efile, int mode, int fd);
+t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd);
 t_cmd	*exelior();
 int		ft_strchr(char s, char *scan);
 int		ft_skip(char *s, char *skip);

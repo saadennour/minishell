@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/04 22:16:25 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/05 18:21:16 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,26 @@ int	followed(char **s)
 	}
 	return (0);
 }
+
+char	*clean(char *str)
+{
+	int		i;
+	char	*clean;
+
+	i = 0;
+	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
+		i++;
+	clean = malloc (sizeof(char) * i);
+	i = 0;
+	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
+	{
+		clean[i] = str[i];
+		i++;
+	}
+	clean[i] = '\0';
+	return (clean);
+}
+
 
 t_cmd	*end_it(t_cmd *cmd)
 {
@@ -125,14 +145,12 @@ char	*get_path(t_exec *exe, char **envp)
 void	run_cmd(t_cmd *cmd, char **envp, int *c)
 {
 	int 	p[2];
-	int		i;
 	char	*buf;
 	char	**ar;
 	t_exec	*exe;
 	t_pipe	*pip;
 	t_redir	*red;
 
-	i = 0;
 	if (cmd == 0)
 		exit (1);
 	if (cmd->type == EXEC)
@@ -142,7 +160,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 			exit (1);
 		buf = get_path(exe, envp);
 		ar = ft_split(exe->args[0], ' ');
-		//printf ("%d %s, %s, %s, %s\n", i ,buf, ar[0], ar[1], ar[2]);
+		//printf ("%s, %s, %s, %s\n", buf, ar[0], ar[1], ar[2]);
 		//exe->eargs should be a double pointer containing the cmd and args.
 		execve(buf, ar, envp);
 	}
