@@ -82,6 +82,7 @@ int main(int ac, char **av, char **envp)
 	{
 		c = 0;
 		buf = ft_read();
+		add_history(buf);
 		if (fork() == 0)
 			run_cmd(parsecmd(buf, envp), envp, &c);
 		wait(0);

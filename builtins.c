@@ -27,10 +27,12 @@ int	ft_echo(char *buf)
 
 int if_builtins(char *buf)
 {
+	char *clear;
 
 	if(ft_strncmp(buf,"cd ",3) == 0)
 	{
-		if(chdir(buf + 3) < 0)
+		clear = clean(buf + 3);
+		if(chdir(clear) < 0)
 			printf("cd: no such file or directory: %s\n",buf + 3);
 		return (0);
 	}

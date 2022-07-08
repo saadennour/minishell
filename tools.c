@@ -158,6 +158,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		exit (1);
 	if (cmd->type == EXEC)
 	{
+		//printf ("hello\n");
 		exe = (t_exec*)cmd;
 		if (exe->args[0] == 0)
 			exit (1);
@@ -203,6 +204,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 	}
 	else if (cmd->type == REDIR)
 	{
+		//printf ("mrhba\n");
 		red = (t_redir*)cmd;
 		fd = open(red->file, red->mode, 777);
 		if (*c == 0)
