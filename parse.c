@@ -71,15 +71,15 @@ t_cmd	*parseexec(char **ps, char *es, char **env)
 		if (ft_skip(q, "|") && i == 0)
 		{
 			two = ft_split(q, '|');
-			while (two[i])
-			{
-				if (if_dsigne(two[i], env) != 0)
-					exec->args[i] = if_dsigne(two[i], env);
-				else
-					exec->args[i] = two[i];
-				i++;
-			}
-			i = 0;
+			// while (two[i])
+			// {
+			if (if_dsigne(two[i], env) != 0)
+				exec->args[i] = if_dsigne(two[i], env);
+			else
+				exec->args[i] = two[i];
+			// 	i++;
+			// }
+			//i = 0;
 		}
 		else if (ft_skip(q, "<>") && i == 0)
 		{
@@ -106,6 +106,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env)
 					exec->args[i] = if_dsigne(one[i], env);
 				else
 					exec->args[i] = one[i];
+				//printf ("%s\n", exec->args[i]);
 				i++;
 			}
 			i = 0;

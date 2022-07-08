@@ -109,7 +109,7 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 	j = -1;
 	path = envp[i];
 	cmd = ft_split(&path[5], ':');
-	exec = ft_split((char*)*exe->args, ' ');
+	exec = ft_split(*exe->args, ' ');
 	//printf ("%s , %s\n", exec[0], exec[1]);
 	if(if_builtins(exec[0]) == 0)
 		exit(0);
@@ -149,7 +149,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 	int		fd;
 	int 	p[2];
 	char	*buf;
-	//char	**ar;
+	char	**ar;
 	t_exec	*exe;
 	t_pipe	*pip;
 	t_redir	*red;
@@ -162,10 +162,15 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		if (exe->args[0] == 0)
 			exit (1);
 		buf = get_path(exe, envp);
-		//ar = ft_split(exe->args[0], ' ');
-		//printf ("%s, %s, %s, %s\n", buf, ar[0], ar[1], ar[2]);
-		//exe->eargs should be a double pointer containing the cmd and args.
+		if (*c != 0)
+		{
+			ar = ft_split(exe->args[0], ' ');
+			//printf ("%s %s\n", ar[0], ar[1]);
+			execve(buf, ar, envp);
+		}
 		execve(buf, exe->args, envp);
+		//printf ("%s, %s, %s\n", buf, exe->args[0], exe->args[1]);
+		//exe->eargs should be a double pointer containing the cmd and args.
 	}
 	else if (cmd->type == PIPE)
 	{
@@ -178,14 +183,16 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		}
 		if (fork() == 0)
 		{
+			if (pip->left->type == EXEC)
+				*c = 1;
 			close(p[0]);
 			dup2(p[1], STDOUT_FILENO);
 			run_cmd(pip->left, envp, c);
 		}
 		else
 		{
-			// if (pip->right->type == EXEC)
-			// 	*c = -1;
+			if (pip->right->type == EXEC)
+				*c = 0;
 			close(p[1]);
 			dup2(p[0], STDIN_FILENO);
 			run_cmd(pip->right, envp, c);
