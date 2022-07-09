@@ -63,6 +63,7 @@ typedef struct t_redir
 	char			*file;
 	int				mode;
 	int				fd;
+	int				token;
 }	t_redir;
 
 
@@ -71,12 +72,13 @@ char	*clean(char *str);
 t_cmd	*end_it(t_cmd *cmd);
 char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
+char	**ft_advanced(char const *s, char *buf);
 char	*get_path(t_exec *exe, char **envp);
 int		lets_check(char *str);
 char	*ft_path(char *line);
 int		followed(char **s);
 t_cmd	*piping(t_cmd *left, t_cmd *right);
-t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd);
+t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token);
 t_cmd	*exelior();
 int		ft_strchr(char s, char *scan);
 int		ft_skip(char *s, char *skip);

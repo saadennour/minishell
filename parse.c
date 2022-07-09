@@ -83,10 +83,8 @@ t_cmd	*parseexec(char **ps, char *es, char **env)
 		}
 		else if (ft_skip(q, "<>") && i == 0)
 		{
-			if (ft_skip(q, ">"))
-				one = ft_split(q, '>');
-			else if (ft_skip(q, "<"))
-				one = ft_split(q, '<');
+			if (ft_skip(q, "<>"))
+				one = ft_advanced(q, "<>");
 			while (one[i])
 			{
 				if (if_dsigne(one[i], env) != 0)
@@ -174,22 +172,22 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es)
 		clear = clean(q);
 		if (token == '<')
 		{
-			cmd = redirect(cmd, clear, O_RDONLY, 0);
+			cmd = redirect(cmd, clear, O_RDONLY, 0, 1);
 			//break;
 		}
 		else if (token == '>')
 		{
-			cmd = redirect(cmd, clear, O_WRONLY | O_CREAT | O_TRUNC, 1);
+			cmd = redirect(cmd, clear, O_WRONLY | O_CREAT | O_TRUNC, 1, 2);
 			//break;
 		}
 		else if (token == '+')
 		{
-			cmd = redirect (cmd, clear, O_WRONLY | O_CREAT | O_APPEND, 1);
+			cmd = redirect (cmd, clear, O_WRONLY | O_CREAT | O_APPEND, 1, 3);
 			//break;
 		}
 		else if (token == '-')
 		{
-			cmd = redirect (cmd, clear, 0, 0);
+			cmd = redirect (cmd, clear, 0, 0, 4);
 			//break;
 		}
 		cmd = parsered(cmd, ps, es);

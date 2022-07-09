@@ -23,7 +23,7 @@ t_cmd	*piping(t_cmd *left, t_cmd *right)
 	return ((t_cmd*)cmd);
 }
 
-t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd)
+t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token)
 {
 	t_redir	*cmd;
 	
@@ -33,6 +33,7 @@ t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd)
 	cmd->file = file;
 	cmd->mode = mode;
 	cmd->fd = fd;
+	cmd->token = token;
 	return ((t_cmd*)cmd);
 }
 

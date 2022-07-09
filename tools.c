@@ -153,6 +153,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 	t_exec	*exe;
 	t_pipe	*pip;
 	t_redir	*red;
+	t_redir	*red2;
 
 	if (cmd == 0)
 		exit (1);
@@ -204,13 +205,18 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 	}
 	else if (cmd->type == REDIR)
 	{
-		//printf ("mrhba\n");
 		red = (t_redir*)cmd;
 		fd = open(red->file, red->mode, 777);
 		if (*c == 0)
 		{
+			//printf ("hello\n");
 			dup2(fd, red->fd);
-			(*c)++;
+			if (red->exe->type == REDIR)
+			{
+				red2 = (t_redir*)red->exe;
+				if (red->token == red2->token)
+					(*c)++;
+			}
 		}
 		run_cmd(red->exe, envp, c);
 	}
