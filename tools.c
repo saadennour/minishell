@@ -68,7 +68,7 @@ char	*clean(char *str)
 	return (clean);
 }
 
-char	*quotes(char *str, int *quote)
+char	*quotes(char *str, t_quote *quote)
 {
 	int		i;
 	int		j;
@@ -83,8 +83,10 @@ char	*quotes(char *str, int *quote)
 		//print until u find the same quote and so on
 		if (str[i] == 34)
 		{
-			if ((*quote) == 0)
-				(*quote)++;
+			if (i == 0)
+				(quote->start) = 1;
+			if ((quote->quote) == 0)
+				(quote->quote)++;
 			str[i] = 1;
 			while (str[i] && str[i] != 34)
 			{
@@ -100,8 +102,10 @@ char	*quotes(char *str, int *quote)
 		}
 		if (str[i] == 39)
 		{
-			if ((*quote) == 0)
-				(*quote) += 2;
+			if (i == 0)
+				(quote->start) = 1;
+			if ((quote->quote) == 0)
+				(quote->quote) += 2;
 			str[i] = 1;
 			while (str[i] && str[i] != 39)
 			{

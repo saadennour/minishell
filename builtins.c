@@ -48,7 +48,8 @@ int if_builtins(char *buf)
 	else if(strcmp(buf,"exit") == 0)
 	{
 		printf("exit\n");
-		exit (0);
+		signal(SIGKILL, SIG_DFL);
+		return (0);
 	}
 	// else if(ft_strncmp(buf, "echo ",5) == 0)
 	// 	if(ft_echo(buf) == 0)

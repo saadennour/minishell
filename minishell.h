@@ -66,6 +66,11 @@ typedef struct t_redir
 	int				token;
 }	t_redir;
 
+typedef struct t_quote
+{
+	int	quote;
+	int	start;
+}	t_quote;
 
 int	    ft_strlen(char *str);
 char	*clean(char *str);
@@ -85,13 +90,13 @@ int		ft_skip(char *s, char *skip);
 int		exist(char **ps, char *es, char *token);
 int		get_token(char **ps, char *es, char **q, char **eq);
 t_cmd	*parsecmd(char *str, char **env);
-t_cmd	*parsepipe(char	**ps, char *es, char **env, int quote);
+t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es);
 void	run_cmd(t_cmd *cmd, char **envp, int *c);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int 	if_builtins(char *buf);
 char	*ft_skip_spaces(char *inpt);
 char	*if_dsigne(char *inpt,char **env);
-char	*quotes(char *str, int *quote);
+char	*quotes(char *str, t_quote *quote);
 
 #endif

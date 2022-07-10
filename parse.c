@@ -46,7 +46,7 @@ int	get_token(char **ps, char *es, char **q, char **eq)
 	return (token);
 }
 
-t_cmd	*parseexec(char **ps, char *es, char **env, int quote)
+t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 {
 	t_exec	*exec;
 	char	*q, *eq;
@@ -71,7 +71,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env, int quote)
 		if (ft_skip(q, "|") && i == 0)
 		{
 			two = ft_split(q, '|');
-			if (if_dsigne(two[i], env) != 0 && quote != 2)
+			if (if_dsigne(two[i], env) != 0 && quote.quote != 2)
 				exec->args[i] = if_dsigne(two[i], env);
 			else
 				exec->args[i] = two[i];
@@ -82,7 +82,20 @@ t_cmd	*parseexec(char **ps, char *es, char **env, int quote)
 				one = ft_advanced(q, "<>");
 			while (one[i])
 			{
-				if (if_dsigne(one[i], env) != 0 && quote != 2)
+				if (if_dsigne(one[i], env) != 0 && quote.quote != 2)
+					exec->args[i] = if_dsigne(one[i], env);
+				else
+					exec->args[i] = one[i];
+				i++;
+			}
+			i = 0;
+		}
+		else if (ft_skip(q, " ") && i == 0 && quote.start != 1)
+		{
+			one = ft_split(q, ' ');
+			while (one[i])
+			{
+				if (if_dsigne(one[i], env) != 0 && quote.quote != 2)
 					exec->args[i] = if_dsigne(one[i], env);
 				else
 					exec->args[i] = one[i];
@@ -92,16 +105,15 @@ t_cmd	*parseexec(char **ps, char *es, char **env, int quote)
 		}
 		else if (i == 0)
 		{
-			one = ft_split(q, ' ');
-			while (one[i])
+			if (ft_skip(q, " "))
 			{
-				if (if_dsigne(one[i], env) != 0 && quote != 2)
-					exec->args[i] = if_dsigne(one[i], env);
-				else
-					exec->args[i] = one[i];
-				i++;
+				printf ("minishell: command not found\n");
+				exit(1);
 			}
-			i = 0;
+			else if (if_dsigne(q, env) != 0 && quote.quote != 2)
+				exec->args[i] = if_dsigne(q, env);
+			else
+				exec->args[i] = q;
 		}
 		i++;
 		if (i >= 10)
@@ -116,7 +128,7 @@ t_cmd	*parsecmd(char *str, char **env)
 {
 	char	*es = NULL;
 	t_cmd	*cmd;
-	int		quote;
+	t_quote	quote;
 
 	if (str[0] == '|')
 	{
@@ -137,7 +149,7 @@ t_cmd	*parsecmd(char *str, char **env)
 	return (cmd);
 }
 
-t_cmd	*parsepipe(char	**ps, char *es, char **env, int quote)
+t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote)
 {
 	t_cmd	*cmd;
 
