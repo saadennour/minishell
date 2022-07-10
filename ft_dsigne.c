@@ -29,6 +29,7 @@ char **forenv(char **env)
 	operation[i] = 0;
 	return(operation);
 }
+
 char	*exdsigne(char *op,char **env)
 {
 	char **operation;
@@ -47,22 +48,75 @@ char	*exdsigne(char *op,char **env)
 	return(0);
 }
 
+char *ft_merge(char *str, char *buf)
+{
+	int		i;
+	int		j;
+	int		x;
+	int		count;
+	char	*merge;
+
+	count = 0;
+	i = 0;
+	j = 0;
+	x = 0;
+	while (buf[i])
+	{
+		if (buf[i] == 34 || buf[i] == 39)
+			count++;
+		i++;
+	}
+	merge = malloc(sizeof(char) * ft_strlen(str) + count);
+	i = 0;
+	while (buf[i] == 34 || buf[i] == 39)
+	{
+		merge[x] = buf[i];
+		i++;
+		x++;
+	}
+	while (buf[i] && (buf[i] != 34 && buf[i] != 39))
+		i++;
+	while (str[j])
+	{
+		merge[x] = str[j];
+		x++;
+		j++;
+	}
+	while (buf[i] && (buf[i] == 34 || buf[i] == 39))
+	{
+		merge[x] = buf[i];
+		i++;
+		x++;
+	}
+	merge[x] = '\0';
+	return (merge);
+}
+
 char	*if_dsigne(char *inpt,char **env)
 {
 	char	**op;
 	char	*dollar;
+	char	tmp[2];
+	char	**var;
 	int		i;
 
 	i = 0;
-	if(*inpt == '$')
+	tmp[0] = 34;
+	tmp[1] = 39;
+	//put unprintable char then undo
+	var = ft_advanced(inpt, tmp);
+	//printf("hadi %s\n", var[0]);
+	if(*var[0] == '$')
 	{
-		inpt++;
+		var[0]++;
 		op = forenv(env);
 		while(op[i])
 		{
-			if(strcmp(inpt,op[i]) == 0)
+			if(strcmp(var[0],op[i]) == 0)
 			{
 				dollar = exdsigne(op[i],env);
+				dollar = ft_merge(dollar, inpt);
+				// printf ("%s\n", dollar);
 				return (dollar);
 			}
 			i++;

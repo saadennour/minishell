@@ -46,7 +46,7 @@ int	get_token(char **ps, char *es, char **q, char **eq)
 	return (token);
 }
 
-t_cmd	*parseexec(char **ps, char *es, char **env)
+t_cmd	*parseexec(char **ps, char *es, char **env, int quote)
 {
 	t_exec	*exec;
 	char	*q, *eq;
@@ -71,15 +71,10 @@ t_cmd	*parseexec(char **ps, char *es, char **env)
 		if (ft_skip(q, "|") && i == 0)
 		{
 			two = ft_split(q, '|');
-			// while (two[i])
-			// {
-			if (if_dsigne(two[i], env) != 0)
+			if (if_dsigne(two[i], env) != 0 && quote != 2)
 				exec->args[i] = if_dsigne(two[i], env);
 			else
 				exec->args[i] = two[i];
-			// 	i++;
-			// }
-			//i = 0;
 		}
 		else if (ft_skip(q, "<>") && i == 0)
 		{
@@ -87,7 +82,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env)
 				one = ft_advanced(q, "<>");
 			while (one[i])
 			{
-				if (if_dsigne(one[i], env) != 0)
+				if (if_dsigne(one[i], env) != 0 && quote != 2)
 					exec->args[i] = if_dsigne(one[i], env);
 				else
 					exec->args[i] = one[i];
@@ -100,11 +95,10 @@ t_cmd	*parseexec(char **ps, char *es, char **env)
 			one = ft_split(q, ' ');
 			while (one[i])
 			{
-				if (if_dsigne(one[i], env) != 0)
+				if (if_dsigne(one[i], env) != 0 && quote != 2)
 					exec->args[i] = if_dsigne(one[i], env);
 				else
 					exec->args[i] = one[i];
-				//printf ("%s\n", exec->args[i]);
 				i++;
 			}
 			i = 0;
@@ -122,34 +116,36 @@ t_cmd	*parsecmd(char *str, char **env)
 {
 	char	*es = NULL;
 	t_cmd	*cmd;
+	int		quote;
 
 	if (str[0] == '|')
 	{
 		printf ("minishell: syntax error near unexpected token '|'\n");
 		exit (1);
 	}
+	str = quotes(str, &quote);
+	//add redirection rules in ft_path
 	str = ft_path(str);
 	es = str + ft_strlen(str);
-	cmd = parsepipe(&str, es, env);
+	cmd = parsepipe(&str, es, env, quote);
 	//exist (&str, es, "");
 	if (str != es)
 	{
 		printf ("Errori\n");
 		exit (1);
 	}
-	//end_it(cmd);
 	return (cmd);
 }
 
-t_cmd	*parsepipe(char	**ps, char *es, char **env)
+t_cmd	*parsepipe(char	**ps, char *es, char **env, int quote)
 {
 	t_cmd	*cmd;
 
-	cmd = parseexec(ps, es, env);
+	cmd = parseexec(ps, es, env, quote);
 	if (exist(ps, es, "|"))
 	{
 		get_token(ps, es, 0, 0);
-		cmd = piping(cmd, parsepipe(ps, es, env));
+		cmd = piping(cmd, parsepipe(ps, es, env, quote));
 	}
 	return (cmd);
 }

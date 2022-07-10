@@ -68,36 +68,70 @@ char	*clean(char *str)
 	return (clean);
 }
 
+char	*quotes(char *str, int *quote)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*buf;
 
-// t_cmd	*end_it(t_cmd *cmd)
-// {
-// 	int	i;
-// 	t_pipe	*pip;
-// 	t_exec	*exe;
-// 	//t_redir	*red;
-
-// 	if (cmd->type == EXEC)
-// 	{
-// 		exe = (t_exec*)cmd;
-// 		i = 0;
-// 		while (exe->args[i])
-// 		{
-// 			exe->erags[i] = 0;
-// 			i++;
-// 		}
-// 	}
-// 	else if (cmd->type == PIPE)
-// 	{
-// 		pip = (t_pipe*)cmd;
-// 		end_it(pip->left);
-// 		end_it(pip->right);
-// 	}
-// 	// else if (cmd->type == REDIR)
-// 	// {
-// 	// 	red = (t_redir*)cmd;
-// 	// }
-// 	return (cmd);
-// }
+	i = 0;
+	j = 0;
+	len = 0;
+	while (str[i])
+	{
+		//print until u find the same quote and so on
+		if (str[i] == 34)
+		{
+			if ((*quote) == 0)
+				(*quote)++;
+			str[i] = 1;
+			while (str[i] && str[i] != 34)
+			{
+				len++;
+				i++;
+			}
+			if (str[i] == '\0')
+			{
+				printf ("minishell: quotation error\n");
+				exit (1);
+			}
+			str[i] = 1;
+		}
+		if (str[i] == 39)
+		{
+			if ((*quote) == 0)
+				(*quote) += 2;
+			str[i] = 1;
+			while (str[i] && str[i] != 39)
+			{
+				len++;
+				i++;
+			}
+			if (str[i] == '\0')
+			{
+				printf ("minishell: quotation error\n");
+				exit (1);
+			}
+			str[i] = 1;
+		}
+		i++;
+		len++;
+	}
+	buf = malloc (sizeof(char) * len + 1);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == 1)
+			i++;
+		buf[j] = str[i];
+		i++;
+		j++;
+	}
+	buf[j] = '\0';
+	//return char allocated with the right size and quote by reference
+	return (buf);
+}
 
 static char	*get_cmd(t_exec *exe, char **envp, int i)
 {
