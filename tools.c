@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 23:42:43 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/18 23:29:08 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 	int		fd;
 	int 	p[2];
 	char	*buf;
-	char	**ar;
+	//char	**ar;
 	t_exec	*exe;
 	t_pipe	*pip;
 	t_redir	*red;
@@ -202,12 +202,12 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		if (exe->args[0] == 0)
 			exit (1);
 		buf = get_path(exe, envp);
-		if (*c != 0)
-		{
-			ar = ft_split(exe->args[0], ' ');
-			//printf ("%s %s\n", ar[0], ar[1]);
-			execve(buf, ar, envp);
-		}
+		// if (*c != 0)
+		// {
+		// 	ar = ft_split(exe->args[0], ' ');
+		// //printf ("%s %s %s %s\n", buf, exe->args[0], exe->args[1], exe->args[2]);
+		// 	execve(buf, ar, envp);
+		// }
 		execve(buf, exe->args, envp);
 		//printf ("%s, %s, %s\n", buf, exe->args[0], exe->args[1]);
 		//exe->eargs should be a double pointer containing the cmd and args.
@@ -223,16 +223,16 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		}
 		if (fork() == 0)
 		{
-			if (pip->left->type == EXEC)
-				*c = 1;
+			if (pip->left->type == REDIR && pip->right->type == REDIR)
+				run_cmd(pip->right, envp, c);
 			close(p[0]);
 			dup2(p[1], STDOUT_FILENO);
 			run_cmd(pip->left, envp, c);
 		}
 		else
 		{
-			if (pip->right->type == EXEC)
-				*c = 0;
+			if (pip->left->type == REDIR && pip->right->type == REDIR)
+				run_cmd(pip->left, envp, c);
 			close(p[1]);
 			dup2(p[0], STDIN_FILENO);
 			run_cmd(pip->right, envp, c);
@@ -244,10 +244,9 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 	else if (cmd->type == REDIR)
 	{
 		red = (t_redir*)cmd;
-		fd = open(red->file, red->mode, 777);
+		fd = open(red->file, red->mode, 0644);
 		if (*c == 0)
 		{
-			//printf ("hello\n");
 			dup2(fd, red->fd);
 			if (red->exe->type == REDIR)
 			{

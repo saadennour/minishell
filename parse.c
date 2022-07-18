@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 18:28:37 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/18 23:23:15 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,21 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 		}
 		if (ft_skip(q, "|") && i == 0)
 		{
-			two = ft_split(q, '|');
-			if (if_dsigne(two[i], env) != 0 && quote.quote != 2)
-				exec->args[i] = if_dsigne(two[i], env);
-			else
-				exec->args[i] = two[i];
+			two = ft_advanced(q, "|<> ");
+			while (two[i])
+			{
+				if (if_dsigne(two[i], env) != 0 && quote.quote != 2)
+					exec->args[i] = if_dsigne(two[i], env);
+				else
+					exec->args[i] = two[i];
+				i++;
+			}
+			i = 0;
 		}
 		else if (ft_skip(q, "<>") && i == 0)
 		{
 			if (ft_skip(q, "<>"))
-				one = ft_advanced(q, "<>");
+				one = ft_advanced(q, "<> ");
 			while (one[i])
 			{
 				if (if_dsigne(one[i], env) != 0 && quote.quote != 2)
