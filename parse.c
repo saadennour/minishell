@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/18 23:23:15 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:09:55 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 		}
 		if (ft_skip(q, "|") && i == 0)
 		{
-			two = ft_advanced(q, "|<> ");
+			two = ft_advanced(q, "| ");
 			while (two[i])
 			{
 				if (if_dsigne(two[i], env) != 0 && quote.quote != 2)

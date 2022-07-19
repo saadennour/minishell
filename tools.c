@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/18 23:29:08 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/19 14:57:08 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,16 +223,16 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		}
 		if (fork() == 0)
 		{
-			if (pip->left->type == REDIR && pip->right->type == REDIR)
-				run_cmd(pip->right, envp, c);
+			// if (pip->left->type == EXEC)
+			// 	(*c)++;
 			close(p[0]);
 			dup2(p[1], STDOUT_FILENO);
 			run_cmd(pip->left, envp, c);
 		}
 		else
 		{
-			if (pip->left->type == REDIR && pip->right->type == REDIR)
-				run_cmd(pip->left, envp, c);
+			// if (pip->left->type == EXEC)
+			// 	(*c) = 0;
 			close(p[1]);
 			dup2(p[0], STDIN_FILENO);
 			run_cmd(pip->right, envp, c);
