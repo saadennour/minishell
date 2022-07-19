@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/19 23:38:57 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/20 00:00:20 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		}
 		else
 		{
+			wait(0);
 			close(p[1]);
 			dup2(p[0], STDIN_FILENO);
 			run_cmd(pip->right, envp, c);
