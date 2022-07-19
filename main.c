@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 23:48:39 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/19 23:55:11 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,28 @@ char *ft_lastcar(char *str, char c)
 	return(NULL);
 }
 
-//printf the name directory
-// char *    printdir()
-// {
-// 	char *cwd;
-// 	char *dir;
-
-// 	cwd = malloc(sizeof(char) * 1000);
-// 	getcwd(cwd, sizeof(char) * 1000);
-// 	dir = ft_lastcar(cwd, '/');
-// 	return (dir);
-// }
-
+void	handle_C(int sig)
+{
+	if (sig == 2)
+	{
+		printf ("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else if (sig == 11)
+	{
+		printf ("exito\n");
+		rl_replace_line("", 0);
+		rl_redisplay();
+		exit(0);
+	}
+	else if (sig == 3)
+	{
+		printf ("-> minishell ");
+		rl_redisplay();
+	}
+}
 
 
 char	*ft_read()
@@ -65,7 +75,7 @@ char	*ft_read()
 	inpt = ft_skip_spaces(inpt);
 	while(if_builtins(inpt) == 0)
 	{
-		inpt = readline("-> minishell ");
+		//inpt = readline("-> minishell ");
 		inpt = ft_skip_spaces(inpt);
 	}
 	return (inpt);
@@ -78,6 +88,9 @@ int main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	signal(SIGINT, handle_C);
+	signal(SIGSEGV, handle_C);
+	signal(SIGQUIT, handle_C);
 	while (1)
 	{
 		c = 0;

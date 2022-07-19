@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 23:46:29 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/19 16:37:05 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ int 	if_builtins(char *buf);
 char	*ft_skip_spaces(char *inpt);
 char	*if_dsigne(char *inpt,char **env);
 char	*quotes(char *str, t_quote *quote);
+void	handle_C(int sig);
 
 #endif
