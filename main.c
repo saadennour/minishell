@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/19 23:55:11 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/20 22:48:33 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,27 @@ void	handle_C(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else if (sig == 11)
+}
+
+void	handle_D(int sig)
+{
+	if (sig == 11)
 	{
 		printf ("exito\n");
 		rl_replace_line("", 0);
 		rl_redisplay();
 		exit(0);
 	}
-	else if (sig == 3)
+}
+
+void	handle_S(int sig)
+{
+	if (sig == 3)
 	{
 		printf ("-> minishell ");
 		rl_redisplay();
 	}
 }
-
 
 char	*ft_read()
 {
@@ -75,7 +82,7 @@ char	*ft_read()
 	inpt = ft_skip_spaces(inpt);
 	while(if_builtins(inpt) == 0)
 	{
-		//inpt = readline("-> minishell ");
+		inpt = readline("-> minishell ");
 		inpt = ft_skip_spaces(inpt);
 	}
 	return (inpt);
@@ -85,19 +92,20 @@ int main(int ac, char **av, char **envp)
 {
 	char	*buf;
 	int		c;
+	char	*limiter = NULL;
 
 	(void)ac;
 	(void)av;
 	signal(SIGINT, handle_C);
-	signal(SIGSEGV, handle_C);
-	signal(SIGQUIT, handle_C);
+	signal(SIGSEGV, handle_D);
+	signal(SIGQUIT, handle_S);
 	while (1)
 	{
 		c = 0;
 		buf = ft_read();
 		add_history(buf);
 		if (fork() == 0)
-			run_cmd(parsecmd(buf, envp), envp, &c);
+			run_cmd(parsecmd(buf, envp), envp, &c, &limiter);
 		wait(0);
 	}
 	return (0);

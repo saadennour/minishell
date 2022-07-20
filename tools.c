@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/20 00:00:20 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/21 00:08:50 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 	exec = ft_split(*exe->args, ' ');
 	//printf ("%s , %s\n", exec[0], exec[1]);
 	if(if_builtins(exec[0]) == 0)
-		exit(0);
+		exit(1);
 	if (access(exec[0], F_OK) != -1)
 		return (exec[0]);
 	while (cmd[++j])
@@ -182,12 +182,13 @@ char	*get_path(t_exec *exe, char **envp)
 	return (0);
 }
 
-void	run_cmd(t_cmd *cmd, char **envp, int *c)
+void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 {
 	int		fd;
+	int		i = 0;
 	int 	p[2];
 	char	*buf;
-	//char	**ar;
+	char	*ar = NULL;
 	t_exec	*exe;
 	t_pipe	*pip;
 	t_redir	*red;
@@ -202,12 +203,17 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		if (exe->args[0] == 0)
 			exit (1);
 		buf = get_path(exe, envp);
-		// if (*c != 0)
-		// {
-		// 	ar = ft_split(exe->args[0], ' ');
-		// //printf ("%s %s %s %s\n", buf, exe->args[0], exe->args[1], exe->args[2]);
-		// 	execve(buf, ar, envp);
-		// }
+		if (*c == 0 && *limiter != NULL)
+		{
+			while ((ar = get_next_line(0)))
+			{
+				if (ft_strncmp(*limiter, ar, ft_strlen(*limiter)) == 0)
+				{
+					close(0);
+		 			break;
+				}
+			}
+		}
 		execve(buf, exe->args, envp);
 		//printf ("%s, %s, %s\n", buf, exe->args[0], exe->args[1]);
 		//exe->eargs should be a double pointer containing the cmd and args.
@@ -225,14 +231,14 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		{
 			close(p[0]);
 			dup2(p[1], STDOUT_FILENO);
-			run_cmd(pip->left, envp, c);
+			run_cmd(pip->left, envp, c, limiter);
 		}
 		else
 		{
 			wait(0);
 			close(p[1]);
 			dup2(p[0], STDIN_FILENO);
-			run_cmd(pip->right, envp, c);
+			run_cmd(pip->right, envp, c, limiter);
 		}
 		close(p[0]);
 		close(p[1]);
@@ -241,7 +247,14 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 	else if (cmd->type == REDIR)
 	{
 		red = (t_redir*)cmd;
-		fd = open(red->file, red->mode, 0644);
+		if (red->token == 4)
+		{
+			fd = open(0, red->mode);
+			limiter = &(red->file);
+			
+		}
+		else
+			fd = open(red->file, red->mode, 0644);
 		if (*c == 0)
 		{
 			dup2(fd, red->fd);
@@ -252,7 +265,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 					(*c)++;
 			}
 		}
-		run_cmd(red->exe, envp, c);
+		run_cmd(red->exe, envp, c, limiter);
 	}
 }
 

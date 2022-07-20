@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/19 16:37:05 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/20 23:49:30 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,13 @@ int		get_token(char **ps, char *es, char **q, char **eq);
 t_cmd	*parsecmd(char *str, char **env);
 t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es);
-void	run_cmd(t_cmd *cmd, char **envp, int *c);
+void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int 	if_builtins(char *buf);
 char	*ft_skip_spaces(char *inpt);
 char	*if_dsigne(char *inpt,char **env);
 char	*quotes(char *str, t_quote *quote);
 void	handle_C(int sig);
+char	*get_next_line(int fd);
 
 #endif

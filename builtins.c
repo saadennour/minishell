@@ -24,7 +24,7 @@ int	ft_echo(char *buf)
 	}
 	return (1);
 }
-
+//bdel strcmp dzeb
 int if_builtins(char *buf)
 {
 	char *clear;

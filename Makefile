@@ -11,6 +11,7 @@ SRCS =	main.c \
 		builtins.c \
 		ft_dsigne.c \
 		advanced.c \
+		get_next_line.c \
 
 all : $(NAME)
 
