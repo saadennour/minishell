@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/20 23:49:30 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/21 13:03:47 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct t_quote
 
 int	    ft_strlen(char *str);
 char	*clean(char *str);
+int		ft_limites(char *str);
 t_cmd	*end_it(t_cmd *cmd);
 char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split(char const *s, char c);

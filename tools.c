@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/21 00:08:50 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/21 14:58:39 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,21 @@ int	followed(char **s)
 		return (token);
 	}
 	return (0);
+}
+
+void    ft_putstr_fd(char *s, int fd)
+{
+    int    i;
+
+    i = 0;
+    if (s)
+    {
+        while (s[i])
+        {
+            write (fd, &s[i], 1);
+            i++;
+        }
+    }
 }
 
 char	*clean(char *str)
@@ -198,29 +213,37 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 		exit (1);
 	if (cmd->type == EXEC)
 	{
-		//printf ("hello\n");
 		exe = (t_exec*)cmd;
 		if (exe->args[0] == 0)
 			exit (1);
 		buf = get_path(exe, envp);
-		if (*c == 0 && *limiter != NULL)
+		if (*limiter != NULL)
 		{
+			fd = open(" ", O_RDWR | O_CREAT | O_TRUNC, 0644);
 			while ((ar = get_next_line(0)))
 			{
 				if (ft_strncmp(*limiter, ar, ft_strlen(*limiter)) == 0)
 				{
 					close(0);
+					while (exe->args[i])
+					{
+						if (ft_strncmp("<<", exe->args[i], 2) == 0)
+						{
+							exe->args[i] = " ";
+							exe->args[++i] = 0;
+						}
+						i++;
+					}
 		 			break;
 				}
+				ft_putstr_fd(ar, fd);
 			}
 		}
-		execve(buf, exe->args, envp);
 		//printf ("%s, %s, %s\n", buf, exe->args[0], exe->args[1]);
-		//exe->eargs should be a double pointer containing the cmd and args.
+		execve(buf, exe->args, envp);
 	}
 	else if (cmd->type == PIPE)
 	{
-		//(*c)++;
 		pip = (t_pipe*)cmd;
 		if (pipe(p) == -1)
 		{
@@ -251,6 +274,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 		{
 			fd = open(0, red->mode);
 			limiter = &(red->file);
+			(*c)++;
 			
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/20 22:48:33 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/21 14:53:19 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	handle_D(int sig)
 {
 	if (sig == 11)
 	{
-		printf ("exito\n");
 		rl_replace_line("", 0);
+		printf ("exit\n");
 		rl_redisplay();
 		exit(0);
 	}

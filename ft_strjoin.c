@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:42 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/06/28 19:00:16 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/21 13:43:09 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,19 @@ int	ft_strncmp(const char *first, const char *second, size_t length)
 		i++;
 	}
 	return (f[i] - s[i]);
+}
+
+int	ft_limites(char *str)
+{
+	if (ft_strncmp(str, "|", 1) == 0)
+		return (1);
+	else if (ft_strncmp(str, "> ", 2) == 0)
+		return (1);
+	else if (ft_strncmp(str, "< ", 2) == 0)
+		return (1);
+	else if (ft_strncmp(str, ">>", 2) == 0)
+		return (1);
+	// else if (ft_strncmp(str, "<<", 2) == 0)
+	// 	return (1);
+	return (0);
 }

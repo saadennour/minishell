@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/20 22:37:24 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/21 14:43:44 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 {
 	t_exec	*exec;
 	char	*q, *eq;
-	char	**two, **one;
+	//char	**two;
+	char	**one;
 	int		token , i, j;
 	t_cmd	*cmd;
 
@@ -68,37 +69,10 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 			printf ("Errorr %d\n", i);
 			exit (1);
 		}
-		if (ft_skip(q, "|") && i == 0)
-		{
-			two = ft_advanced(q, "| ");
-			while (two[i])
-			{
-				if (if_dsigne(two[i], env) != 0 && quote.quote != 2)
-					exec->args[i] = if_dsigne(two[i], env);
-				else
-					exec->args[i] = two[i];
-				i++;
-			}
-			i = 0;
-		}
-		else if (ft_skip(q, "<>") && i == 0)
-		{
-			if (ft_skip(q, "<>"))
-				one = ft_advanced(q, "<> ");
-			while (one[i])
-			{
-				if (if_dsigne(one[i], env) != 0 && quote.quote != 2)
-					exec->args[i] = if_dsigne(one[i], env);
-				else
-					exec->args[i] = one[i];
-				i++;
-			}
-			i = 0;
-		}
-		else if (ft_skip(q, " ") && i == 0 && quote.start != 1)
+		if (ft_skip(q, " ") && i == 0 && quote.start != 1)
 		{
 			one = ft_split(q, ' ');
-			while (one[i])
+			while (one[i] && ft_limites(one[i]) != 1)
 			{
 				if (if_dsigne(one[i], env) != 0 && quote.quote != 2)
 					exec->args[i] = if_dsigne(one[i], env);
@@ -106,26 +80,29 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 					exec->args[i] = one[i];
 				i++;
 			}
+			exec->args[i] = 0;
 			i = 0;
 		}
 		else if (i == 0)
 		{
 			if (ft_skip(q, " "))
 			{
-				printf ("minishell: command not found\n");
+				printf ("minishell: %s:command not found\n", q);
 				exit(1);
 			}
 			else if (if_dsigne(q, env) != 0 && quote.quote != 2)
 				exec->args[i] = if_dsigne(q, env);
 			else
 				exec->args[i] = q;
+			i++;
+			exec->args[i] = 0;
+			i = 0;
 		}
 		i++;
 		if (i >= 10)
 			exit (1);
 		cmd = parsered (cmd, ps, es);
 	}
-	exec->args[i] = 0;
 	return (cmd);
 }
 
