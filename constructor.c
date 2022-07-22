@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/04 22:57:44 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/21 15:03:44 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ t_cmd	*piping(t_cmd *left, t_cmd *right)
 	cmd->type = PIPE;
 	cmd->left = left;
 	cmd->right = right;
-	return ((t_cmd*)cmd);
+	return ((t_cmd *)cmd);
 }
 
 t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token)
 {
 	t_redir	*cmd;
-	
+
 	cmd = malloc(sizeof(t_redir) + 1);
 	cmd->type = REDIR;
 	cmd->exe = exe;
@@ -34,15 +34,16 @@ t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token)
 	cmd->mode = mode;
 	cmd->fd = fd;
 	cmd->token = token;
-	return ((t_cmd*)cmd);
+	return ((t_cmd *)cmd);
 }
 
-t_cmd	*exelior()
+t_cmd	*exelior(void)
 {
 	t_exec	*cmd;
+
 	cmd = malloc (sizeof(t_exec) + 1);
 	cmd->type = EXEC;
-	return ((t_cmd*)cmd);
+	return ((t_cmd *)cmd);
 }
 
 int	ft_strchr(char s, char *scan)
@@ -85,5 +86,5 @@ int	exist(char **ps, char *es, char *token)
 	while (s < es && ft_strchr(*s, " \t\n\v\f\r"))
 		s++;
 		*ps = s;
-	return *s && ft_strchr(*s, token);
+	return (*s && ft_strchr(*s, token));
 }

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 21:12:21 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 22:58:02 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/21 15:23:48 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ char	*ft_strdup(const char *src)
 
 void	multifiles(char	*str)
 {
-	int		i, stock1, stock2;
+	int		i;
+	int		stock1;
+	int		stock2;
 	int		count;
 	char	**buf;
 	char	*first;
@@ -62,7 +64,7 @@ void	multifiles(char	*str)
 			i--;
 			stock2 = i;
 			last = ft_strdup(buf[i]);
-			break;
+			break ;
 		}
 	}
 	buf[stock1] = last;
@@ -70,26 +72,24 @@ void	multifiles(char	*str)
 	return (buf);
 }
 
-
-
-void	multifiles2(char *str)
-{
-	while (str && *str != '|')
-	{
-		if (exist(*str, "", ">"))
-		{
-			while (str && ft_strchr(*str, " \n\t\f\r\v") && ft_strchr(*str, ">"))
-				str++;
-			while (str && !ft_strchr(*str, " \n\t\f\r\v"))
-				str++;
-			multifiles2(str);
-		}
-		str++;
-	}
-	str--;
-	while (!ft_strchr(*str, " \n\t\f\r\v"))
-	{
-		i++;
-		str--;
-	}
-}
+// void	multifiles2(char *str)
+// {
+// 	while (str && *str != '|')
+// 	{
+// 		if (exist(*str, "", ">"))
+// 		{
+// 			while (str && ft_strchr(*str, " \n\t\f\r\v") && ft_strchr(*str, ">"))
+// 				str++;
+// 			while (str && !ft_strchr(*str, " \n\t\f\r\v"))
+// 				str++;
+// 			multifiles2(str);
+// 		}
+// 		str++;
+// 	}
+// 	str--;
+// 	while (!ft_strchr(*str, " \n\t\f\r\v"))
+// 	{
+// 		i++;
+// 		str--;
+// 	}
+// }

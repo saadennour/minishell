@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:02:03 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 01:26:11 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/21 15:20:58 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_path(char *line)
 	int		size;
 	int		count;
 	char	*str;
-	
+
 	i = 0;
 	count = 0;
 	size = ft_strlen(line);

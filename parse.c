@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/21 14:43:44 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/22 23:18:32 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	get_token(char **ps, char *es, char **q, char **eq)
 {
-	char	*s = NULL;
+	char	*s;
 	int		token;
 
 	s = *ps;
@@ -49,21 +49,21 @@ int	get_token(char **ps, char *es, char **q, char **eq)
 t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 {
 	t_exec	*exec;
-	char	*q, *eq;
-	//char	**two;
+	char	*q;
+	char	*eq;
 	char	**one;
-	int		token , i, j;
+	int		token;
+	int		i;
 	t_cmd	*cmd;
 
 	i = 0;
-	j = 0;
 	cmd = exelior();
-	exec = (t_exec*)cmd;
-	cmd = parsered (cmd, ps ,es);
+	exec = (t_exec *)cmd;
+	cmd = parsered (cmd, ps, es);
 	while (!exist(ps, es, "|"))
 	{
 		if ((token = get_token(ps, es, &q, &eq)) == 0)
-			break;
+			break ;
 		if (token != 'F')
 		{
 			printf ("Errorr %d\n", i);
@@ -74,10 +74,11 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 			one = ft_split(q, ' ');
 			while (one[i] && ft_limites(one[i]) != 1)
 			{
-				if (if_dsigne(one[i], env) != 0 && quote.quote != 2)
+				if (quote.quote != 2 && if_dsigne(one[i], env) != 0)
 					exec->args[i] = if_dsigne(one[i], env);
 				else
 					exec->args[i] = one[i];
+				 //printf ("%s\n", exec->args[i]);
 				i++;
 			}
 			exec->args[i] = 0;
@@ -108,10 +109,11 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 
 t_cmd	*parsecmd(char *str, char **env)
 {
-	char	*es = NULL;
+	char	*es;
 	t_cmd	*cmd;
 	t_quote	quote;
 
+	es = NULL;
 	if (str[0] == '|')
 	{
 		printf ("minishell: syntax error near unexpected token '|'\n");
@@ -119,7 +121,7 @@ t_cmd	*parsecmd(char *str, char **env)
 	}
 	str = quotes(str, &quote);
 	//add redirection rules in ft_path
-	str = ft_path(str);
+	//str = ft_path(str);
 	es = str + ft_strlen(str);
 	cmd = parsepipe(&str, es, env, quote);
 	//exist (&str, es, "");

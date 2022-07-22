@@ -3,52 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dsigne.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/05 23:44:49 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/23 00:26:02 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **forenv(char **env)
+char	**forenv(char **env)
 {
-	int     i;
-    char     **op;
-	char     **operation;
-	
+	int		i;
+	char	**op;
+	char	**operation;
+
 	i = 0;
 	operation = malloc(sizeof(char *) * 37);
-	while(env[i])
+	while (env[i])
 	{
-        op = ft_split(env[i], '=');
+		op = ft_split(env[i], '=');
 		operation[i] = op[0];
 		i++;
 	}
 	operation[i] = 0;
-	return(operation);
+	return (operation);
 }
 
-char	*exdsigne(char *op,char **env)
+char	*exdsigne(char *op, char **env)
 {
-	char **operation;
-	int i;
+	char	**operation;
+	int		i;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
-		if(ft_strncmp(op,env[i],ft_strlen(op)) == 0)
+		if (ft_strncmp(op, env[i], ft_strlen(op)) == 0)
 		{
-			operation = ft_split(env[i],'=');
+			operation = ft_split(env[i], '=');
 			return (operation[1]);
 		}
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
-char *ft_merge(char *str, char *buf)
+char	*ft_merge(char *str, char *buf)
 {
 	int		i;
 	int		j;
@@ -56,71 +56,146 @@ char *ft_merge(char *str, char *buf)
 	int		count;
 	char	*merge;
 
-	count = 0;
 	i = 0;
 	j = 0;
-	x = 0;
+	count = 0;
 	while (buf[i])
 	{
-		if (buf[i] == 34 || buf[i] == 39)
+		if (buf[i] == 1)
+			i++;
+		else if (buf[i] == '$')
+		{
+			while (buf[i] != 1)
+				i++;
+		}
+		else
+		{
 			count++;
-		i++;
+			i++;
+		}
 	}
-	merge = malloc(sizeof(char) * ft_strlen(str) + count);
+	merge = malloc (sizeof(char) * ft_strlen(str) + count + 1);
 	i = 0;
-	while (buf[i] == 34 || buf[i] == 39)
+	while (buf[i])
 	{
-		merge[x] = buf[i];
-		i++;
-		x++;
+		if (buf[i] == 1)
+			i++;
+		else if (buf[i] == '$')
+			break ;
+		else
+		{
+			merge[j] = buf[i];
+			j++;
+			i++;
+		}
 	}
-	while (buf[i] && (buf[i] != 34 && buf[i] != 39))
-		i++;
-	while (str[j])
+	x = 0;
+	while (str[x])
 	{
-		merge[x] = str[j];
-		x++;
+		merge[j] = str[x];
 		j++;
-	}
-	while (buf[i] && (buf[i] == 34 || buf[i] == 39))
-	{
-		merge[x] = buf[i];
-		i++;
 		x++;
 	}
-	merge[x] = '\0';
+	while (buf[i] != 1)
+		i++;
+	while (buf[i])
+	{
+		if (buf[i] == 1)
+			i++;
+		else
+		{
+			merge[j] = buf[i];
+			j++;
+			i++;
+		}
+	}
+	merge[j] = '\0';
 	return (merge);
 }
 
-char	*if_dsigne(char *inpt,char **env)
+// char	*ft_merge(char *str, char *buf)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		x;
+// 	int		count;
+// 	char	*merge;
+
+// 	count = 0;
+// 	i = 0;
+// 	j = 0;
+// 	x = 0;
+// 	while (buf[i])
+// 	{
+// 		if (buf[i] == 34 || buf[i] == 39)
+// 			count++;
+// 		i++;
+// 	}
+// 	merge = malloc(sizeof(char) * ft_strlen(str) + count);
+// 	i = 0;
+// 	while (buf[i] == 34 || buf[i] == 39)
+// 	{
+// 		merge[x] = buf[i];
+// 		i++;
+// 		x++;
+// 	}
+// 	while (buf[i] && (buf[i] != 34 && buf[i] != 39))
+// 		i++;
+// 	while (str[j])
+// 	{
+// 		merge[x] = str[j];
+// 		x++;
+// 		j++;
+// 	}
+// 	while (buf[i] && (buf[i] == 34 || buf[i] == 39))
+// 	{
+// 		merge[x] = buf[i];
+// 		i++;
+// 		x++;
+// 	}
+// 	merge[x] = '\0';
+// 	return (merge);
+// }
+
+char	*if_dsigne(char *inpt, char **env)
 {
 	char	**op;
 	char	*dollar;
-	char	tmp[2];
+	char	tmp[3];
 	char	**var;
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	tmp[0] = 34;
 	tmp[1] = 39;
+	tmp[2] = 1;
 	//put unprintable char then undo
 	var = ft_advanced(inpt, tmp);
-	//printf("hadi %s\n", var[0]);
-	if(*var[0] == '$')
+	while (var[j])
 	{
-		var[0]++;
-		op = forenv(env);
-		while(op[i])
+		if (var[j][0] == '$')
+			break ;
+		j++;
+	}
+	if (var[j] == NULL)
+		return (0);
+	i = 0;
+	if (var[j][0] == '$')
+	{
+		var[j]++;
+	 	op = forenv(env);
+		while (op[i])
 		{
-			if(strcmp(var[0],op[i]) == 0)
+			if (strcmp(var[j], op[i]) == 0)
 			{
-				dollar = exdsigne(op[i],env);
+				dollar = exdsigne(op[i], env);
 				dollar = ft_merge(dollar, inpt);
-				// printf ("%s\n", dollar);
 				return (dollar);
 			}
 			i++;
 		}
 	}
-	return(0);
+	return (0);
 }

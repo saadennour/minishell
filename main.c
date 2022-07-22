@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/21 14:53:19 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/21 16:14:19 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,36 @@
 
 int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 		i++;
 	return (i);
 }
 
 // return pointer to the name directory
-char *ft_lastcar(char *str, char c)
+char	*ft_lastcar(char *str, char c)
 {
-	int lent;
+	int	lent;
 
 	lent = ft_strlen(str);
-	while(*str)
+	while (*str)
 		str++;
-	while(lent)
+	while (lent)
 	{
-		if(*str == c)
+		if (*str == c)
 		{
 			str++;
-			return(str);
+			return (str);
 		}
 		lent--;
 		str--;
 	}
-	return(NULL);
+	return (NULL);
 }
 
-void	handle_C(int sig)
+void	handle_c(int sig)
 {
 	if (sig == 2)
 	{
@@ -54,7 +54,7 @@ void	handle_C(int sig)
 	}
 }
 
-void	handle_D(int sig)
+void	handle_d(int sig)
 {
 	if (sig == 11)
 	{
@@ -65,22 +65,23 @@ void	handle_D(int sig)
 	}
 }
 
-void	handle_S(int sig)
+void	handle_s(int sig)
 {
 	if (sig == 3)
 	{
 		printf ("-> minishell ");
-		rl_redisplay();
+		rl_replace_line("", 0);
+		//rl_redisplay();
 	}
 }
 
-char	*ft_read()
+char	*ft_read(void)
 {
 	char	*inpt;
-	
+
 	inpt = readline("-> minishell ");
 	inpt = ft_skip_spaces(inpt);
-	while(if_builtins(inpt) == 0)
+	while (if_builtins(inpt) == 0)
 	{
 		inpt = readline("-> minishell ");
 		inpt = ft_skip_spaces(inpt);
@@ -88,17 +89,18 @@ char	*ft_read()
 	return (inpt);
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	char	*buf;
 	int		c;
-	char	*limiter = NULL;
+	char	*limiter;
 
-	(void)ac;
-	(void)av;
-	signal(SIGINT, handle_C);
-	signal(SIGSEGV, handle_D);
-	signal(SIGQUIT, handle_S);
+	limiter = NULL;
+	(void) ac;
+	(void) av;
+	signal (SIGINT, handle_c);
+	signal (SIGSEGV, handle_d);
+	signal (SIGQUIT, handle_s);
 	while (1)
 	{
 		c = 0;
