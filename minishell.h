@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/21 15:33:16 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/24 19:20:53 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct t_pipe
 typedef struct t_exec
 {
 	int		type;
-	char	*args[10];
+	char	**args;
 }	t_exec;
 
 typedef struct t_redir
@@ -71,7 +71,7 @@ char	*clean(char *str);
 int		ft_limites(char *str);
 t_cmd	*end_it(t_cmd *cmd);
 char	*ft_strjoin(char *s1, char *s2);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char c, int access);
 char	**ft_advanced(char const *s, char *buf);
 char	*get_path(t_exec *exe, char **envp);
 int		lets_check(char *str);
@@ -95,5 +95,7 @@ char	*if_dsigne(char *inpt, char **env);
 char	*quotes(char *str, t_quote *quote);
 void	handle_c(int sig);
 char	*get_next_line(int fd);
+char	**if_echo(char *str);
+int		much_to_skip(const char *str, int i);
 
 #endif

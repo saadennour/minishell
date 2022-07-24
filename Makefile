@@ -7,6 +7,7 @@ SRCS =	main.c \
 		path.c \
 		constructor.c \
 		tools.c \
+		execute.c \
 		parse.c \
 		builtins.c \
 		ft_dsigne.c \

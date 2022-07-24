@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/23 00:26:02 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/24 00:26:13 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**forenv(char **env)
 	operation = malloc(sizeof(char *) * 37);
 	while (env[i])
 	{
-		op = ft_split(env[i], '=');
+		op = ft_split(env[i], '=', 0);
 		operation[i] = op[0];
 		i++;
 	}
@@ -40,7 +40,7 @@ char	*exdsigne(char *op, char **env)
 	{
 		if (ft_strncmp(op, env[i], ft_strlen(op)) == 0)
 		{
-			operation = ft_split(env[i], '=');
+			operation = ft_split(env[i], '=', 0);
 			return (operation[1]);
 		}
 		i++;
@@ -112,50 +112,6 @@ char	*ft_merge(char *str, char *buf)
 	merge[j] = '\0';
 	return (merge);
 }
-
-// char	*ft_merge(char *str, char *buf)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		x;
-// 	int		count;
-// 	char	*merge;
-
-// 	count = 0;
-// 	i = 0;
-// 	j = 0;
-// 	x = 0;
-// 	while (buf[i])
-// 	{
-// 		if (buf[i] == 34 || buf[i] == 39)
-// 			count++;
-// 		i++;
-// 	}
-// 	merge = malloc(sizeof(char) * ft_strlen(str) + count);
-// 	i = 0;
-// 	while (buf[i] == 34 || buf[i] == 39)
-// 	{
-// 		merge[x] = buf[i];
-// 		i++;
-// 		x++;
-// 	}
-// 	while (buf[i] && (buf[i] != 34 && buf[i] != 39))
-// 		i++;
-// 	while (str[j])
-// 	{
-// 		merge[x] = str[j];
-// 		x++;
-// 		j++;
-// 	}
-// 	while (buf[i] && (buf[i] == 34 || buf[i] == 39))
-// 	{
-// 		merge[x] = buf[i];
-// 		i++;
-// 		x++;
-// 	}
-// 	merge[x] = '\0';
-// 	return (merge);
-// }
 
 char	*if_dsigne(char *inpt, char **env)
 {

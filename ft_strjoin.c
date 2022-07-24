@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:42 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/22 21:11:30 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/24 01:27:58 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ int	ft_limites(char *str)
 {
 	if (ft_strncmp(str, "|", 1) == 0)
 		return (1);
-	else if (ft_strncmp(str, "> ", 2) == 0)
-		return (1);
-	else if (ft_strncmp(str, "< ", 2) == 0)
-		return (1);
 	else if (ft_strncmp(str, ">>", 2) == 0)
 		return (1);
-	// else if (ft_strncmp(str, "<<", 2) == 0)
-	// 	return (1);
+	else if (ft_strncmp(str, "<<", 2) == 0)
+		return (0);
+	else if (ft_strncmp(str, ">", 1) == 0)
+		return (1);
+	else if (ft_strncmp(str, "<", 1) == 0)
+		return (1);
 	return (0);
 }

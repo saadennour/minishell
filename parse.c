@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/22 23:18:32 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/24 22:06:50 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int	get_token(char **ps, char *es, char **q, char **eq)
 {
 	char	*s;
 	int		token;
+	char	quote[1];
 
+	quote[0] = 1;
 	s = *ps;
 	while (s < es && ft_strchr(*s, " \t\n\f\v\r"))
 		s++;
@@ -34,8 +36,18 @@ int	get_token(char **ps, char *es, char **q, char **eq)
 		token = followed(&s);
 	else
 		token = 'F';
-	while (s < es && !ft_strchr(*s, " \t\n\f\v\r") && !ft_strchr(*s, "|<>"))
+	if (*s == 1)
+	{
 		s++;
+		while (s < es && !ft_strchr(*s, quote))
+			s++;
+		s++;
+	}
+	else
+	{
+		while (s < es && !ft_strchr(*s, " \t\n\f\v\r") && !ft_strchr(*s, "|<>"))
+			s++;
+	}
 	if (eq)
 	{
 		*eq = s;
@@ -43,6 +55,7 @@ int	get_token(char **ps, char *es, char **q, char **eq)
 	while (s < es && ft_strchr(*s, " \t\n\f\v\r"))
 		s++;
 	*ps = s;
+	//printf ("%s || %s\n", *ps, s);
 	return (token);
 }
 
@@ -54,14 +67,17 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 	char	**one;
 	int		token;
 	int		i;
+	int		j;
 	t_cmd	*cmd;
 
 	i = 0;
+	j = 0;
 	cmd = exelior();
 	exec = (t_exec *)cmd;
 	cmd = parsered (cmd, ps, es);
 	while (!exist(ps, es, "|"))
 	{
+		//printf ("mrhba\n");
 		if ((token = get_token(ps, es, &q, &eq)) == 0)
 			break ;
 		if (token != 'F')
@@ -69,34 +85,27 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 			printf ("Errorr %d\n", i);
 			exit (1);
 		}
-		if (ft_skip(q, " ") && i == 0 && quote.start != 1)
+		if (i == 0)
 		{
-			one = ft_split(q, ' ');
+			//printf ("hello\n");
+			one = ft_split(q, ' ', 1);
 			while (one[i] && ft_limites(one[i]) != 1)
 			{
-				if (quote.quote != 2 && if_dsigne(one[i], env) != 0)
-					exec->args[i] = if_dsigne(one[i], env);
-				else
-					exec->args[i] = one[i];
-				 //printf ("%s\n", exec->args[i]);
+				exec->args[i] = one[i];
+				//printf ("first : %sh\n", exec->args[i]);
 				i++;
 			}
+			//printf ("end %d\n", i);
 			exec->args[i] = 0;
+			//exit(1);
 			i = 0;
-		}
-		else if (i == 0)
-		{
-			if (ft_skip(q, " "))
+			while (exec->args[i])
 			{
-				printf ("minishell: %s:command not found\n", q);
-				exit(1);
+				if (quote.quote != 2 && if_dsigne(exec->args[i], env) != 0)
+					exec->args[i] = if_dsigne(exec->args[i], env);
+				//printf ("exe[%d] = %s\n", i, exec->args[i]);
+				i++;
 			}
-			else if (if_dsigne(q, env) != 0 && quote.quote != 2)
-				exec->args[i] = if_dsigne(q, env);
-			else
-				exec->args[i] = q;
-			i++;
-			exec->args[i] = 0;
 			i = 0;
 		}
 		i++;
