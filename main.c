@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/21 16:14:19 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/25 01:00:22 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	main(int ac, char **av, char **envp)
 	(void) ac;
 	(void) av;
 	signal (SIGINT, handle_c);
-	signal (SIGSEGV, handle_d);
+	//signal (SIGSEGV, handle_d);
 	signal (SIGQUIT, handle_s);
 	while (1)
 	{

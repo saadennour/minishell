@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 19:20:53 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/25 04:16:26 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*ft_path(char *line);
 int		followed(char **s);
 t_cmd	*piping(t_cmd *left, t_cmd *right);
 t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token);
-t_cmd	*exelior(void);
+t_cmd	*exelior(char *s);
 int		ft_strchr(char s, char *scan);
 int		ft_skip(char *s, char *skip);
 int		exist(char **ps, char *es, char *token);
@@ -96,6 +96,7 @@ char	*quotes(char *str, t_quote *quote);
 void	handle_c(int sig);
 char	*get_next_line(int fd);
 char	**if_echo(char *str);
+int		wd_count(const char *str, char c, int access);
 int		much_to_skip(const char *str, int i);
 
 #endif

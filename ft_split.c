@@ -6,13 +6,13 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 21:47:15 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/25 04:16:17 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	count(const char *str, char c, int access)
+int	wd_count(const char *str, char c, int access)
 {
 	int	i;
 	int	len;
@@ -121,7 +121,7 @@ char	**ft_split(char const *s, char c, int access)
 	tab = NULL;
 	i = 0;
 	j = 0;
-	words = count(s, c, access);
+	words = wd_count(s, c, access);
 	tab = malloc(sizeof(char *) * (words + 1));
 	if (!tab)
 		return (NULL);

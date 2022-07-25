@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 19:28:13 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/25 04:26:50 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,18 @@ t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token)
 	return ((t_cmd *)cmd);
 }
 
-t_cmd	*exelior(void)
+t_cmd	*exelior(char *s)
 {
 	t_exec	*cmd;
 	int		i;
+	int		words;
 
 	i = 0;
+	words = wd_count(s, ' ', 1);
 	cmd = malloc (sizeof(t_exec) + 1);
-	cmd->args = malloc (sizeof(char *) * 10);
+	cmd->args = malloc (sizeof(char *) * (words + 1));
 	cmd->type = EXEC;
-	while (cmd->args[i])
+	while (i < words)
 	{
 		cmd->args[i] = 0;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 22:06:50 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/25 04:23:25 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	get_token(char **ps, char *es, char **q, char **eq)
 	}
 	else
 	{
-		while (s < es && !ft_strchr(*s, " \t\n\f\v\r") && !ft_strchr(*s, "|<>"))
+		while (s < es && !ft_strchr(*s, " \t\n\f\v\r") && !ft_strchr(*s, "|<>") && !ft_strchr(*s, quote))
 			s++;
 	}
 	if (eq)
@@ -67,17 +67,16 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 	char	**one;
 	int		token;
 	int		i;
-	int		j;
+	int		words;
 	t_cmd	*cmd;
 
 	i = 0;
-	j = 0;
-	cmd = exelior();
+	words = wd_count(*ps, ' ', 1);
+	cmd = exelior(*ps);
 	exec = (t_exec *)cmd;
 	cmd = parsered (cmd, ps, es);
 	while (!exist(ps, es, "|"))
 	{
-		//printf ("mrhba\n");
 		if ((token = get_token(ps, es, &q, &eq)) == 0)
 			break ;
 		if (token != 'F')
@@ -85,31 +84,13 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 			printf ("Errorr %d\n", i);
 			exit (1);
 		}
-		if (i == 0)
-		{
-			//printf ("hello\n");
-			one = ft_split(q, ' ', 1);
-			while (one[i] && ft_limites(one[i]) != 1)
-			{
-				exec->args[i] = one[i];
-				//printf ("first : %sh\n", exec->args[i]);
-				i++;
-			}
-			//printf ("end %d\n", i);
-			exec->args[i] = 0;
-			//exit(1);
-			i = 0;
-			while (exec->args[i])
-			{
-				if (quote.quote != 2 && if_dsigne(exec->args[i], env) != 0)
-					exec->args[i] = if_dsigne(exec->args[i], env);
-				//printf ("exe[%d] = %s\n", i, exec->args[i]);
-				i++;
-			}
-			i = 0;
-		}
+		one = ft_split(q, ' ', 1);
+		exec->args[i] = one[0];
+		if (quote.quote != 2 && if_dsigne(exec->args[i], env) != 0)
+			exec->args[i] = if_dsigne(exec->args[i], env);
+		//printf ("exe[%d] = %s\n", i, exec->args[i]);
 		i++;
-		if (i >= 10)
+		if (i > words)
 			exit (1);
 		cmd = parsered (cmd, ps, es);
 	}

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 20:19:17 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/25 01:38:13 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,24 +235,22 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 		if (exe->args[0] == 0)
 			exit (1);
 		buf = get_path(exe, envp);
-		//printf ("hello\n");
 		if (*limiter != NULL)
 		{
 			fd = open(" ", O_RDWR | O_CREAT | O_TRUNC, 0644);
 			while ((ar = get_next_line(0)))
 			{
-				//printf ("hello\n");
 				if (ft_strncmp(*limiter, ar, ft_strlen(*limiter)) == 0)
 				{
 					close(0);
 					while (exe->args[i])
 					{
-						if (ft_strncmp("<<", exe->args[i], 2) == 0)
+						i++;
+						if (exe->args[i] == 0)
 						{
 							exe->args[i] = " ";
-							exe->args[++i] = 0;
+							i++;
 						}
-						i++;
 					}
 					break ;
 				}
@@ -272,20 +270,26 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 		}
 		if (fork() == 0)
 		{
-			close(p[0]);
+			//close(1);
 			dup2(p[1], STDOUT_FILENO);
+			close(p[0]);
+			close(p[1]);
 			run_cmd(pip->left, envp, c, limiter);
 		}
 		else
 		{
-			wait(0);
-			close(p[1]);
+			if (pip->left->type == REDIR)
+				wait(0);
+			//close(0);
 			dup2(p[0], STDIN_FILENO);
+			close(p[0]);
+			close(p[1]);
 			run_cmd(pip->right, envp, c, limiter);
 		}
 		close(p[0]);
 		close(p[1]);
-		wait(0);
+		// wait(0);
+		// wait(0);
 	}
 	else if (cmd->type == REDIR)
 	{
@@ -312,7 +316,14 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 			}
 		}
 		else
+		{
 			fd = open(red->file, red->mode, 0644);
+			if (fd < 0)
+			{
+				printf ("Error\n");
+				exit (1);
+			}
+		}
 		if (*c == 0)
 		{
 			dup2(fd, red->fd);
