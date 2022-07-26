@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/26 03:40:13 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/26 22:29:48 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ int	get_token(char **ps, char **q, char **eq)
 	char	*s;
 	int		i;
 	int		token;
-	char	quote[1];
+	char	quote[2];
 
 	i = 0;
 	quote[0] = 1;
+	quote[1] = 2;
 	s = *ps;
-	while (s[i] != '\0' && ft_strchr(s[i], " \t\n\f\v\r"))
+	while (s[i] != '\0' && (ft_strchr(s[i], " \t\n\f\v\r")))
 		i++;
 	if (q)
 		*q = &s[i];
@@ -48,17 +49,17 @@ int	get_token(char **ps, char **q, char **eq)
 	}
 	else
 	{
-		while (s[i] != '\0' && !ft_strchr(s[i], " \t\n\f\v\r") && !ft_strchr(s[i], "|<>") && !ft_strchr(s[i], quote))
+		while (s[i] != '\0' && (!ft_strchr(s[i], " \t\n\f\v\r") && !ft_strchr(s[i], "|<>") && !ft_strchr(s[i], quote)))
 			i++;
 	}
 	if (eq)
 	{
 		*eq = &s[i];
 	}
-	while (s[i] != '\0' && ft_strchr(s[i], " \t\n\f\v\r"))
+	while (s[i] != '\0' && (ft_strchr(s[i], " \t\n\f\v\r") || ft_strchr(s[i], quote)))
 		i++;
 	*ps = &s[i];
-	//printf ("%sh || %sh\n", *ps, &s[i]);
+	//printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
 	return (token);
 }
 
@@ -87,9 +88,10 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 			printf ("Errorr %d\n", i);
 			exit (1);
 		}
+		//for quotes its cuz of the inprintable char 1
 		one = ft_split(q, ' ', 1);
 		exec->args[i] = one[0];
-		//printf ("exe[%d] = %s\n", i, exec->args[i]);
+		printf ("exe[%d] = %s\n", i, exec->args[i]);
 		if (quote.quote[i] == 1 && if_dsigne(exec->args[i], env) != 0)
 		{
 			exec->args[i] = if_dsigne(exec->args[i], env);
@@ -100,7 +102,6 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 			exit (1);
 		cmd = parsered (cmd, ps, es);
 	}
-	//exit (1);
 	return (cmd);
 }
 
@@ -111,7 +112,9 @@ t_cmd	*parsecmd(char *str, char **env)
 	t_quote	quote;
 
 	es = NULL;
-	quote.quote = malloc(sizeof(int) * wd_count(str, ' ', 1) + 1);
+	//no space turn every space to unprintable char then split by it
+	str = no_space(str);
+	quote.quote = malloc(sizeof(int) * wd_count(str, 2, 1) + 1);
 	if (str[0] == '|')
 	{
 		printf ("minishell: syntax error near unexpected token '|'\n");

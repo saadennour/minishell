@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/26 03:26:10 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/26 22:27:08 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,19 @@ char	*quotes(char *s, t_quote *quote)
 	x = 0;
 	sign = 0;
 	len = 0;
-	str = ft_split(s, ' ', 1);
+	str = ft_split(s, 2, 1);
 	while (str[j])
 	{
-		//printf ("%s\n", str[j]);
+		//printf ("%s|\n", str[j]);
+		i = 0;
 		while (str[j][i])
 		{
 			if (str[j][i] == '$')
+			{
+				quote->quote[x] = 1;
 				sign = i;
+				//printf ("salam %d\n", sign);
+			}
 			i++;
 		}
 		i = 0;
@@ -116,9 +121,12 @@ char	*quotes(char *s, t_quote *quote)
 			if (str[j][i] == 34)
 			{
 				if (i == 0)
-					(quote->start) = 1;
+					quote->start = 1;
 				if (i + 1 <= sign)
+				{
+					printf ("hello\n");
 					(quote->quote[x]) = 1;
+				}
 				str[j][i] = 1;
 				//if len == 0 check segv "" | ''
 				while (str[j][i] && str[j][i] != 34)
@@ -137,7 +145,7 @@ char	*quotes(char *s, t_quote *quote)
 			if (str[j][i] == 39)
 			{
 				if (i == 0)
-					(quote->start) = 1;
+					quote->start = 1;
 				if (i + 1 <= sign)
 					(quote->quote[x]) = 2;
 				str[j][i] = 1;
@@ -163,6 +171,7 @@ char	*quotes(char *s, t_quote *quote)
 		x++;
 	}
 	//printf ("%d %d %d\n", len, j, x);
+	//printf ("%d\n", quote->quote[1]);
 	buf = malloc (sizeof(char) * len + j);
 	i = 0;
 	j = 0;
@@ -205,7 +214,6 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 	path = envp[i];
 	cmd = ft_split(&path[5], ':', 0);
 	//exec = ft_split(*exe->args, ' ', 1);
-	//printf ("%s , %s\n", exec[0], exec[1]);
 	if (access(exe->args[0], F_OK) != -1)
 		return (exe->args[0]);
 	while (cmd[++j])
@@ -259,7 +267,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 		if (exe->args[0] == 0)
 			exit (1);
 		if (if_builtins(exe->args,envp, data) == 0)
-			exit (1);
+			return ;
 		buf = get_path(exe, envp);
 		if (*limiter != NULL)
 		{
@@ -269,15 +277,6 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 				if (ft_strncmp(*limiter, ar, ft_strlen(*limiter)) == 0)
 				{
 					close(0);
-					while (exe->args[i])
-					{
-						i++;
-						if (exe->args[i] == 0)
-						{
-							exe->args[i] = " ";
-							i++;
-						}
-					}
 					break ;
 				}
 				ft_putstr_fd(ar, fd);
@@ -345,7 +344,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			fd = open(red->file, red->mode, 0644);
 			if (fd < 0)
 			{
-				printf ("Error\n");
+				printf ("Errooor\n");
 				exit (1);
 			}
 		}

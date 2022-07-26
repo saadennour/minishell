@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/26 01:24:03 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/26 22:27:38 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
+	if(!str)
+		return (i);
 	while (str[i])
 		i++;
 	return (i);
@@ -69,9 +71,9 @@ void	handle_s(int sig)
 {
 	if (sig == 3)
 	{
-		//printf ("-> minishell ");
+		printf ("-> minishell ");
 		rl_replace_line("", 0);
-		//rl_redisplay();
+		rl_redisplay();
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/26 02:44:39 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/26 19:26:53 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,7 @@ char	*get_next_line(int fd);
 char	**if_echo(char *str);
 int		wd_count(const char *str, char c, int access);
 int		much_to_skip(const char *str, int i);
+char	*no_space(char *str);
+int		ft_echo(char **cmd, t_list *data);
 
 #endif

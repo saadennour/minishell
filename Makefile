@@ -2,6 +2,7 @@ NAME = minishell
 FLAGS = -Wall -Wextra -Werror -lreadline -L /Users/sfarhan/homebrew/opt/readline/lib -I/Users/sfarhan/homebrew/opt/readline/include
 
 SRCS =	main.c \
+		echo.c \
 		ft_split.c \
 		ft_strjoin.c \
 		path.c \
