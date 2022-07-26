@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/25 01:38:13 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/26 03:26:10 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,88 +83,114 @@ char	*clean(char *str)
 	return (clean);
 }
 
-char	*quotes(char *str, t_quote *quote)
+char	*quotes(char *s, t_quote *quote)
 {
 	int		i;
 	int		j;
+	int		x;
 	int		sign;
 	int		len;
 	char	*buf;
+	char	**str;
 
 	i = 0;
 	j = 0;
+	x = 0;
 	sign = 0;
 	len = 0;
-	while (str[i])
+	str = ft_split(s, ' ', 1);
+	while (str[j])
 	{
-		if (str[i] == '$')
-			sign = i;
-		i++;
-	}
-	i = 0;
-	while (str[i])
-	{
-		//print until u find the same quote and so on
-		//1 means double quote and 2 means single quote
-		if (str[i] == 34)
+		//printf ("%s\n", str[j]);
+		while (str[j][i])
 		{
-			if (i == 0)
-				(quote->start) = 1;
-			if (i + 1 <= sign)
-				(quote->quote) = 1;
-			str[i] = 1;
-			//if len == 0 check segv "" | ''
-			while (str[i] && str[i] != 34)
-			{
-				len++;
-				i++;
-			}
-			if (str[i] == '\0')
-			{
-				printf ("minishell: quotation error\n");
-				exit (1);
-			}
-			str[i] = 1;
-			//len++;
+			if (str[j][i] == '$')
+				sign = i;
+			i++;
 		}
-		if (str[i] == 39)
+		i = 0;
+		while (str[j][i])
 		{
-			if (i == 0)
-				(quote->start) = 1;
-			if (i + 1 <= sign)
-				(quote->quote) = 2;
-			str[i] = 1;
-			while (str[i] && str[i] != 39)
+			//print until u find the same quote and so on
+			//1 means double quote and 2 means single quote
+			if (str[j][i] == 34)
 			{
-				len++;
-				i++;
+				if (i == 0)
+					(quote->start) = 1;
+				if (i + 1 <= sign)
+					(quote->quote[x]) = 1;
+				str[j][i] = 1;
+				//if len == 0 check segv "" | ''
+				while (str[j][i] && str[j][i] != 34)
+				{
+					len++;
+					i++;
+				}
+				if (str[j][i] == '\0')
+				{
+					printf ("minishell: quotation error\n");
+					exit (1);
+				}
+				str[j][i] = 1;
+				//len++;
 			}
-			if (str[i] == '\0')
+			if (str[j][i] == 39)
 			{
-				printf ("minishell: quotation error\n");
-				exit (1);
+				if (i == 0)
+					(quote->start) = 1;
+				if (i + 1 <= sign)
+					(quote->quote[x]) = 2;
+				str[j][i] = 1;
+				while (str[j][i] && str[j][i] != 39)
+				{
+					len++;
+					i++;
+				}
+				if (str[j][i] == '\0')
+				{
+					printf ("minishell: quotation error\n");
+					exit (1);
+				}
+				if (i + 1 == sign)
+					(quote->quote[x]) = 1;
+				str[j][i] = 1;
+				//len++;
 			}
-			if (i + 1 == sign)
-				(quote->quote) = 1;
-			str[i] = 1;
-			//len++;
+			i++;
+			len++;
 		}
-		i++;
-		len++;
-	}
-	buf = malloc (sizeof(char) * len + 1);
-	i = 0;
-	while (str[i])
-	{
-		// if (str[i] == 1)
-		// 	i++;
-		buf[j] = str[i];
-		i++;
 		j++;
+		x++;
 	}
-	buf[j] = '\0';
-	//printf ("%d\n", quote->quote);
+	//printf ("%d %d %d\n", len, j, x);
+	buf = malloc (sizeof(char) * len + j);
+	i = 0;
+	j = 0;
+	x = 0;
+	while (str[j])
+	{
+		i = 0;
+		while (str[j][i])
+		{
+			buf[x] = str[j][i];
+			i++;
+			x++;
+		}
+		j++;
+		if (str[j] != 0)
+		{
+			buf[x] = ' ';
+			x++;
+		}
+	}
+	buf[x] = '\0';
+	//printf ("j = %d\n", j); 
+	//printf ("%d\n", quote->quote[0]);
+	//printf ("%d\n", quote->quote[1]);
+	//printf ("%d\n", quote->quote[2]);
+	//printf ("%d\n", quote->quote[3]);
 	//return char allocated with the right size and quote by reference
+	//printf ("%s\n", buf);
 	return (buf);
 }
 
@@ -180,8 +206,6 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 	cmd = ft_split(&path[5], ':', 0);
 	//exec = ft_split(*exe->args, ' ', 1);
 	//printf ("%s , %s\n", exec[0], exec[1]);
-	if (if_builtins(exe->args[0]) == 0)
-		exit(1);
 	if (access(exe->args[0], F_OK) != -1)
 		return (exe->args[0]);
 	while (cmd[++j])
@@ -213,7 +237,7 @@ char	*get_path(t_exec *exe, char **envp)
 	return (0);
 }
 
-void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
+void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 {
 	int		fd;
 	int		i;
@@ -233,6 +257,8 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 	{
 		exe = (t_exec *)cmd;
 		if (exe->args[0] == 0)
+			exit (1);
+		if (if_builtins(exe->args,envp, data) == 0)
 			exit (1);
 		buf = get_path(exe, envp);
 		if (*limiter != NULL)
@@ -274,7 +300,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 			dup2(p[1], STDOUT_FILENO);
 			close(p[0]);
 			close(p[1]);
-			run_cmd(pip->left, envp, c, limiter);
+			run_cmd(pip->left, envp, c, limiter, data);
 		}
 		else
 		{
@@ -284,11 +310,11 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 			dup2(p[0], STDIN_FILENO);
 			close(p[0]);
 			close(p[1]);
-			run_cmd(pip->right, envp, c, limiter);
+			run_cmd(pip->right, envp, c, limiter, data);
 		}
 		close(p[0]);
 		close(p[1]);
-		// wait(0);
+		wait(0);
 		// wait(0);
 	}
 	else if (cmd->type == REDIR)
@@ -299,7 +325,6 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 			fd = open(0, red->mode);
 			limiter = &(red->file);
 			exe = (t_exec *)red->exe;
-			//(*c)++;
 			if (exe->args[0] == 0)
 			{
 				fd = open(" ", O_RDWR | O_CREAT | O_TRUNC, 0644);
@@ -334,7 +359,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter)
 					(*c)++;
 			}
 		}
-		run_cmd(red->exe, envp, c, limiter);
+		run_cmd(red->exe, envp, c, limiter, data);
 	}
 }
 

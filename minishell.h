@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/25 20:06:25 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/26 02:44:39 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,25 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# define BLUE    "\e[0;34m"
+# define RED     "\e[0;31m"
+# define GREEN   "\e[0;32m"
+# define YELLOW  "\e[1;33m"
+# define RESET   "\e[0m"
+
 enum e_define
 {
 	EXEC,
 	PIPE,
 	REDIR,
 } ;
+
+typedef struct t_list
+{
+	char *name;
+	char *value;
+	struct t_list *next;
+}	t_list;
 
 typedef struct t_cmd
 {
@@ -62,7 +75,7 @@ typedef struct t_redir
 
 typedef struct t_quote
 {
-	int	quote;
+	int	*quote;
 	int	start;
 }	t_quote;
 
@@ -87,9 +100,9 @@ int		get_token(char **ps, char **q, char **eq);
 t_cmd	*parsecmd(char *str, char **env);
 t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es);
-void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter);
+void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
-int		if_builtins(char *buf);
+int		if_builtins(char **inpt,char **envp, t_list **data);
 char	*ft_skip_spaces(char *inpt);
 char	*if_dsigne(char *inpt, char **env);
 char	*quotes(char *str, t_quote *quote);

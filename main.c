@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/25 22:57:39 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/26 01:24:03 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,6 @@ char	*ft_read(void)
 
 	inpt = readline("-> minishell ");
 	inpt = ft_skip_spaces(inpt);
-	while (if_builtins(inpt) == 0)
-	{
-		inpt = readline("-> minishell ");
-		inpt = ft_skip_spaces(inpt);
-	}
 	return (inpt);
 }
 
@@ -93,8 +88,10 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*buf;
 	int		c;
+	t_list	*data;
 	char	*limiter;
 
+	data = NULL;
 	limiter = NULL;
 	(void) ac;
 	(void) av;
@@ -107,7 +104,7 @@ int	main(int ac, char **av, char **envp)
 		buf = ft_read();
 		add_history(buf);
 		if (fork() == 0)
-			run_cmd(parsecmd(buf, envp), envp, &c, &limiter);
+			run_cmd(parsecmd(buf, envp), envp, &c, &limiter, &data);
 		wait(0);
 	}
 	return (0);

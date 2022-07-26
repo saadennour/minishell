@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/24 00:26:13 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/26 03:40:04 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	*ft_merge(char *str, char *buf)
 		}
 	}
 	merge[j] = '\0';
+	//printf ("%s\n", merge);
 	return (merge);
 }
 
@@ -135,16 +136,15 @@ char	*if_dsigne(char *inpt, char **env)
 			break ;
 		j++;
 	}
-	if (var[j] == NULL)
-		return (0);
-	i = 0;
+	// if (var[j] == NULL)
+	// 	return (0);
 	if (var[j][0] == '$')
 	{
-		var[j]++;
+		//var[j]++;
 	 	op = forenv(env);
 		while (op[i])
 		{
-			if (strcmp(var[j], op[i]) == 0)
+			if (strncmp(&var[j][1], op[i], ft_strlen(&var[j][1])) == 0)
 			{
 				dollar = exdsigne(op[i], env);
 				dollar = ft_merge(dollar, inpt);
