@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/27 04:55:08 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/27 09:30:50 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,18 @@ int	get_token(char **ps, char **q, char **eq)
 	// else
 	// {
 		while (s[i] != '\0' && !ft_strchr(s[i], " \t\n\f\v\r") && !ft_strchr(s[i], "|<>"))
-			i++;
+		{
+			if (s[i] == '*')
+			{
+				i++;
+				while (s[i] && s[i] != '*')
+					i++;
+				if (s[i] != '\0')
+					i++;
+			}
+			else
+				i++;
+		}
 	//}
 	if (eq)
 	{
@@ -96,14 +107,14 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 		if (i < words)
 		{
 			exec->args[i] = one[0];
-			printf ("exe[%d] = %s\n", i, exec->args[i]);
+			//printf ("exe[%d] = %s\n", i, exec->args[i]);
 			if (quote.quote[i] == 1 && if_dsigne(exec->args[i], env) != 0)
 			{
 				exec->args[i] = if_dsigne(exec->args[i], env);
 				//printf ("exe[%d] = %s\n", i, exec->args[i]);
 			}
 		}
-		if (i > words)
+		if (i == words)
 		{
 			printf ("wa lqlawi, %d\n", i);
 			break ;

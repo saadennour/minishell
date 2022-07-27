@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/27 04:44:12 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/27 05:43:44 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_merge(char *str, char *buf)
 	while (slice[j])
 	{
 		i = 0;
-		printf ("slice %s\n", slice[j]);
+		//printf ("slice %s\n", slice[j]);
 		while (slice[j][i])
 		{
 			if (slice[j][i] == '$')
@@ -83,9 +83,9 @@ char	*ft_merge(char *str, char *buf)
 		}
 		j++;
 	}
-	printf ("%d + %d\n", len, ft_strlen(str));
+	//printf ("%d + %d\n", len, ft_strlen(str));
 	len += ft_strlen(str);
-	printf ("%d\n", len);
+	//printf ("%d\n", len);
 	merge = malloc(sizeof(char) * (len + 1));
 	i = 0;
 	j = 0;
@@ -96,7 +96,7 @@ char	*ft_merge(char *str, char *buf)
 			while (str[x])
 			{
 				merge[j] = str[x];
-				printf ("merge[%d] : %c\n", j, merge[j]);
+				//printf ("merge[%d] : %c\n", j, merge[j]);
 				j++;
 				x++;
 			}
@@ -106,7 +106,7 @@ char	*ft_merge(char *str, char *buf)
 				break ;
 		}
 		merge[j] = slice[0][i];
-		printf ("merge[%d] : %c\n", j, merge[j]);
+		//printf ("merge[%d] : %c\n", j, merge[j]);
 		j++;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/27 02:34:06 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/27 09:42:17 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,6 +293,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			close(p[0]);
 			close(p[1]);
 			run_cmd(pip->left, envp, c, limiter, data);
+			exit (1);
 		}
 		else
 		{
@@ -303,6 +304,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			close(p[0]);
 			close(p[1]);
 			run_cmd(pip->right, envp, c, limiter, data);
+			exit (1);
 		}
 		close(p[0]);
 		close(p[1]);
