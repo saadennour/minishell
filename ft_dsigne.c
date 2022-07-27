@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/26 20:14:34 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/27 04:44:12 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,62 +56,59 @@ char	*ft_merge(char *str, char *buf)
 	int		i;
 	int		j;
 	int		x;
-	int		count;
+	int		len;
 	char	*merge;
+	char	**slice;
 
 	i = 0;
 	j = 0;
-	count = 0;
-	printf ("%s , %s\n", str, buf);
-	while (buf[i])
-	{
-		if (buf[i] == 1)
-			i++;
-		else if (buf[i] == '$')
-		{
-			while (buf[i] && buf[i] != 1)
-				i++;
-		}
-		else
-		{
-			count++;
-			i++;
-		}
-	}
-	merge = malloc (sizeof(char) * ft_strlen(str) + count + 1);
-	i = 0;
-	while (buf[i])
-	{
-		if (buf[i] == 1)
-			i++;
-		else if (buf[i] == '$')
-			break ;
-		else
-		{
-			merge[j] = buf[i];
-			j++;
-			i++;
-		}
-	}
 	x = 0;
-	while (str[x])
+	len = 0;
+	slice = ft_advanced(buf, "*");
+	while (slice[j])
 	{
-		merge[j] = str[x];
-		j++;
-		x++;
-	}
-	while (buf[i] && buf[i] != 1)
-		i++;
-	while (buf[i])
-	{
-		if (buf[i] == 1)
-			i++;
-		else
+		i = 0;
+		printf ("slice %s\n", slice[j]);
+		while (slice[j][i])
 		{
-			merge[j] = buf[i];
-			j++;
+			if (slice[j][i] == '$')
+			{
+				while (slice[j][i] && slice[j][i] != 34 && slice[j][i] != 39)
+					i++;
+				if (slice[j][i] == '\0')
+					break ;
+			}
+			len++;
 			i++;
 		}
+		j++;
+	}
+	printf ("%d + %d\n", len, ft_strlen(str));
+	len += ft_strlen(str);
+	printf ("%d\n", len);
+	merge = malloc(sizeof(char) * (len + 1));
+	i = 0;
+	j = 0;
+	while (j < len)
+	{
+		if (slice[0][i] == '$')
+		{
+			while (str[x])
+			{
+				merge[j] = str[x];
+				printf ("merge[%d] : %c\n", j, merge[j]);
+				j++;
+				x++;
+			}
+			while (slice[0][i] && slice[0][i] != ' ' && slice[0][i] != 34 && slice[0][i] != 39)
+				i++;
+			if (slice[0][i] == '\0')
+				break ;
+		}
+		merge[j] = slice[0][i];
+		printf ("merge[%d] : %c\n", j, merge[j]);
+		j++;
+		i++;
 	}
 	merge[j] = '\0';
 	printf ("%s\n", merge);
@@ -122,7 +119,7 @@ char	*if_dsigne(char *inpt, char **env)
 {
 	char	**op;
 	char	*dollar;
-	char	tmp[3];
+	char	tmp[4];
 	char	**var;
 	int		i;
 	int		j;
@@ -131,11 +128,13 @@ char	*if_dsigne(char *inpt, char **env)
 	j = 0;
 	tmp[0] = 34;
 	tmp[1] = 39;
-	tmp[2] = 1;
+	tmp[2] = '*';
+	//tmp[3] = ' ';
 	//put unprintable char then undo
 	var = ft_advanced(inpt, tmp);
 	while (var[j])
 	{
+		printf ("%s\n", var[j]);
 		if (var[j][0] == '$')
 			break ;
 		j++;

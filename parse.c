@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/26 22:29:48 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/27 04:55:08 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	get_token(char **ps, char **q, char **eq)
 	quote[0] = 1;
 	quote[1] = 2;
 	s = *ps;
-	while (s[i] != '\0' && (ft_strchr(s[i], " \t\n\f\v\r")))
+	while (s[i] != '\0' && (ft_strchr(s[i], " \t\n\f\v\r") || s[i] == 2))
 		i++;
 	if (q)
 		*q = &s[i];
@@ -39,24 +39,26 @@ int	get_token(char **ps, char **q, char **eq)
 		token = followed(&s);
 	else
 		token = 'F';
-	if (s[i] == 1)
-	{
-		i++;
-		while (s[i] != '\0' && !(s[i] == 1 && s[i + 1] == ' '))
+	// if (s[i] == 1)
+	// {
+	// 	i++;
+	// 	//printf ("hola sad\n");
+	// 	while (s[i] != '\0' && !(s[i] == 1 && s[i + 1] == ' '))
+	// 		i++;
+	// 	printf ("wa popop %s\n", &s[i]);
+	// 	if (s[i] != '\0')
+	// 		i++;
+	// }
+	// else
+	// {
+		while (s[i] != '\0' && !ft_strchr(s[i], " \t\n\f\v\r") && !ft_strchr(s[i], "|<>"))
 			i++;
-		if (s[i] != '\0')
-			i++;
-	}
-	else
-	{
-		while (s[i] != '\0' && (!ft_strchr(s[i], " \t\n\f\v\r") && !ft_strchr(s[i], "|<>") && !ft_strchr(s[i], quote)))
-			i++;
-	}
+	//}
 	if (eq)
 	{
 		*eq = &s[i];
 	}
-	while (s[i] != '\0' && (ft_strchr(s[i], " \t\n\f\v\r") || ft_strchr(s[i], quote)))
+	while (s[i] != '\0' && (ft_strchr(s[i], " \t\n\f\v\r") || s[i] == 2))
 		i++;
 	*ps = &s[i];
 	//printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
@@ -79,6 +81,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 	cmd = exelior(*ps);
 	exec = (t_exec *)cmd;
 	cmd = parsered (cmd, ps, es);
+	//printf ("%s\n", *ps);
 	while (!exist(ps, es, "|"))
 	{
 		if ((token = get_token(ps, &q, &eq)) == 0)
@@ -90,16 +93,22 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 		}
 		//for quotes its cuz of the inprintable char 1
 		one = ft_split(q, ' ', 1);
-		exec->args[i] = one[0];
-		printf ("exe[%d] = %s\n", i, exec->args[i]);
-		if (quote.quote[i] == 1 && if_dsigne(exec->args[i], env) != 0)
+		if (i < words)
 		{
-			exec->args[i] = if_dsigne(exec->args[i], env);
-			//printf ("exe[%d] = %s\n", i, exec->args[i]);
+			exec->args[i] = one[0];
+			printf ("exe[%d] = %s\n", i, exec->args[i]);
+			if (quote.quote[i] == 1 && if_dsigne(exec->args[i], env) != 0)
+			{
+				exec->args[i] = if_dsigne(exec->args[i], env);
+				//printf ("exe[%d] = %s\n", i, exec->args[i]);
+			}
+		}
+		if (i > words)
+		{
+			printf ("wa lqlawi, %d\n", i);
+			break ;
 		}
 		i++;
-		if (i > words)
-			exit (1);
 		cmd = parsered (cmd, ps, es);
 	}
 	return (cmd);

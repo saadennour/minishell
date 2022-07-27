@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/26 22:27:08 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/27 02:34:06 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,9 @@ char	*quotes(char *s, t_quote *quote)
 			//1 means double quote and 2 means single quote
 			if (str[j][i] == 34)
 			{
-				if (i == 0)
-					quote->start = 1;
 				if (i + 1 <= sign)
-				{
-					printf ("hello\n");
 					(quote->quote[x]) = 1;
-				}
-				str[j][i] = 1;
+				str[j][i] = '*';
 				//if len == 0 check segv "" | ''
 				while (str[j][i] && str[j][i] != 34)
 				{
@@ -139,16 +134,14 @@ char	*quotes(char *s, t_quote *quote)
 					printf ("minishell: quotation error\n");
 					exit (1);
 				}
-				str[j][i] = 1;
+				str[j][i] = '*';
 				//len++;
 			}
 			if (str[j][i] == 39)
 			{
-				if (i == 0)
-					quote->start = 1;
 				if (i + 1 <= sign)
 					(quote->quote[x]) = 2;
-				str[j][i] = 1;
+				str[j][i] = '*';
 				while (str[j][i] && str[j][i] != 39)
 				{
 					len++;
@@ -161,7 +154,7 @@ char	*quotes(char *s, t_quote *quote)
 				}
 				if (i + 1 == sign)
 					(quote->quote[x]) = 1;
-				str[j][i] = 1;
+				str[j][i] = '*';
 				//len++;
 			}
 			i++;
