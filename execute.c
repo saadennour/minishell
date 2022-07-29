@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/27 09:42:17 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/29 01:40:49 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,85 +83,84 @@ char	*clean(char *str)
 	return (clean);
 }
 
-char	*quotes(char *s, t_quote *quote)
+char	*quotes(char *str, t_quote *quote)
 {
 	int		i;
 	int		j;
 	int		x;
 	int		sign;
 	int		len;
+	int		total;
 	char	*buf;
-	char	**str;
 
 	i = 0;
 	j = 0;
 	x = 0;
 	sign = 0;
 	len = 0;
-	str = ft_split(s, 2, 1);
-	while (str[j])
+	total = 0;
+	total = spaces_still(str);
+	while (str[i])
 	{
 		//printf ("%s|\n", str[j]);
-		i = 0;
-		while (str[j][i])
+		//print until u find the same quote and so on
+		//1 means double quote and 2 means single quote
+		if (str[i] == 34)
 		{
-			if (str[j][i] == '$')
+			if (i + 1 <= sign)
+				(quote->quote[x]) = 1;
+			str[i] = '*';
+			//if len == 0 check segv "" | ''
+			while (str[i] && str[i] != 34)
 			{
-				quote->quote[x] = 1;
-				sign = i;
-				//printf ("salam %d\n", sign);
+				len++;
+				i++;
 			}
-			i++;
+			if (str[i] == '\0')
+			{
+				printf ("minishell: quotation error\n");
+				exit (1);
+			}
+			str[i] = '*';
+			//len++;
 		}
-		i = 0;
-		while (str[j][i])
+		if (str[i] == 39)
 		{
-			//print until u find the same quote and so on
-			//1 means double quote and 2 means single quote
-			if (str[j][i] == 34)
+			if (i + 1 <= sign)
+				(quote->quote[x]) = 2;
+			str[i] = '*';
+			while (str[i] && str[i] != 39)
 			{
-				if (i + 1 <= sign)
-					(quote->quote[x]) = 1;
-				str[j][i] = '*';
-				//if len == 0 check segv "" | ''
-				while (str[j][i] && str[j][i] != 34)
-				{
-					len++;
-					i++;
-				}
-				if (str[j][i] == '\0')
-				{
-					printf ("minishell: quotation error\n");
-					exit (1);
-				}
-				str[j][i] = '*';
-				//len++;
+				len++;
+				i++;
 			}
-			if (str[j][i] == 39)
+			if (str[i] == '\0')
 			{
-				if (i + 1 <= sign)
-					(quote->quote[x]) = 2;
-				str[j][i] = '*';
-				while (str[j][i] && str[j][i] != 39)
-				{
-					len++;
-					i++;
-				}
-				if (str[j][i] == '\0')
-				{
-					printf ("minishell: quotation error\n");
-					exit (1);
-				}
-				if (i + 1 == sign)
-					(quote->quote[x]) = 1;
-				str[j][i] = '*';
-				//len++;
+				printf ("minishell: quotation error\n");
+				exit (1);
 			}
-			i++;
-			len++;
+			if (i + 1 == sign)
+				(quote->quote[x]) = 1;
+			str[i] = '*';
+			//len++;
 		}
-		j++;
-		x++;
+		i++;
+		len++;
+		if (str[i] == ' ')
+		{
+			i++;
+			x = total - spaces_still(&str[i]);
+			while (str[j])
+			{
+				if (str[j] == '$')
+				{
+					sign = j;
+					//printf ("salam %d\n", sign);
+				}
+				j++;
+			}
+			j = 0;
+		}
 	}
 	//printf ("%d %d %d\n", len, j, x);
 	//printf ("%d\n", quote->quote[1]);
@@ -171,19 +170,9 @@ char	*quotes(char *s, t_quote *quote)
 	x = 0;
 	while (str[j])
 	{
-		i = 0;
-		while (str[j][i])
-		{
-			buf[x] = str[j][i];
-			i++;
-			x++;
-		}
+		buf[x] = str[j];
+		x++;
 		j++;
-		if (str[j] != 0)
-		{
-			buf[x] = ' ';
-			x++;
-		}
 	}
 	buf[x] = '\0';
 	//printf ("j = %d\n", j); 
@@ -192,7 +181,7 @@ char	*quotes(char *s, t_quote *quote)
 	//printf ("%d\n", quote->quote[2]);
 	//printf ("%d\n", quote->quote[3]);
 	//return char allocated with the right size and quote by reference
-	//printf ("%s\n", buf);
+	printf ("quote : %s\n", buf);
 	return (buf);
 }
 
@@ -214,7 +203,10 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 		cmd[j] = ft_strjoin(cmd[j], "/");
 		cmd[j] = ft_strjoin(cmd[j], exe->args[0]);
 		if (access(cmd[j], F_OK) != -1)
+		{
+			//printf ("exe : %s\n", cmd[j]);
 			return (cmd[j]);
+		}
 	}
 	printf ("minishell: %s: command not found\n", exe->args[0]);
 	exit (1);
@@ -276,6 +268,11 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			}
 			i = 0;
 		}
+		// while (exe->args[i])
+		// {
+		// 	printf ("cmd[%d] = %s\n", i, exe->args[i]);
+		// 	i++;
+		// }
 		execve(buf, exe->args, envp);
 	}
 	else if (cmd->type == PIPE)

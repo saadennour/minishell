@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/26 19:26:53 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/29 01:37:03 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token);
 t_cmd	*exelior(char *s);
 int		ft_strchr(char s, char *scan);
 int		ft_skip(char *s, char *skip);
-int		exist(char **ps, char *es, char *token);
+int		exist(char **ps, char *token);
 int		get_token(char **ps, char **q, char **eq);
 t_cmd	*parsecmd(char *str, char **env);
 t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote);
@@ -113,5 +113,7 @@ int		wd_count(const char *str, char c, int access);
 int		much_to_skip(const char *str, int i);
 char	*no_space(char *str);
 int		ft_echo(char **cmd, t_list *data);
+char	**ft_splito(char const *s, char c);
+int		spaces_still(char *str);
 
 #endif

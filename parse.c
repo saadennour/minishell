@@ -6,24 +6,48 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/27 09:30:50 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/29 01:41:15 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// static int	count(char *str, char c)
+// {
+// 	int	i;
+// 	int	len;
+
+// 	i = 0;
+// 	len = 0;
+// 	if (str == NULL)
+// 		return (0);
+// 	while (str[i])
+// 	{
+// 		while (str[i] == c)
+// 			i++;
+// 		if (str[i] != '\0' && str[i] != c)
+// 		{
+// 			while (str[i] != '\0' && str[i] != c)
+// 				i++;
+// 			len++;
+// 		}
+// 	}
+// 	//printf ("len = %d\n", len);
+// 	return (len);
+// }
 
 int	get_token(char **ps, char **q, char **eq)
 {
 	char	*s;
 	int		i;
 	int		token;
-	char	quote[2];
+	//char	quote[2];
 
 	i = 0;
-	quote[0] = 1;
-	quote[1] = 2;
+	// quote[0] = 1;
+	// quote[1] = 2;
 	s = *ps;
-	while (s[i] != '\0' && (ft_strchr(s[i], " \t\n\f\v\r") || s[i] == 2))
+	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
 		i++;
 	if (q)
 		*q = &s[i];
@@ -39,37 +63,21 @@ int	get_token(char **ps, char **q, char **eq)
 		token = followed(&s);
 	else
 		token = 'F';
-	// if (s[i] == 1)
-	// {
-	// 	i++;
-	// 	//printf ("hola sad\n");
-	// 	while (s[i] != '\0' && !(s[i] == 1 && s[i + 1] == ' '))
-	// 		i++;
-	// 	printf ("wa popop %s\n", &s[i]);
-	// 	if (s[i] != '\0')
-	// 		i++;
-	// }
-	// else
-	// {
-		while (s[i] != '\0' && !ft_strchr(s[i], " \t\n\f\v\r") && !ft_strchr(s[i], "|<>"))
-		{
-			if (s[i] == '*')
-			{
-				i++;
-				while (s[i] && s[i] != '*')
-					i++;
-				if (s[i] != '\0')
-					i++;
-			}
-			else
-				i++;
-		}
-	//}
+	if (s[i] == '*')
+	{
+		i++;
+		while (s[i] && s[i] != '*' && s[i + 1] != ' ')
+			i++;
+		if (s[i])
+			i++;
+	}
+	while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f") && !ft_strchr(s[i], "|<>"))
+			i++;
 	if (eq)
 	{
 		*eq = &s[i];
 	}
-	while (s[i] != '\0' && (ft_strchr(s[i], " \t\n\f\v\r") || s[i] == 2))
+	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
 		i++;
 	*ps = &s[i];
 	//printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
@@ -84,16 +92,18 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 	char	**one;
 	int		token;
 	int		i;
-	int		words;
+	int		words = 0;
+	char	*s;
 	t_cmd	*cmd;
 
 	i = 0;
+	s = *ps;
 	words = wd_count(*ps, ' ', 1);
 	cmd = exelior(*ps);
 	exec = (t_exec *)cmd;
 	cmd = parsered (cmd, ps, es);
-	//printf ("%s\n", *ps);
-	while (!exist(ps, es, "|"))
+	//printf ("the cmd : %s\nthe words = %d\n", *ps, words);
+	while (!exist(ps, "|"))
 	{
 		if ((token = get_token(ps, &q, &eq)) == 0)
 			break ;
@@ -103,22 +113,16 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 			exit (1);
 		}
 		//for quotes its cuz of the inprintable char 1
-		one = ft_split(q, ' ', 1);
-		if (i < words)
+		one = ft_splito(q, ' ');
+		exec->args[i] = one[0];
+		printf ("exe[%d] = %s with %d for quote\n", i, exec->args[i], quote.quote[i]);
+		if (quote.quote[i] == 1)
 		{
-			exec->args[i] = one[0];
+			exec->args[i] = if_dsigne(exec->args[i], env);
 			//printf ("exe[%d] = %s\n", i, exec->args[i]);
-			if (quote.quote[i] == 1 && if_dsigne(exec->args[i], env) != 0)
-			{
-				exec->args[i] = if_dsigne(exec->args[i], env);
-				//printf ("exe[%d] = %s\n", i, exec->args[i]);
-			}
 		}
-		if (i == words)
-		{
-			printf ("wa lqlawi, %d\n", i);
-			break ;
-		}
+		else
+			exec->args[i] = no_space(exec->args[i]);
 		i++;
 		cmd = parsered (cmd, ps, es);
 	}
@@ -128,13 +132,24 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 t_cmd	*parsecmd(char *str, char **env)
 {
 	char	*es;
+	int		x;
+	int		words;
 	t_cmd	*cmd;
 	t_quote	quote;
 
 	es = NULL;
+	x = 0;
+	words = wd_count(str, ' ', 1);
+	//printf ("kayin %d\n", words);
 	//no space turn every space to unprintable char then split by it
-	str = no_space(str);
-	quote.quote = malloc(sizeof(int) * wd_count(str, 2, 1) + 1);
+	//str = no_space(str);
+	quote.quote = malloc(sizeof(int) * words + 1);
+	while (x < words)
+	{
+		quote.quote[x] = 1;
+		x++;
+	}
+	quote.quote[x] = 0;
 	if (str[0] == '|')
 	{
 		printf ("minishell: syntax error near unexpected token '|'\n");
@@ -142,7 +157,7 @@ t_cmd	*parsecmd(char *str, char **env)
 	}
 	str = quotes(str, &quote);
 	//add redirection rules in ft_path
-	str = ft_path(str);
+	//str = ft_path(str);
 	es = str + ft_strlen(str);
 	cmd = parsepipe(&str, es, env, quote);
 	// exist (&str, es, "");
@@ -159,8 +174,9 @@ t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote)
 	t_cmd	*cmd;
 
 	cmd = parseexec(ps, es, env, quote);
-	if (exist(ps, es, "|"))
+	if (exist(ps, "|"))
 	{
+		//printf ("helo\n");
 		get_token(ps, 0, 0);
 		cmd = piping(cmd, parsepipe(ps, es, env, quote));
 	}
@@ -174,7 +190,7 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es)
 	char	*eq;
 	char	*clear;
 
-	while (exist(ps, es, "<>"))
+	while (exist(ps, "<>"))
 	{
 		token = get_token(ps, 0, 0);
 		if (get_token(ps, &q, &eq) != 'F')

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 04:34:11 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/26 23:51:48 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/29 01:36:54 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,33 +74,49 @@ int	ft_echo(char **cmd, t_list *data)
 char *no_space(char *str)
 {
 	int		i;
-	int		j;
+	int		len;
+	int		quote;
+	char	*buf;
 	
 	i = 0;
-	j = 0;
+	len = 0;
+	quote = 0;
 	//i can change get token or use it
 	while (str[i])
 	{
-		if (str[i] == 34)
-		{
-			i++;
-			while (str[i] && !(str[i] == 34 && str[i + 1] == ' '))
-				i++;
-			if (str[i])
-				i++;
-		}
-		if (str[i] == 39)
-		{
-			i++;
-			while (str[i] && !(str[i] == 39 && str[i + 1] == ' '))
-				i++;
-			if (str[i])
-				i++;
-		}
-		if (str[i] == ' ')
-			str[i] = 2;
+		if (str[i] == '*')
+			quote++;
 		i++;
 	}
-	//printf ("%s\n", str);
-	return (str);
+	len = ft_strlen(str) - quote;
+	buf = malloc (sizeof(char) * len + 1);
+	i = 0;
+	len = 0;
+	while (str[i])
+	{
+		if (str[i] == '*')
+			i++;
+		buf[len] = str[i];
+		len++;
+		i++;
+	}
+	buf[len] = '\0';
+	//printf ("with no space : %s\n", str);
+	return (buf);
+}
+
+int	spaces_still(char *str)
+{
+	int	i;
+	int	spaces;
+	
+	i = 0;
+	spaces = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			spaces++;
+		i++;
+	}
+	return (spaces);
 }
