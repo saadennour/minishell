@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/29 01:41:15 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/29 02:36:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,8 @@ int	get_token(char **ps, char **q, char **eq)
 	char	*s;
 	int		i;
 	int		token;
-	//char	quote[2];
 
 	i = 0;
-	// quote[0] = 1;
-	// quote[1] = 2;
 	s = *ps;
 	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
 		i++;
@@ -63,16 +60,19 @@ int	get_token(char **ps, char **q, char **eq)
 		token = followed(&s);
 	else
 		token = 'F';
-	if (s[i] == '*')
+	if (s[i] == 1)
 	{
 		i++;
-		while (s[i] && s[i] != '*' && s[i + 1] != ' ')
+		while (s[i] && !(s[i] == 1 && s[i + 1] == ' '))
 			i++;
 		if (s[i])
 			i++;
 	}
-	while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f") && !ft_strchr(s[i], "|<>"))
+	else
+	{
+		while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f") && !ft_strchr(s[i], "|<>") && s[i] != 1)
 			i++;
+	}
 	if (eq)
 	{
 		*eq = &s[i];
@@ -80,7 +80,7 @@ int	get_token(char **ps, char **q, char **eq)
 	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
 		i++;
 	*ps = &s[i];
-	//printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
+	printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
 	return (token);
 }
 
@@ -92,13 +92,17 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 	char	**one;
 	int		token;
 	int		i;
+	int		x;
+	int		total;
 	int		words = 0;
 	char	*s;
 	t_cmd	*cmd;
 
 	i = 0;
+	x = 0;
 	s = *ps;
 	words = wd_count(*ps, ' ', 1);
+	total = spaces_still(*ps);
 	cmd = exelior(*ps);
 	exec = (t_exec *)cmd;
 	cmd = parsered (cmd, ps, es);
@@ -113,17 +117,20 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 			exit (1);
 		}
 		//for quotes its cuz of the inprintable char 1
-		one = ft_splito(q, ' ');
+		one = ft_split(q, ' ', 1);
 		exec->args[i] = one[0];
 		printf ("exe[%d] = %s with %d for quote\n", i, exec->args[i], quote.quote[i]);
-		if (quote.quote[i] == 1)
+		if (quote.quote[x] == 1 && ft_skip(exec->args[i], "$"))
 		{
 			exec->args[i] = if_dsigne(exec->args[i], env);
-			//printf ("exe[%d] = %s\n", i, exec->args[i]);
+			printf ("after exe[%d] = %s\n", i, exec->args[i]);
 		}
 		else
 			exec->args[i] = no_space(exec->args[i]);
+		x = total - spaces_still(*ps);
 		i++;
+		if (i > words)
+			exit (1);
 		cmd = parsered (cmd, ps, es);
 	}
 	return (cmd);
@@ -140,9 +147,6 @@ t_cmd	*parsecmd(char *str, char **env)
 	es = NULL;
 	x = 0;
 	words = wd_count(str, ' ', 1);
-	//printf ("kayin %d\n", words);
-	//no space turn every space to unprintable char then split by it
-	//str = no_space(str);
 	quote.quote = malloc(sizeof(int) * words + 1);
 	while (x < words)
 	{
@@ -161,11 +165,11 @@ t_cmd	*parsecmd(char *str, char **env)
 	es = str + ft_strlen(str);
 	cmd = parsepipe(&str, es, env, quote);
 	// exist (&str, es, "");
-	if (str != es)
-	{
-		printf ("Errori\n");
-		exit (1);
-	}
+	// if (str != '\0')
+	// {
+	// 	printf ("Errori\n");
+	// 	exit (1);
+	// }
 	return (cmd);
 }
 
@@ -176,7 +180,6 @@ t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote)
 	cmd = parseexec(ps, es, env, quote);
 	if (exist(ps, "|"))
 	{
-		//printf ("helo\n");
 		get_token(ps, 0, 0);
 		cmd = piping(cmd, parsepipe(ps, es, env, quote));
 	}

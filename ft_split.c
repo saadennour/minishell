@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/29 00:50:10 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/29 02:00:46 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ int	wd_count(const char *str, char c, int access)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] == '*' && access == 1)
+		if (str[i] == 1 && access == 1)
 		{
 			i++;
-			while (str[i] != '\0' && !(str[i] == '*' && str[i + 1] == ' '))
+			while (str[i] != '\0' && !(str[i] == 1 && str[i + 1] == ' '))
 				i++;
 			i++;
 			len++;
 		}
 		while (str[i] == c)
 			i++;
-		if (str[i] != '\0' && str[i] != c && str[i] != '*')
+		if (str[i] != '\0' && str[i] != c && str[i] != 1)
 		{
-			while (str[i] != '\0' && str[i] != c && str[i] != '*')
+			while (str[i] != '\0' && str[i] != c && str[i] != 1)
 				i++;
 			len++;
 		}
@@ -51,21 +51,21 @@ static int	ft_test(const char *str, int i, char c, int access)
 
 	s = (char *)str;
 	cnt = 0;
-	if (s[i] == '*' && access == 1)
+	if (s[i] == 1 && access == 1)
 	{
-		while (s[i] && s[i] == '*')
+		while (s[i] && s[i] == 1)
 			i++;
-		while (s[i] && !(s[i] == '*' && s[i + 1] == ' '))
+		while (s[i] && !(s[i] == 1 && s[i + 1] == ' '))
 		{
 			i++;
 			cnt++;
 		}
-		while (s[i] && s[i] == '*')
+		while (s[i] && s[i] == 1)
 			i++;
 	}
 	else
 	{
-		while (s[i] && (s[i] != '*' && s[i] != c))
+		while (s[i] && (s[i] != 1 && s[i] != c))
 		{
 			i++;
 			cnt++;
@@ -86,12 +86,12 @@ static char	*copy(int t, char const *s, char c, int access)
 	//printf ("fiya f tol %d\n", len);
 	if (!str)
 		return (NULL);
-	if (s[t] == '*' && access == 1)
+	if (s[t] == 1 && access == 1)
 	{
 		t++;
-		while (j < len && !(s[t] == '*' && s[t + 1] == ' '))
+		while (j < len && !(s[t] == 1 && s[t + 1] == ' '))
 		{
-			// if (s[t] == '*')
+			// if (s[t] == 1)
 			// 	t++;
 			str[j] = (char)s[t];
 			j++;
@@ -101,7 +101,7 @@ static char	*copy(int t, char const *s, char c, int access)
 	}
 	else
 	{
-		while (j < len && (s[t] != c && s[t] != '*'))
+		while (j < len && (s[t] != c && s[t] != 1))
 		{
 			str[j] = (char)s[t];
 			j++;

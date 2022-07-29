@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 04:34:11 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/29 01:36:54 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/29 02:00:46 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char *no_space(char *str)
 	//i can change get token or use it
 	while (str[i])
 	{
-		if (str[i] == '*')
+		if (str[i] == 1)
 			quote++;
 		i++;
 	}
@@ -94,7 +94,7 @@ char *no_space(char *str)
 	len = 0;
 	while (str[i])
 	{
-		if (str[i] == '*')
+		if (str[i] == 1)
 			i++;
 		buf[len] = str[i];
 		len++;

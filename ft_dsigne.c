@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/29 01:47:49 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/29 02:57:19 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,28 @@ char	*if_dsigne(char *inpt, char **env)
 	char	**var;
 	int		i;
 	int		j;
+	int		x;
 	int		words;
+	char	split[2];
 
+	split[0] = ' ';
+	split[1] = 1;
 	i = 0;
 	j = 0;
+	x = 0;
 	words = 0;
 	//put unprintable char then undo
-	var = ft_advanced(inpt, "* ");
-	// while (var[j])
-	// {
-	// 	printf ("var[%d] = %s\n", j, var[j]);
-	// 	j++;	
-	// }
-	// j = 0;
+	var = ft_advanced(inpt, split);
 	while (var[j])
 	{
-		//printf ("%c\n", var[j][0]);
+		while (inpt[x])
+		{
+			if (inpt[x] == 1 || inpt[x] == ' ')
+			{
+				break ;
+			}
+			x++;
+		}
 		if (var[j][0] == '$')
 		{
 	 		op = forenv(env);
@@ -91,8 +97,6 @@ char	*if_dsigne(char *inpt, char **env)
 					dollar = "";
 			}
 		}
-		// if (var[j][0] != 34 && var[j][0] != 39)
-		// 	dollar = ft_strjoin(dollar, " ");
 		if (dollar == 0)
 			assign = ft_strjoin(assign, var[j]);
 		else
@@ -100,8 +104,24 @@ char	*if_dsigne(char *inpt, char **env)
 			assign = ft_strjoin(assign, dollar);
 			dollar = NULL;
 		}
+		if (inpt[x] == ' ' || inpt[x] == 1)
+		{
+			if (inpt[x] == ' ')
+			{
+				assign = ft_strjoin(assign, " ");
+				while (inpt[x] && inpt[x] == ' ')
+					x++;
+			}
+			else if (inpt[x] == 1)
+			{
+				x++;
+				while (inpt[x] && inpt[x] != 1)
+					x++;
+				if (inpt[x])
+					x++;
+			}
+		}
 		j++;
-		//printf ("assign %d = %s\n", j , assign);
 	}
 	return (assign);
 }
