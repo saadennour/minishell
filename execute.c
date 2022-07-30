@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/29 02:17:44 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/29 03:07:40 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ char	*quotes(char *str, t_quote *quote)
 		{
 			i++;
 			x = total - spaces_still(&str[i]);
-			printf ("x = %d\n", x);
+			//printf ("x = %d\n", x);
 			while (str[j])
 			{
 				if (str[j] == '$')
@@ -157,7 +157,7 @@ char	*quotes(char *str, t_quote *quote)
 			j = 0;
 		}
 	}
-	buf = malloc (sizeof(char) * len + j);
+	buf = malloc (sizeof(char) * ft_strlen(str) + 1);
 	i = 0;
 	j = 0;
 	x = 0;
@@ -169,7 +169,7 @@ char	*quotes(char *str, t_quote *quote)
 	}
 	buf[x] = '\0';
 	//return char allocated with the right size and quote by reference
-	printf ("quote : %s\n", buf);
+	//printf ("quote : %s\n", buf);
 	return (buf);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/29 02:36:27 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/30 04:31:46 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	get_token(char **ps, char **q, char **eq)
 	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
 		i++;
 	*ps = &s[i];
-	printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
+	//printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
 	return (token);
 }
 
@@ -95,12 +95,12 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 	int		x;
 	int		total;
 	int		words = 0;
-	char	*s;
+	//char	s[1];
 	t_cmd	*cmd;
 
 	i = 0;
 	x = 0;
-	s = *ps;
+	//s[0] = 1;
 	words = wd_count(*ps, ' ', 1);
 	total = spaces_still(*ps);
 	cmd = exelior(*ps);
@@ -117,20 +117,23 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 			exit (1);
 		}
 		//for quotes its cuz of the inprintable char 1
+		// if (ft_skip(q, s) && !ft_skip(q, " "))
+		// 	one = ft_splito(q, 2);
+		// else
 		one = ft_split(q, ' ', 1);
 		exec->args[i] = one[0];
-		printf ("exe[%d] = %s with %d for quote\n", i, exec->args[i], quote.quote[i]);
+		//printf ("exe[%d] = %s with %d for quote\n", i, exec->args[i], quote.quote[i]);
 		if (quote.quote[x] == 1 && ft_skip(exec->args[i], "$"))
 		{
 			exec->args[i] = if_dsigne(exec->args[i], env);
-			printf ("after exe[%d] = %s\n", i, exec->args[i]);
+			//printf ("after exe[%d] = %s|\n", i, exec->args[i]);
 		}
 		else
 			exec->args[i] = no_space(exec->args[i]);
 		x = total - spaces_still(*ps);
 		i++;
-		if (i > words)
-			exit (1);
+		// if (i > words)
+		// 	exit (1);
 		cmd = parsered (cmd, ps, es);
 	}
 	return (cmd);
