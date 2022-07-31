@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/29 03:07:40 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/31 00:10:09 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ char	*quotes(char *str, t_quote *quote)
 	buf[x] = '\0';
 	//return char allocated with the right size and quote by reference
 	//printf ("quote : %s\n", buf);
+	free (str);
 	return (buf);
 }
 
@@ -242,9 +243,18 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			fd = open(" ", O_RDWR | O_CREAT | O_TRUNC, 0644);
 			while ((ar = get_next_line(0)))
 			{
-				if (ft_strncmp(*limiter, ar, ft_strlen(*limiter)) == 0)
+				if (ft_strcmp(*limiter, ar) == 0)
 				{
 					close(0);
+					while (exe->args[i])
+					{
+						i++;
+						if (exe->args[i] == 0)
+						{
+							exe->args[i] = " ";
+							exe->args[++i] = 0;
+						}
+					}
 					break ;
 				}
 				ft_putstr_fd(ar, fd);
@@ -296,7 +306,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 				fd = open(" ", O_RDWR | O_CREAT | O_TRUNC, 0644);
 				while ((ar = get_next_line(0)))
 				{
-					if (ft_strncmp(red->file, ar, ft_strlen(red->file)) == 0)
+					if (ft_strcmp(red->file, ar) == 0)
 					{
 						close(0);
 						exit(1) ;

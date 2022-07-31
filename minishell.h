@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/29 01:37:03 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/30 20:58:29 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,6 @@ char	*no_space(char *str);
 int		ft_echo(char **cmd, t_list *data);
 char	**ft_splito(char const *s, char c);
 int		spaces_still(char *str);
+int		ft_strcmp(char *s1, char *s2);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/30 04:33:14 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/31 01:59:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*after_world(char *str)
 	//printf ("str = %s\n", str);
 	while (str[i])
 	{
-		if (str[i] == 34 || str[i] == 39)
+		if (str[i] == 34 || str[i] == 39 || str[i] == ' ')
 			break ;
 		i++;
 	}
@@ -98,14 +98,15 @@ char	*if_dsigne(char *inpt, char **env)
 	int		y;
 	//int		sign;
 	int		words;
-	char	split[2];
-	char	quote[2];
+	char	split[1];
+	char	quote[3];
 	char	*tmp = NULL;
 
-	split[0] = ' ';
-	split[1] = 1;
+	split[0] = 1;
+	//split[1] = 1;
 	quote[0] = 34;
 	quote[1] = 39;
+	quote[2] = ' ';
 	i = 0;
 	j = 0;
 	x = 0;
@@ -129,17 +130,18 @@ char	*if_dsigne(char *inpt, char **env)
 	var = ft_advanced(inpt, split);
 	while (var[j])
 	{
-		while (inpt[x])
-		{
-			if (inpt[x] == 1 || inpt[x] == ' ')
-				break ;
-			x++;
-			if (inpt[x] == '\0')
-			{
-				x = 0;
-				break ;
-			}
-		}
+		//printf ("var[%d] = %s\n", j, var[j]);
+		// while (inpt[x])
+		// {
+		// 	if (inpt[x] == 1 || inpt[x] == ' ')
+		// 		break ;
+		// 	x++;
+		// 	if (inpt[x] == '\0')
+		// 	{
+		// 		x = 0;
+		// 		break ;
+		// 	}
+		// }
 		if (ft_skip(var[j], "$"))
 		{
 			y = 0;
@@ -168,7 +170,7 @@ char	*if_dsigne(char *inpt, char **env)
 				while (op[i])
 				{
 					//printf ("%s %s\n", more[y], op[i]);
-					if (strncmp(more[y], ft_strjoin(op[i], tmp), ft_strlen(more[y])) == 0)
+					if (strcmp(more[y], ft_strjoin(op[i], tmp)) == 0)
 					{
 						dollar = exdsigne(op[i], env);
 						//printf ("dollar = %s\n", dollar);
@@ -188,41 +190,43 @@ char	*if_dsigne(char *inpt, char **env)
 					//printf ("ana mqewed\n");
 					if (dollar && thief != 1)
 						dollar = ft_strjoin(dollar, after_world(more[y]));
+					else if (thief == 1)
+						dollar = after_world(more[y]);
 				}
 				if (dollar)
 				{
 					//printf ("ana mqewed fdsfdsfds\n");
 					assign = ft_strjoin(assign, dollar);
-					//dollar = NULL;
+					dollar = NULL;
 					//printf ("assign = %s\n", assign);
 				}
 				y++;
 			}
 		}
-		if (assign == NULL)
+		else
 			assign = ft_strjoin(assign, var[j]);
 		// else
 		// {
 		// 	assign = ft_strjoin(assign, dollar);
 		// 	dollar = NULL;
 		// }
-		if (inpt[x] == ' ' || inpt[x] == 1)
-		{
-			if (inpt[x] == ' ')
-			{
-				assign = ft_strjoin(assign, " ");
-				while (inpt[x] && inpt[x] == ' ')
-					x++;
-			}
-			else if (inpt[x] == 1)
-			{
-				x++;
-				while (inpt[x] && inpt[x] != 1 && inpt[x] != ' ')
-					x++;
-				if (inpt[x] && inpt[x] == 1)
-					x++;
-			}
-		}
+		// if (inpt[x] == ' ' || inpt[x] == 1)
+		// {
+		// 	if (inpt[x] == ' ')
+		// 	{
+		// 		assign = ft_strjoin(assign, " ");
+		// 		while (inpt[x] && inpt[x] == ' ')
+		// 			x++;
+		// 	}
+		// 	else if (inpt[x] == 1)
+		// 	{
+		// 		x++;
+		// 		while (inpt[x] && inpt[x] != 1 && inpt[x] != ' ')
+		// 			x++;
+		// 		if (inpt[x] && inpt[x] == 1)
+		// 			x++;
+		// 	}
+		// }
 		j++;
 	}
 	return (assign);

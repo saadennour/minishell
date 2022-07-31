@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/26 22:34:54 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/31 00:23:54 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,11 +230,18 @@ int printenvp(t_list **data)
 int	ft_strcmp(char *s1, char *s2)
 {
 	int i;
+	int	j;
 
 	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+	j = 0;
+	while (s1[i] == s2[j] && s1[i] != '\0' && s2[j] != '\0')
+	{
 		i++;
-	return (s1[i] - s2[i]);
+		j++;
+	}
+	if (s2[j] == '\n')
+		j++;
+	return (s1[i] - s2[j]);
 }
 
 int if_builtins(char **inpt,char **envp, t_list **data)
