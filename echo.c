@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 04:34:11 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/29 02:00:46 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/01 22:00:25 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,7 @@ static int	echoprint(char **cmd, int i, t_list *data)
 		if(cmd[++i])
 			line = ft_strjoin(line, " ");
 	}
-	while (line[j])
-	{
-		write (1, &line[j], 1);
-		j++;
-	}
+	printf ("%s", line);
 	if (n == 1)
 		printf("\n");
 	return (1);
@@ -45,6 +41,12 @@ int	ft_echo(char **cmd, t_list *data)
 	int i;
 	int n;
 
+	i = 1;
+	while (cmd[i])
+	{
+		printf ("%s\n", cmd[i]);
+		i++;
+	}
 	i = 1;
 	while(cmd[i])
 	{
@@ -102,6 +104,7 @@ char *no_space(char *str)
 	}
 	buf[len] = '\0';
 	//printf ("with no space : %s\n", str);
+	free (str);
 	return (buf);
 }
 

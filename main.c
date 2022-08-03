@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/31 02:03:44 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/03 01:48:17 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,15 @@ char	*ft_read(void)
 int	main(int ac, char **av, char **envp)
 {
 	char	*buf;
-	int		c;
 	t_list	*data;
 	char	*limiter;
+	t_tool	tools;
 
+	tools.fd = 0;
+	tools.limiter = NULL;
+	tools.c = 10;
+	tools.stdin_copy = dup(STDIN_FILENO);
+	tools.stdout_copy = dup(STDOUT_FILENO);
 	data = NULL;
 	limiter = NULL;
 	(void) ac;
@@ -102,12 +107,13 @@ int	main(int ac, char **av, char **envp)
 	signal (SIGQUIT, handle_s);
 	while (1)
 	{
-		c = 0;
 		buf = ft_read();
 		add_history(buf);
 		if (fork() == 0)
-			run_cmd(parsecmd(buf, envp), envp, &c, &limiter, &data);
+			run_cmd(parsecmd(buf, envp), envp, &tools, &data);
 		wait(0);
+		//free (buf);
+		//system("leaks minishell");
 	}
 	return (0);
 }

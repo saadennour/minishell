@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/30 20:58:29 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/03 01:44:44 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,15 @@ typedef struct t_cmd
 {
 	int	type;
 }	t_cmd;
+
+typedef struct t_tool
+{
+	char	*limiter;
+	int		c;
+	int		stdin_copy;
+	int		stdout_copy;
+	int		fd;
+}	t_tool;
 
 typedef struct t_pipe
 {
@@ -96,11 +105,11 @@ t_cmd	*exelior(char *s);
 int		ft_strchr(char s, char *scan);
 int		ft_skip(char *s, char *skip);
 int		exist(char **ps, char *token);
-int		get_token(char **ps, char **q, char **eq);
+int		get_token(char **ps, char **q);
 t_cmd	*parsecmd(char *str, char **env);
 t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es);
-void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data);
+void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int		if_builtins(char **inpt,char **envp, t_list **data);
 char	*ft_skip_spaces(char *inpt);

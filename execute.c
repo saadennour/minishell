@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/31 00:10:09 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/03 03:40:50 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 	j = -1;
 	path = envp[i];
 	cmd = ft_split(&path[5], ':', 0);
-	if (access(exe->args[0], F_OK) != -1)
+	if (access(exe->args[0], F_OK | X_OK) != -1)
 		return (exe->args[0]);
 	while (cmd[++j])
 	{
@@ -214,12 +214,12 @@ char	*get_path(t_exec *exe, char **envp)
 	return (0);
 }
 
-void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
+void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 {
-	int		fd;
 	int		i;
 	int		p[2];
 	char	*buf;
+	char	**end;
 	char	*ar;
 	t_exec	*exe;
 	t_pipe	*pip;
@@ -235,31 +235,31 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 		exe = (t_exec *)cmd;
 		if (exe->args[0] == 0)
 			exit (1);
-		if (if_builtins(exe->args,envp, data) == 0)
+		if (if_builtins(exe->args, envp, data) == 0)
 			return ;
 		buf = get_path(exe, envp);
-		if (*limiter != NULL)
+		if (tools->limiter != NULL)
 		{
-			fd = open(" ", O_RDWR | O_CREAT | O_TRUNC, 0644);
+			end = ft_splito(tools->limiter, ' ');
+			dup2(tools->stdin_copy, STDIN_FILENO);
 			while ((ar = get_next_line(0)))
 			{
-				if (ft_strcmp(*limiter, ar) == 0)
+				if (ft_strcmp(end[i], ar) == 0)
 				{
-					close(0);
-					while (exe->args[i])
+					printf ("limiter = %s\n", end[i]);
+					i++;
+					if (end[i] == 0)
 					{
-						i++;
-						if (exe->args[i] == 0)
-						{
-							exe->args[i] = " ";
-							exe->args[++i] = 0;
-						}
+						//close(0);
+						execve(buf, exe->args, envp);
 					}
-					break ;
 				}
-				ft_putstr_fd(ar, fd);
+				else
+					ft_putstr_fd(ar, tools->fd);
 			}
-			i = 0;
+			//i = 0;
+			//close(fd);
+			//unlink(" ");
 		}
 		execve(buf, exe->args, envp);
 	}
@@ -276,8 +276,9 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			dup2(p[1], STDOUT_FILENO);
 			close(p[0]);
 			close(p[1]);
-			run_cmd(pip->left, envp, c, limiter, data);
-			exit (1);
+			run_cmd(pip->left, envp, tools, data);
+			if (pip->left->type == EXEC)
+				exit (1);
 		}
 		else
 		{
@@ -286,8 +287,9 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			dup2(p[0], STDIN_FILENO);
 			close(p[0]);
 			close(p[1]);
-			run_cmd(pip->right, envp, c, limiter, data);
-			exit (1);
+			run_cmd(pip->right, envp, tools, data);
+			if (pip->right->type == EXEC)
+				exit (1);
 		}
 		close(p[0]);
 		close(p[1]);
@@ -298,44 +300,63 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 		red = (t_redir *)cmd;
 		if (red->token == 4)
 		{
-			fd = open(0, red->mode);
-			limiter = &(red->file);
-			exe = (t_exec *)red->exe;
-			if (exe->args[0] == 0)
+			red->file = ft_strjoin(red->file, " ");
+			tools->c = 1;
+			tools->fd = open(" ", O_CREAT | O_RDWR | O_TRUNC, 0644);
+			if (tools->fd < 0)
 			{
-				fd = open(" ", O_RDWR | O_CREAT | O_TRUNC, 0644);
-				while ((ar = get_next_line(0)))
+				printf ("Error\n");
+				exit(1);
+			}
+			//printf ("%d\n", tools->fd);
+			tools->limiter = ft_strjoin(red->file, tools->limiter);
+			if (red->exe->type == EXEC)
+			{
+				exe = (t_exec *)red->exe;
+				if (exe->args[0] == 0)
 				{
-					if (ft_strcmp(red->file, ar) == 0)
+					dup2(tools->stdin_copy, 0);
+					end = ft_splito(tools->limiter, ' ');
+					i = 0;
+					while ((ar = get_next_line(0)))
 					{
-						close(0);
-						exit(1) ;
+						//printf ("limit = %send = %s %s\n", tools->limiter, end[i], ar);
+						if (ft_strcmp(end[i], ar) == 0)
+						{
+							i++;
+							if (end[i] == 0)
+							{
+								close(0);
+								exit(1) ;
+							}
+						}
+						else
+							ft_putstr_fd(ar, tools->fd);
 					}
-					ft_putstr_fd(ar, fd);
+					//printf ("limit = %send = %s %s\n", tools->limiter, end[i], ar);
 				}
-				i = 0;
 			}
 		}
 		else
 		{
-			fd = open(red->file, red->mode, 0644);
-			if (fd < 0)
+			tools->fd = open(red->file, red->mode, 0644);
+			if (tools->fd < 0)
 			{
 				printf ("Errooor\n");
 				exit (1);
 			}
 		}
-		if (*c == 0)
+		if (tools->c != 1)
 		{
-			dup2(fd, red->fd);
+			dup2(tools->fd, red->fd);
 			if (red->exe->type == REDIR)
 			{
 				red2 = (t_redir *)red->exe;
-				if (red->token == red2->token)
-					(*c)++;
+				if (red->fd == red2->fd)
+					(tools->c) = 1;
 			}
 		}
-		run_cmd(red->exe, envp, c, limiter, data);
+		run_cmd(red->exe, envp, tools, data);
 	}
 }
 
