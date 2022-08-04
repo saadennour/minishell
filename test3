@@ -6,5 +6,6 @@ echo > out hello < Makefile world > out2 this should > out8 work
 cat <<a<<B<<C<<D		done
 many redir				done
 heredoc and pipes		done
-echo -n -n
-stdin in heredoc
+echo -n -n				done
+stdin in heredoc		done
+many dollars

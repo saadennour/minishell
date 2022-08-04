@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/01 22:39:26 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/03 23:01:55 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,10 +289,10 @@ int if_builtins(char **inpt,char **envp, t_list **data)
 		ft_unset(inpt,data);
 		return (0);
 	}
-	// else if (ft_strcmp(inpt[0], "echo") == 0)
-	// {
-	// 	ft_echo(inpt, *data);
-	// 	return (0);
-	// }
+	else if (ft_strcmp(inpt[0], "echo") == 0)
+	{
+		ft_echo(inpt, *data);
+		return (0);
+	}
 	return(1);
 }

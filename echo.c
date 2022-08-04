@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 04:34:11 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/01 22:00:25 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/03 23:03:23 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,6 @@ int	ft_echo(char **cmd, t_list *data)
 	int i;
 	int n;
 
-	i = 1;
-	while (cmd[i])
-	{
-		printf ("%s\n", cmd[i]);
-		i++;
-	}
 	i = 1;
 	while(cmd[i])
 	{

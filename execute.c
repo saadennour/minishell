@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/03 03:40:50 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/03 23:01:16 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,10 +199,8 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 char	*get_path(t_exec *exe, char **envp)
 {
 	int	i;
-	int	j;
 
 	i = -1;
-	j = -1;
 	while (envp[++i])
 	{
 		if (envp[i][0] == 'P')
@@ -241,25 +239,22 @@ void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 		if (tools->limiter != NULL)
 		{
 			end = ft_splito(tools->limiter, ' ');
-			dup2(tools->stdin_copy, STDIN_FILENO);
 			while ((ar = get_next_line(0)))
 			{
 				if (ft_strcmp(end[i], ar) == 0)
 				{
-					printf ("limiter = %s\n", end[i]);
 					i++;
 					if (end[i] == 0)
 					{
-						//close(0);
+						close(tools->fd);
+						tools->fd = open("/tmp/ ", O_RDONLY, 0644);
+						dup2(tools->fd, STDIN_FILENO);
 						execve(buf, exe->args, envp);
 					}
 				}
 				else
 					ft_putstr_fd(ar, tools->fd);
 			}
-			//i = 0;
-			//close(fd);
-			//unlink(" ");
 		}
 		execve(buf, exe->args, envp);
 	}
@@ -302,13 +297,12 @@ void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 		{
 			red->file = ft_strjoin(red->file, " ");
 			tools->c = 1;
-			tools->fd = open(" ", O_CREAT | O_RDWR | O_TRUNC, 0644);
+			tools->fd = open("/tmp/ ", O_CREAT | O_RDWR | O_TRUNC, 0644);
 			if (tools->fd < 0)
 			{
 				printf ("Error\n");
 				exit(1);
 			}
-			//printf ("%d\n", tools->fd);
 			tools->limiter = ft_strjoin(red->file, tools->limiter);
 			if (red->exe->type == EXEC)
 			{
@@ -320,7 +314,6 @@ void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 					i = 0;
 					while ((ar = get_next_line(0)))
 					{
-						//printf ("limit = %send = %s %s\n", tools->limiter, end[i], ar);
 						if (ft_strcmp(end[i], ar) == 0)
 						{
 							i++;
@@ -333,7 +326,6 @@ void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 						else
 							ft_putstr_fd(ar, tools->fd);
 					}
-					//printf ("limit = %send = %s %s\n", tools->limiter, end[i], ar);
 				}
 			}
 		}

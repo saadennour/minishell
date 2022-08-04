@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/01 23:28:58 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/04 04:13:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	get_token(char **ps, char **q)
 
 	i = 0;
 	s = *ps;
+	//printf ("ps =%s\ns =%s\n\n", *ps, &s[i]);
 	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
 		i++;
 	if (q)
@@ -76,7 +77,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 	cmd = exelior(*ps);
 	exec = (t_exec *)cmd;
 	cmd = parsered (cmd, ps, es);
-	//printf ("the cmd : %s\nthe words = %d\n", *ps, words);
+	printf ("the cmd : %s\nthe words = %d\n", *ps, words);
 	while (!exist(ps, "|"))
 	{
 		if ((token = get_token(ps, &q)) == 0)

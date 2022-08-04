@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 21:12:21 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/21 15:23:48 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/04 02:22:48 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,3 @@ void	multifiles(char	*str)
 	buf[stock2] = first;
 	return (buf);
 }
-
-// void	multifiles2(char *str)
-// {
-// 	while (str && *str != '|')
-// 	{
-// 		if (exist(*str, "", ">"))
-// 		{
-// 			while (str && ft_strchr(*str, " \n\t\f\r\v") && ft_strchr(*str, ">"))
-// 				str++;
-// 			while (str && !ft_strchr(*str, " \n\t\f\r\v"))
-// 				str++;
-// 			multifiles2(str);
-// 		}
-// 		str++;
-// 	}
-// 	str--;
-// 	while (!ft_strchr(*str, " \n\t\f\r\v"))
-// 	{
-// 		i++;
-// 		str--;
-// 	}
-// }

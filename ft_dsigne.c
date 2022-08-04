@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/31 21:14:39 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/04 04:57:57 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,15 @@ char	*if_dsigne(char *inpt, char **env)
 	//put unprintable char then undo
 	if (ft_strlen(inpt) == 1)
 		return ("$");
-	else if (ft_strlen(inpt) > 1)
-	{
-		while (inpt[i])
-		{
-			if (inpt[i] == '$' && inpt[i + 1] == '$')
-				return ("");
-			i++;
-		}
-	}
+	// else if (ft_strlen(inpt) > 1)
+	// {
+	// 	while (inpt[i])
+	// 	{
+	// 		if (inpt[i] == '$' && inpt[i + 1] == '$')
+	// 			return ("");
+	// 		i++;
+	// 	}
+	// }
 	i = 0;
 	var = ft_advanced(inpt, split);
 	while (var[j])
