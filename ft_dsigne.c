@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/04 04:57:57 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/05 01:24:01 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,29 @@ char	*exdsigne(char *op, char **env)
 	return (0);
 }
 
+// static int	cashier(char *str)
+// {
+// 	int	i;
+// 	int	dollar;
+
+// 	i = 0;
+// 	dollar = 0;
+// 	while (str[i])
+// 	{
+// 		while (str[i] == '$')
+// 			dollar++;
+// 		i++;
+// 	}
+// }
+
 char	*after_world(char *str)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 	char	*quote;
 
 	i = 0;
 	len = 0;
-	//printf ("str = %s\n", str);
 	while (str[i])
 	{
 		if (str[i] == 34 || str[i] == 39 || str[i] == ' ')
@@ -69,7 +83,6 @@ char	*after_world(char *str)
 	if (str[i] == '\0')
 		return (NULL);
 	len = ft_strlen(str) - i;
-	//printf ("%d, %d\n", len , i);
 	quote = malloc (sizeof(char) * (len + 1));
 	len = 0;
 	while (str[i])
@@ -79,51 +92,89 @@ char	*after_world(char *str)
 		len++;
 	}
 	quote[len] = '\0';
-	//printf ("quote = %s\n", quote);
 	return (quote);
 }
 
+static char *assigning(char *more, char *end, char **env, int *thief)
+{
+	int		i;
+	char	**op;
+	char	*dollar;
+	
+	i = 0;
+	op = forenv(env);
+	while (op[i])
+	{
+		if (strcmp(more, ft_strjoin(op[i], end)) == 0)
+		{
+			dollar = exdsigne(op[i], env);
+			end = NULL;
+			break ;
+			free (op);
+		}
+		i++;
+		if (op[i] == NULL)
+		{
+			(*thief) = 1;
+			dollar = "";
+		}
+	}
+	return (dollar);
+}
+
+static char *edges(char *more, char **env)
+{
+	char	*end;
+	char	*dollar;
+	char	quote[3];
+	int		thief;
+
+	end = NULL;
+	thief = 0;
+	quote[0] = 34;
+	quote[1] = 39;
+	quote[2] = ' ';
+	if (ft_skip(more, quote))
+		end = after_world(more);
+	dollar = assigning(more, end, env, &thief);
+	if (ft_skip(more, quote))
+	{
+		if (dollar && thief != 1)
+			dollar = ft_strjoin(dollar, after_world(more));
+		else if (thief == 1)
+			dollar = after_world(more);
+	}
+	return (dollar);
+}
 
 char	*if_dsigne(char *inpt, char **env)
 {
-	char	**op;
 	char	*dollar = NULL;
 	char	*assign = NULL;
 	char	**var;
 	char	**more;
-	int		thief;
 	int		i;
 	int		j;
-	int		x;
 	int		y;
 	int		words;
 	char	split[1];
-	char	quote[3];
-	char	*tmp = NULL;
 
 	split[0] = 1;
-	quote[0] = 34;
-	quote[1] = 39;
-	quote[2] = ' ';
 	i = 0;
 	j = 0;
-	x = 0;
 	y = 0;
-	thief = 0;
 	words = 0;
-	//put unprintable char then undo
 	if (ft_strlen(inpt) == 1)
 		return ("$");
-	// else if (ft_strlen(inpt) > 1)
-	// {
-	// 	while (inpt[i])
-	// 	{
-	// 		if (inpt[i] == '$' && inpt[i + 1] == '$')
-	// 			return ("");
-	// 		i++;
-	// 	}
-	// }
-	i = 0;
+	else if (ft_strlen(inpt) > 1)
+	{
+		while (inpt[i])
+		{
+			while (inpt[i] == '$' && inpt[i + 1] == '$')
+				return ("");
+			i++;
+		}
+	}
 	var = ft_advanced(inpt, split);
 	while (var[j])
 	{
@@ -144,46 +195,11 @@ char	*if_dsigne(char *inpt, char **env)
 			}
 			while (more[y])
 			{
-				//printf ("yes\n");
-				i = 0;
-				if (ft_skip(more[y], quote))
-				{
-					tmp = after_world(more[y]);
-					//printf ("tmp = %s\n", tmp);
-				}
-				op = forenv(env);
-				while (op[i])
-				{
-					//printf ("%s %s\n", more[y], op[i]);
-					if (strcmp(more[y], ft_strjoin(op[i], tmp)) == 0)
-					{
-						dollar = exdsigne(op[i], env);
-						//printf ("dollar = %s\n", dollar);
-						tmp = NULL;
-						break ;
-						free (op);
-					}
-					i++;
-					if (op[i] == NULL)
-					{
-						thief = 1;
-						dollar = "";
-					}
-				}
-				if (ft_skip(more[y], quote))
-				{
-					//printf ("ana mqewed\n");
-					if (dollar && thief != 1)
-						dollar = ft_strjoin(dollar, after_world(more[y]));
-					else if (thief == 1)
-						dollar = after_world(more[y]);
-				}
+				dollar = edges(more[y], env);
 				if (dollar)
 				{
-					//printf ("ana mqewed fdsfdsfds\n");
 					assign = ft_strjoin(assign, dollar);
 					dollar = NULL;
-					//printf ("assign = %s\n", assign);
 				}
 				y++;
 			}
@@ -194,3 +210,32 @@ char	*if_dsigne(char *inpt, char **env)
 	}
 	return (assign);
 }
+
+
+				// i = 0;
+				// if (ft_skip(more[y], quote))
+				// 	tmp = after_world(more[y]);
+				// op = forenv(env);
+				// while (op[i])
+				// {
+				// 	if (strcmp(more[y], ft_strjoin(op[i], tmp)) == 0)
+				// 	{
+				// 		dollar = exdsigne(op[i], env);
+				// 		tmp = NULL;
+				// 		break ;
+				// 		free (op);
+				// 	}
+				// 	i++;
+				// 	if (op[i] == NULL)
+				// 	{
+				// 		thief = 1;
+				// 		dollar = "";
+				// 	}
+				// }
+				// if (ft_skip(more[y], quote))
+				// {
+				// 	if (dollar && thief != 1)
+				// 		dollar = ft_strjoin(dollar, after_world(more[y]));
+				// 	else if (thief == 1)
+				// 		dollar = after_world(more[y]);
+				// }

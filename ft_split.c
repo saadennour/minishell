@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/29 02:00:46 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/05 04:34:49 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,17 @@ int	wd_count(const char *str, char c, int access)
 		if (str[i] == 1 && access == 1)
 		{
 			i++;
-			while (str[i] != '\0' && !(str[i] == 1 && str[i + 1] == ' '))
+			while (str[i] != '\0' && !((str[i] == 1 && str[i + 1] == ' ') || (str[i] == 1 && str[i + 1] == 1)))
 				i++;
-			i++;
+			if (str[i])
+				i++;
 			len++;
 		}
 		while (str[i] == c)
 			i++;
 		if (str[i] != '\0' && str[i] != c && str[i] != 1)
 		{
-			while (str[i] != '\0' && str[i] != c && str[i] != 1)
+			while (str[i] != '\0' && str[i] != c)
 				i++;
 			len++;
 		}
@@ -53,19 +54,18 @@ static int	ft_test(const char *str, int i, char c, int access)
 	cnt = 0;
 	if (s[i] == 1 && access == 1)
 	{
-		while (s[i] && s[i] == 1)
-			i++;
-		while (s[i] && !(s[i] == 1 && s[i + 1] == ' '))
+		i++;
+		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ') || (s[i] == 1 && s[i + 1] == 1)))
 		{
 			i++;
 			cnt++;
 		}
-		while (s[i] && s[i] == 1)
+		if (s[i])
 			i++;
 	}
 	else
 	{
-		while (s[i] && (s[i] != 1 && s[i] != c))
+		while (s[i] && (s[i] != c))
 		{
 			i++;
 			cnt++;
@@ -89,19 +89,18 @@ static char	*copy(int t, char const *s, char c, int access)
 	if (s[t] == 1 && access == 1)
 	{
 		t++;
-		while (j < len && !(s[t] == 1 && s[t + 1] == ' '))
+		while (j < len && !((s[t] == 1 && s[t + 1] == ' ') || (s[t] == 1 && s[t + 1] == 1)))
 		{
-			// if (s[t] == 1)
-			// 	t++;
 			str[j] = (char)s[t];
 			j++;
 			t++;
 		}
-		t++;
+		if (s[t])
+			t++;
 	}
 	else
 	{
-		while (j < len && (s[t] != c && s[t] != 1))
+		while (j < len && (s[t] != c))
 		{
 			str[j] = (char)s[t];
 			j++;

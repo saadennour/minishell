@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/04 04:13:27 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/05 04:35:23 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,20 @@ int	get_token(char **ps, char **q)
 	if (s[i] == 1)
 	{
 		i++;
-		while (s[i] && !(s[i] == 1 && s[i + 1] == ' '))
+		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ') || (s[i] == 1 && s[i + 1] == 1)))
 			i++;
 		if (s[i])
 			i++;
 	}
 	else
 	{
-		while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f") && !ft_strchr(s[i], "|<>") && s[i] != 1)
+		while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f") && !ft_strchr(s[i], "|<>"))
 			i++;
 	}
 	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
 		i++;
 	*ps = &s[i];
-	//printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
+	printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
 	return (token);
 }
 
@@ -90,7 +90,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 		//for quotes its cuz of the inprintable char 1
 		one = ft_split(q, ' ', 1);
 		exec->args[i] = one[0];
-		//printf ("exe[%d] = %s with %d for quote\n", i, exec->args[i], quote.quote[i]);
+		printf ("exe[%d] = %s with %d for quote\n", i, exec->args[i], quote.quote[i]);
 		if (quote.quote[x] == 1 && ft_skip(exec->args[i], "$"))
 		{
 			exec->args[i] = if_dsigne(exec->args[i], env);
@@ -98,7 +98,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 		}
 		else
 			exec->args[i] = no_space(exec->args[i]);
-		x = total - spaces_still(*ps);
+		x++;
 		i++;
 		// if (i > words)
 		// 	exit (1);

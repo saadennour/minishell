@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:02:03 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/04 04:14:02 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/04 05:05:01 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static int	measure(char *line, int j, int *count)
 	int	i;
 
 	i = j;
-	//printf ("at start : %d\n", (*count));
 	if (ft_strchr(line[0], "<>") == 1)
 	{
 		if ((ft_strncmp(&line[i], ">>", 2) == 0) && (line[i + 1] != ' '))
@@ -50,7 +49,6 @@ static int	measure(char *line, int j, int *count)
 		if (line[i])
 			i++;
 	}
-	//printf ("at end : %d\n", (*count));
 	return (i);
 }
 

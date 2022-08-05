@@ -1,0 +1,26 @@
+total 288
+-rw-r--r--  1 sfarhan  2019    493 Aug  1 03:13 Makefile
+-rw-r--r--  1 sfarhan  2019     76 Jul 25 00:41 README.md
+-rw-r--r--  1 sfarhan  2019   2107 Jul 22 22:34 advanced.c
+-rw-r--r--  1 sfarhan  2019   5224 Aug  3 23:01 builtins.c
+-rw-r--r--  1 sfarhan  2019   2283 Jul 30 23:53 constructor.c
+-rw-r--r--  1 sfarhan  2019  12067 Jul 30 02:52 draw.tldr
+-rw-r--r--@ 1 sfarhan  2019   2251 Aug  3 23:03 echo.c
+-rw-r--r--  1 sfarhan  2019   6523 Aug  3 23:01 execute.c
+-rw-r--r--  1 sfarhan  2019   4440 Aug  5 01:24 ft_dsigne.c
+-rw-r--r--  1 sfarhan  2019   2844 Jul 29 02:00 ft_split.c
+-rw-r--r--@ 1 sfarhan  2019   2034 Jul 28 23:23 ft_splito.c
+-rw-r--r--  1 sfarhan  2019   2020 Aug  4 02:29 ft_strjoin.c
+-rw-r--r--@ 1 sfarhan  2019   1745 Jul 21 15:11 get_next_line.c
+-rw-r--r--  1 sfarhan  2019      0 Aug  5 01:27 in
+-rw-r--r--  1 sfarhan  2019   2352 Aug  3 01:48 main.c
+-rwxr-xr-x  1 sfarhan  2019  33132 Aug  5 01:24 minishell
+-rw-r--r--  1 sfarhan  2019   3425 Aug  3 01:44 minishell.h
+-rw-r--r--  1 sfarhan  2019    828 Jun 24 02:22 minishell.o
+-rw-r--r--  1 sfarhan  2019      0 Aug  5 01:27 out
+-rw-r--r--  1 sfarhan  2019   4309 Aug  4 04:13 parse.c
+-rw-r--r--  1 sfarhan  2019   4030 Aug  4 05:05 path.c
+-rw-r--r--  1 sfarhan  2019      0 Aug  5 01:27 pop
+-rw-r--r--  1 sfarhan  2019   1674 Aug  4 02:22 sidekick.c
+-rw-r--r--  1 sfarhan  2019    425 Aug  4 01:57 test3
+-rw-r--r--  1 sfarhan  2019   1121 Jul 24 03:20 tools.c

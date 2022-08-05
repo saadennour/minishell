@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/03 23:01:16 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/05 06:07:26 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ char	*quotes(char *str, t_quote *quote)
 	int		j;
 	int		x;
 	int		sign;
-	int		len;
 	int		total;
 	char	*buf;
 
@@ -97,24 +96,22 @@ char	*quotes(char *str, t_quote *quote)
 	j = 0;
 	x = 0;
 	sign = 0;
-	len = 0;
 	total = 0;
 	total = spaces_still(str);
 	while (str[i])
 	{
+		//str[i] == 1 && str[i + 1] == 1
 		//print until u find the same quote and so on
 		//1 means double quote and 2 means single quote
 		if (str[i] == 34)
 		{
+			printf ("%d %d\n", i, sign);
 			if (i + 1 <= sign)
 				(quote->quote[x]) = 1;
 			str[i] = 1;
 			//if len == 0 check segv "" | ''
 			while (str[i] && str[i] != 34)
-			{
-				len++;
 				i++;
-			}
 			if (str[i] == '\0')
 			{
 				printf ("minishell: quotation error\n");
@@ -122,16 +119,14 @@ char	*quotes(char *str, t_quote *quote)
 			}
 			str[i] = 1;
 		}
-		if (str[i] == 39)
+		else if (str[i] == 39)
 		{
+			printf ("%d %d\n", i, sign);
 			if (i + 1 <= sign)
 				(quote->quote[x]) = 2;
 			str[i] = 1;
 			while (str[i] && str[i] != 39)
-			{
-				len++;
 				i++;
-			}
 			if (str[i] == '\0')
 			{
 				printf ("minishell: quotation error\n");
@@ -142,25 +137,55 @@ char	*quotes(char *str, t_quote *quote)
 			str[i] = 1;
 		}
 		i++;
-		len++;
-		if (str[i] == ' ')
+		if (str[i] == ' ' || str[i] == 34 || str[i] == 39)
 		{
-			i++;
-			x = total - spaces_still(&str[i]);
-			//printf ("x = %d\n", x);
+			x++;
 			while (str[j])
 			{
-				if (str[j] == '$')
-					sign = j;
+				if (str[j] == 34)
+				{
+					j++;
+					while (str[j] && str[j] != 34)
+					{
+						if (str[j] == '$')
+							sign = j;
+						j++;
+					}
+					if (str[j])
+						j++;
+					break ;
+				}
+				else if (str[j] == 39)
+				{
+					j++;
+					while (str[j] && str[j] != 39)
+					{
+						if (str[j] == '$')
+							sign = j;
+						j++;
+					}
+					if (str[j])
+						j++;
+					break ;
+				}
+				else
+				{
+					if (str[j] == '$')
+					{
+						sign = j;
+						break ;
+					}					
+				}
 				j++;
 			}
-			j = 0;
+			if (str[i] == ' ')
+				i++;
+			printf ("sign = %d\n", sign);
 		}
 	}
 	buf = malloc (sizeof(char) * ft_strlen(str) + 1);
-	i = 0;
-	j = 0;
 	x = 0;
+	j = 0;
 	while (str[j])
 	{
 		buf[x] = str[j];
@@ -168,8 +193,11 @@ char	*quotes(char *str, t_quote *quote)
 		j++;
 	}
 	buf[x] = '\0';
+	printf ("str[1] is %d\n", quote->quote[0]);
+	printf ("str[2] is %d\n", quote->quote[1]);
+	printf ("str[3] is %d\n", quote->quote[2]);
 	//return char allocated with the right size and quote by reference
-	//printf ("quote : %s\n", buf);
+	printf ("quote : %s\n", buf);
 	free (str);
 	return (buf);
 }
