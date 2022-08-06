@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/05 06:07:26 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/06 05:16:54 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,13 @@ char	*quotes(char *str, t_quote *quote)
 	sign = 0;
 	total = 0;
 	total = spaces_still(str);
+	printf ("str[1] is %d\n", quote->quote[0]);
+	printf ("str[2] is %d\n", quote->quote[1]);
+	printf ("str[3] is %d\n", quote->quote[2]);
+	printf ("str[4] is %d\n", quote->quote[3]);
+	printf ("str[5] is %d\n", quote->quote[4]);
+	printf ("str[6] is %d\n", quote->quote[5]);
+	printf ("\n\n");
 	while (str[i])
 	{
 		//str[i] == 1 && str[i + 1] == 1
@@ -105,7 +112,7 @@ char	*quotes(char *str, t_quote *quote)
 		//1 means double quote and 2 means single quote
 		if (str[i] == 34)
 		{
-			printf ("%d %d\n", i, sign);
+			//printf ("double quote %d %d\n", i, sign);
 			if (i + 1 <= sign)
 				(quote->quote[x]) = 1;
 			str[i] = 1;
@@ -121,7 +128,7 @@ char	*quotes(char *str, t_quote *quote)
 		}
 		else if (str[i] == 39)
 		{
-			printf ("%d %d\n", i, sign);
+			//printf ("single quote %d %d\n", i, sign);
 			if (i + 1 <= sign)
 				(quote->quote[x]) = 2;
 			str[i] = 1;
@@ -139,6 +146,7 @@ char	*quotes(char *str, t_quote *quote)
 		i++;
 		if (str[i] == ' ' || str[i] == 34 || str[i] == 39)
 		{
+			//printf ("quote %d = %d\n", x, quote->quote[x]);
 			x++;
 			while (str[j])
 			{
@@ -196,9 +204,11 @@ char	*quotes(char *str, t_quote *quote)
 	printf ("str[1] is %d\n", quote->quote[0]);
 	printf ("str[2] is %d\n", quote->quote[1]);
 	printf ("str[3] is %d\n", quote->quote[2]);
+	printf ("str[4] is %d\n", quote->quote[3]);
+	printf ("str[5] is %d\n", quote->quote[4]);
+	printf ("str[6] is %d\n", quote->quote[5]);
 	//return char allocated with the right size and quote by reference
-	printf ("quote : %s\n", buf);
-	free (str);
+	//printf ("quote : %s\n", buf);
 	return (buf);
 }
 

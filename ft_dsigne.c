@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/05 01:24:01 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/06 05:00:07 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ static char *edges(char *more, char **env)
 	return (dollar);
 }
 
-char	*if_dsigne(char *inpt, char **env)
+char	*if_dsigne(char *inpt, char **env, t_quote quote, int *x)
 {
 	char	*dollar = NULL;
 	char	*assign = NULL;
@@ -166,19 +166,19 @@ char	*if_dsigne(char *inpt, char **env)
 	words = 0;
 	if (ft_strlen(inpt) == 1)
 		return ("$");
-	else if (ft_strlen(inpt) > 1)
-	{
-		while (inpt[i])
-		{
-			while (inpt[i] == '$' && inpt[i + 1] == '$')
-				return ("");
-			i++;
-		}
-	}
+	// else if (ft_strlen(inpt) > 1)
+	// {
+	// 	while (inpt[i])
+	// 	{
+	// 		while (inpt[i] == '$' && inpt[i + 1] == '$')
+	// 			return ("");
+	// 		i++;
+	// 	}
+	// }
 	var = ft_advanced(inpt, split);
 	while (var[j])
 	{
-		if (ft_skip(var[j], "$"))
+		if (quote.quote[(*x)] == 1 && ft_skip(var[j], "$"))
 		{
 			y = 0;
 			while (var[j][y])
@@ -206,6 +206,7 @@ char	*if_dsigne(char *inpt, char **env)
 		}
 		else
 			assign = ft_strjoin(assign, var[j]);
+		(*x)++;
 		j++;
 	}
 	return (assign);

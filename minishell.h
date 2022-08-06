@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/03 01:44:44 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/06 05:22:59 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int		if_builtins(char **inpt,char **envp, t_list **data);
 char	*ft_skip_spaces(char *inpt);
-char	*if_dsigne(char *inpt, char **env);
+char	*if_dsigne(char *inpt, char **env, t_quote quote, int *x);
 char	*quotes(char *str, t_quote *quote);
 void	handle_c(int sig);
 char	*get_next_line(int fd);
@@ -125,5 +125,6 @@ int		ft_echo(char **cmd, t_list *data);
 char	**ft_splito(char const *s, char c);
 int		spaces_still(char *str);
 int		ft_strcmp(char *s1, char *s2);
+int		num_quotes(const char *str, char c);
 
 #endif
