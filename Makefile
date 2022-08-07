@@ -15,6 +15,7 @@ SRCS =	main.c \
 		advanced.c \
 		get_next_line.c \
 		ft_splito.c \
+		expand_tools.c \
 
 all : $(NAME)
 

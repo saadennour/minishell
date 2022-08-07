@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/06 05:23:11 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/07 17:11:32 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	get_token(char **ps, char **q)
 
 	i = 0;
 	s = *ps;
-	//printf ("ps =%s\ns =%s\n\n", *ps, &s[i]);
 	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
 		i++;
 	if (q)
@@ -40,14 +39,14 @@ int	get_token(char **ps, char **q)
 	if (s[i] == 1)
 	{
 		i++;
-		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ') || (s[i] == 1 && s[i + 1] == 1)))
+		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ')))
 			i++;
 		if (s[i])
 			i++;
 	}
 	else
 	{
-		while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f") && !ft_strchr(s[i], "|<>"))
+		while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f") && !ft_strchr(s[i], "|<>") && s[i] != 1)
 			i++;
 	}
 	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
@@ -57,7 +56,7 @@ int	get_token(char **ps, char **q)
 	return (token);
 }
 
-t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
+t_cmd	*parseexec(char **ps, char **env, t_quote quote)
 {
 	t_exec	*exec;
 	char	*q;
@@ -65,19 +64,14 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 	int		token;
 	int		i;
 	int		x;
-	int		total;
-	int		words = 0;
 	t_cmd	*cmd;
-
 
 	i = 0;
 	x = 0;
-	words = wd_count(*ps, ' ', 1);
-	total = spaces_still(*ps);
 	cmd = exelior(*ps);
 	exec = (t_exec *)cmd;
-	cmd = parsered (cmd, ps, es);
-	printf ("the cmd : %s\nthe words = %d\n", *ps, words);
+	//printf ("the cmd : %s\nthe words = %d\n", *ps, words);
+	cmd = parsered (cmd, ps, env, quote);
 	while (!exist(ps, "|"))
 	{
 		if ((token = get_token(ps, &q)) == 0)
@@ -90,7 +84,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 		//for quotes its cuz of the inprintable char 1
 		one = ft_split(q, ' ', 1);
 		exec->args[i] = one[0];
-		printf ("exe[%d] = %s with %d for %d quote\n", i, exec->args[i], quote.quote[x], x);
+		//printf ("exe[%d] = %s with %d for %d quote\n", i, exec->args[i], quote.quote[x], x);
 		//if (quote.quote[x] == 1 && ft_skip(exec->args[i], "$"))
 		//{
 			exec->args[i] = if_dsigne(exec->args[i], env, quote, &x);
@@ -102,23 +96,20 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 		i++;
 		// if (i > words)
 		// 	exit (1);
-		cmd = parsered (cmd, ps, es);
+		cmd = parsered (cmd, ps, env, quote);
 	}
 	return (cmd);
 }
 
 t_cmd	*parsecmd(char *str, char **env)
 {
-	char	*es;
 	int		x;
 	int		words;
 	t_cmd	*cmd;
 	t_quote	quote;
 
-	es = NULL;
 	x = 0;
 	words = num_quotes(str, ' ');
-	printf ("words %d\n", words);
 	quote.quote = malloc(sizeof(int) * words + 1);
 	while (x < words)
 	{
@@ -132,33 +123,25 @@ t_cmd	*parsecmd(char *str, char **env)
 		exit (1);
 	}
 	str = quotes(str, &quote);
-	//add redirection rules in ft_path
 	str = ft_path(str);
-	es = str + ft_strlen(str);
-	cmd = parsepipe(&str, es, env, quote);
-	// exist (&str, es, "");
-	// if (str != '\0')
-	// {
-	// 	printf ("Errori\n");
-	// 	exit (1);
-	// }
+	cmd = parsepipe(&str, env, quote);
 	return (cmd);
 }
 
-t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote)
+t_cmd	*parsepipe(char	**ps, char **env, t_quote quote)
 {
 	t_cmd	*cmd;
 
-	cmd = parseexec(ps, es, env, quote);
+	cmd = parseexec(ps, env, quote);
 	if (exist(ps, "|"))
 	{
 		get_token(ps, 0);
-		cmd = piping(cmd, parsepipe(ps, es, env, quote));
+		cmd = piping(cmd, parsepipe(ps, env, quote));
 	}
 	return (cmd);
 }
 
-t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es)
+t_cmd	*parsered(t_cmd	*cmd, char **ps, char **env, t_quote quote)
 {
 	int		token;
 	char	*q;
@@ -172,7 +155,6 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es)
 			printf ("Error missing file\n");
 			exit (1);
 		}
-		//printf ("%s\n", q);
 		clear = clean(q);
 		if (token == '<')
 			cmd = redirect(cmd, clear, O_RDONLY, 0, 1);
@@ -182,7 +164,7 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es)
 			cmd = redirect (cmd, clear, O_WRONLY | O_CREAT | O_APPEND, 1, 3);
 		else if (token == '-')
 			cmd = redirect (cmd, clear, O_RDONLY, 0, 4);
-		cmd = parsered(cmd, ps, es);
+		cmd = parsered(cmd, ps, env, quote);
 	}
 	return (cmd);
 }

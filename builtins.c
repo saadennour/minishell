@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/03 23:01:55 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/07 19:57:55 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int ft_dollars(char *inpt, t_list **data)
 		{
 			printf("%s\n",tmp->value);
 			return(0);
-			}
+		}
 		tmp = tmp->next;
 	}
 	return (0);
@@ -226,7 +226,6 @@ int printenvp(t_list **data)
 	return(0);
 }
 
-// assir t9awd
 int	ft_strcmp(char *s1, char *s2)
 {
 	int i;
@@ -292,7 +291,7 @@ int if_builtins(char **inpt,char **envp, t_list **data)
 	else if (ft_strcmp(inpt[0], "echo") == 0)
 	{
 		ft_echo(inpt, *data);
-		return (0);
+		exit (1);
 	}
 	return(1);
 }

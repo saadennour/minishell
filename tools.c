@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/06 07:30:47 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/07 17:12:20 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	num_quotes(const char *str, char c)
 		if (str[i] == 34)
 		{
 			i++;
-			while (str[i] != '\0' && !(str[i] == 34 && str[i + 1] == ' ') && !(str[i] == 34 && str[i + 1] == 34) && !(str[i] == 34 && str[i + 1] == 39))
+			while (str[i] != '\0' && str[i] != 34)
 				i++;
 			if (str[i])
 				i++;
@@ -53,7 +53,7 @@ int	num_quotes(const char *str, char c)
 		else if (str[i] == 39)
 		{
 			i++;
-			while (str[i] != '\0' && !(str[i] == 39 && str[i + 1] == ' ') && !(str[i] == 39 && str[i + 1] == 39) && !(str[i] == 39 && str[i + 1] == 34))
+			while (str[i] != '\0' && str[i] != 39)
 				i++;
 			if (str[i])
 				i++;
@@ -68,6 +68,5 @@ int	num_quotes(const char *str, char c)
 			len++;
 		}
 	}
-	printf ("len = %d\n", len);
 	return (len);
 }

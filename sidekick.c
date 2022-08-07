@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 21:12:21 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/04 02:22:48 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/07 18:00:15 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,40 +34,4 @@ char	*ft_strdup(const char *src)
 	}
 	p[j] = '\0';
 	return (p);
-}
-
-void	multifiles(char	*str)
-{
-	int		i;
-	int		stock1;
-	int		stock2;
-	int		count;
-	char	**buf;
-	char	*first;
-	char	*last;
-
-	i = 0;
-	count = 0;
-	buf = ft_split(str, ' ');
-	while (buf[i] && buf[i][0] != '|')
-	{
-		if (buf[i][0] == '>' || buf[i][0] == '<' && count == 0)
-		{
-			count++;
-			i++;
-			stock1 = i;
-			first = ft_strdup(str[i]);
-		}
-		i++;
-		if (buf[i] == 0)
-		{
-			i--;
-			stock2 = i;
-			last = ft_strdup(buf[i]);
-			break ;
-		}
-	}
-	buf[stock1] = last;
-	buf[stock2] = first;
-	return (buf);
 }

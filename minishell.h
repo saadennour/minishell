@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/06 05:22:59 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/07 17:04:02 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ int		ft_skip(char *s, char *skip);
 int		exist(char **ps, char *token);
 int		get_token(char **ps, char **q);
 t_cmd	*parsecmd(char *str, char **env);
-t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote);
-t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es);
+t_cmd	*parsepipe(char	**ps, char **env, t_quote quote);
+t_cmd	*parsered(t_cmd	*cmd, char **ps,char **env, t_quote quote);
 void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int		if_builtins(char **inpt,char **envp, t_list **data);
@@ -126,5 +126,10 @@ char	**ft_splito(char const *s, char c);
 int		spaces_still(char *str);
 int		ft_strcmp(char *s1, char *s2);
 int		num_quotes(const char *str, char c);
+void	accountant(char **str, int i, int *dollar);
+char	**cashier(char *str);
+char	*after_world(char *str);
+char	*exdsigne(char *op, char **env);
+char	**forenv(char **env);
 
 #endif

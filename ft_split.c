@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/05 04:34:49 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/07 16:48:57 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	wd_count(const char *str, char c, int access)
 		if (str[i] == 1 && access == 1)
 		{
 			i++;
-			while (str[i] != '\0' && !((str[i] == 1 && str[i + 1] == ' ') || (str[i] == 1 && str[i + 1] == 1)))
+			while (str[i] != '\0' && !((str[i] == 1 && str[i + 1] == ' ')))
 				i++;
 			if (str[i])
 				i++;
@@ -41,7 +41,6 @@ int	wd_count(const char *str, char c, int access)
 			len++;
 		}
 	}
-	//printf ("len = %d %d\n", len, access);
 	return (len);
 }
 
@@ -55,7 +54,7 @@ static int	ft_test(const char *str, int i, char c, int access)
 	if (s[i] == 1 && access == 1)
 	{
 		i++;
-		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ') || (s[i] == 1 && s[i + 1] == 1)))
+		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ')))
 		{
 			i++;
 			cnt++;
@@ -83,13 +82,12 @@ static char	*copy(int t, char const *s, char c, int access)
 	j = 0;
 	len = ft_test(s, t, c, access);
 	str = (char *)malloc(sizeof (char) * len + 1);
-	//printf ("fiya f tol %d\n", len);
 	if (!str)
 		return (NULL);
 	if (s[t] == 1 && access == 1)
 	{
 		t++;
-		while (j < len && !((s[t] == 1 && s[t + 1] == ' ') || (s[t] == 1 && s[t + 1] == 1)))
+		while (j < len && !((s[t] == 1 && s[t + 1] == ' ')))
 		{
 			str[j] = (char)s[t];
 			j++;
@@ -108,7 +106,6 @@ static char	*copy(int t, char const *s, char c, int access)
 		}
 	}
 	str[j] = '\0';
-	//printf ("this %s\n", str);
 	return (str);
 }
 
@@ -126,7 +123,6 @@ char	**ft_split(char const *s, char c, int access)
 	tab = malloc(sizeof(char *) * (words + 1));
 	if (!tab)
 		return (NULL);
-	//printf ("%d\n", words); 
 	while (j < words)
 	{
 		while (s[i] == c)

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/06 05:16:54 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/07 21:21:13 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,22 +89,12 @@ char	*quotes(char *str, t_quote *quote)
 	int		j;
 	int		x;
 	int		sign;
-	int		total;
 	char	*buf;
 
 	i = 0;
 	j = 0;
 	x = 0;
 	sign = 0;
-	total = 0;
-	total = spaces_still(str);
-	printf ("str[1] is %d\n", quote->quote[0]);
-	printf ("str[2] is %d\n", quote->quote[1]);
-	printf ("str[3] is %d\n", quote->quote[2]);
-	printf ("str[4] is %d\n", quote->quote[3]);
-	printf ("str[5] is %d\n", quote->quote[4]);
-	printf ("str[6] is %d\n", quote->quote[5]);
-	printf ("\n\n");
 	while (str[i])
 	{
 		//str[i] == 1 && str[i + 1] == 1
@@ -188,7 +178,6 @@ char	*quotes(char *str, t_quote *quote)
 			}
 			if (str[i] == ' ')
 				i++;
-			printf ("sign = %d\n", sign);
 		}
 	}
 	buf = malloc (sizeof(char) * ft_strlen(str) + 1);
@@ -201,12 +190,6 @@ char	*quotes(char *str, t_quote *quote)
 		j++;
 	}
 	buf[x] = '\0';
-	printf ("str[1] is %d\n", quote->quote[0]);
-	printf ("str[2] is %d\n", quote->quote[1]);
-	printf ("str[3] is %d\n", quote->quote[2]);
-	printf ("str[4] is %d\n", quote->quote[3]);
-	printf ("str[5] is %d\n", quote->quote[4]);
-	printf ("str[6] is %d\n", quote->quote[5]);
 	//return char allocated with the right size and quote by reference
 	//printf ("quote : %s\n", buf);
 	return (buf);
@@ -331,6 +314,7 @@ void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 	else if (cmd->type == REDIR)
 	{
 		red = (t_redir *)cmd;
+		red2 = (t_redir *)red->exe;
 		if (red->token == 4)
 		{
 			red->file = ft_strjoin(red->file, " ");
@@ -341,13 +325,13 @@ void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 				printf ("Error\n");
 				exit(1);
 			}
+			dup2(tools->stdin_copy, 0);
 			tools->limiter = ft_strjoin(red->file, tools->limiter);
 			if (red->exe->type == EXEC)
 			{
 				exe = (t_exec *)red->exe;
 				if (exe->args[0] == 0)
 				{
-					dup2(tools->stdin_copy, 0);
 					end = ft_splito(tools->limiter, ' ');
 					i = 0;
 					while ((ar = get_next_line(0)))
@@ -381,11 +365,15 @@ void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 			dup2(tools->fd, red->fd);
 			if (red->exe->type == REDIR)
 			{
-				red2 = (t_redir *)red->exe;
 				if (red->fd == red2->fd)
 					(tools->c) = 1;
 			}
 		}
+		if (red->exe->type == REDIR)
+			{
+				if (red->fd != red2->fd)
+					(tools->c) = 0;
+			}
 		run_cmd(red->exe, envp, tools, data);
 	}
 }

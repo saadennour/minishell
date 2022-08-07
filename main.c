@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/03 01:48:17 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/07 16:53:58 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
-	if(!str)
+	if (!str)
 		return (i);
 	while (str[i])
 		i++;
 	return (i);
 }
 
-// return pointer to the name directory
 char	*ft_lastcar(char *str, char c)
 {
 	int	lent;

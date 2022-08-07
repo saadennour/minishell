@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 03:18:44 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/28 23:23:32 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/07 16:49:18 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	count(const char *str, char c)
 			len++;
 		}
 	}
-	//printf ("len = %d\n", len);
 	return (len);
 }
 

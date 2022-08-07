@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:02:03 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/04 05:05:01 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/07 17:01:48 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@ static int	measure(char *line, int j, int *count)
 	i = j;
 	if (ft_strchr(line[0], "<>") == 1)
 	{
-		if ((ft_strncmp(&line[i], ">>", 2) == 0) && (line[i + 1] != ' '))
+		if (ft_limites(&line[i]) == 2 && line[i + 2] != ' ')
 			(*count)++;
-		else if ((ft_strncmp(&line[i], "<<", 2) == 0) && (line[i + 1] != ' '))
+		else if (ft_limites(&line[i]) == 1 && line[i + 1] != ' ')
 			(*count)++;
-		else if ((ft_strncmp(&line[i], ">", 1) == 0) && (line[i + 1] != ' '))
-			(*count)++;
-		else if ((ft_strncmp(&line[i], "<", 1) == 0) && (line[i + 1] != ' '))
-			(*count)++;
-		i++;
+		while (line[i] && ft_strchr(line[i], "<>"))
+			i++;
 	}
 	if (line[i] == 1)
 	{
@@ -79,7 +76,7 @@ static void	four_steps(char *line, char *str, int *x, int *y)
 
 	i = *x;
 	j = *y;
-	if (line[i - 1] != ' ')
+	if (line[i - 1] != ' ' && str[j - 1] != ' ')
 	{
 		str[j] = ' ';
 		j++;
@@ -155,23 +152,26 @@ static char	*corrected(char *line, char *str)
 	j = 0;
 	while (line[i])
 	{
-		if (ft_strchr(line[0], "<>"))
+		if (i == 0 && ft_strchr(line[i], "<>"))
 			start_line(line, str, &i, &j);
 		inside(line, str, &i, &j);
 		if (ft_strchr(line[i], "|<>"))
 		{
+			if (ft_limites(&line[i]) == 1)
+				three_steps(line, str, &i, &j);
 			if (ft_limites(&line[i]) == 2)
 				four_steps(line, str, &i, &j);
-			else if (ft_limites(&line[i]) == 1)
-				three_steps(line, str, &i, &j);
 		}
-		str[j] = line[i];
-		j++;
-		i++;
+		else
+		{
+			str[j] = line[i];
+			j++;
+			i++;
+		}
 	}
 	str[j] = '\0';
 	free (line);
-	// printf ("line -> '%s'\n", str);
+	//printf ("line -> '%s'\n", str);
 	return (str);
 }
 
@@ -185,7 +185,7 @@ char	*ft_path(char *line)
 	count = 0;
 	while (line[i])
 	{
-		if (ft_strchr(line[0], "<>") == 1 || line[i] == 1)
+		if ((i == 0 && ft_strchr(line[i], "<>") == 1) || line[i] == 1)
 			i += measure(line, i, &count);
 		if (ft_strchr(line[i], "|<>"))
 		{
@@ -196,12 +196,13 @@ char	*ft_path(char *line)
 				if (line[i + 1] != ' ')
 					count++;
 			}
-			else if (ft_limites(line) == 2)
+			else if (ft_limites(&line[i]) == 2)
 			{
-				if (line[i - 1] != ' ')
+				if (line[i - 1] != ' ' && line[i - 1] != '|')
 					count++;
 				if (line[i + 2] != ' ')
 					count++;
+				i++;
 			}
 		}
 		i++;
