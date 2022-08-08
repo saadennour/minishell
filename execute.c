@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/07 21:21:13 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/08 19:01:52 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,25 +64,6 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-char	*clean(char *str)
-{
-	int		i;
-	char	*clean;
-
-	i = 0;
-	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
-		i++;
-	clean = malloc (sizeof(char) * i);
-	i = 0;
-	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
-	{
-		clean[i] = str[i];
-		i++;
-	}
-	clean[i] = '\0';
-	return (clean);
-}
-
 char	*quotes(char *str, t_quote *quote)
 {
 	int		i;
@@ -97,16 +78,11 @@ char	*quotes(char *str, t_quote *quote)
 	sign = 0;
 	while (str[i])
 	{
-		//str[i] == 1 && str[i + 1] == 1
-		//print until u find the same quote and so on
-		//1 means double quote and 2 means single quote
 		if (str[i] == 34)
 		{
-			//printf ("double quote %d %d\n", i, sign);
 			if (i + 1 <= sign)
 				(quote->quote[x]) = 1;
 			str[i] = 1;
-			//if len == 0 check segv "" | ''
 			while (str[i] && str[i] != 34)
 				i++;
 			if (str[i] == '\0')
@@ -118,7 +94,6 @@ char	*quotes(char *str, t_quote *quote)
 		}
 		else if (str[i] == 39)
 		{
-			//printf ("single quote %d %d\n", i, sign);
 			if (i + 1 <= sign)
 				(quote->quote[x]) = 2;
 			str[i] = 1;
@@ -136,7 +111,6 @@ char	*quotes(char *str, t_quote *quote)
 		i++;
 		if (str[i] == ' ' || str[i] == 34 || str[i] == 39)
 		{
-			//printf ("quote %d = %d\n", x, quote->quote[x]);
 			x++;
 			while (str[j])
 			{
@@ -190,8 +164,6 @@ char	*quotes(char *str, t_quote *quote)
 		j++;
 	}
 	buf[x] = '\0';
-	//return char allocated with the right size and quote by reference
-	//printf ("quote : %s\n", buf);
 	return (buf);
 }
 
@@ -342,7 +314,7 @@ void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 							if (end[i] == 0)
 							{
 								close(0);
-								exit(1) ;
+								exit(1);
 							}
 						}
 						else
@@ -370,17 +342,10 @@ void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 			}
 		}
 		if (red->exe->type == REDIR)
-			{
-				if (red->fd != red2->fd)
-					(tools->c) = 0;
-			}
+		{
+			if (red->fd != red2->fd)
+				(tools->c) = 0;
+		}
 		run_cmd(red->exe, envp, tools, data);
 	}
-}
-
-char	*ft_skip_spaces(char *inpt)
-{
-	while (*inpt != '\0' && ft_strchr(*inpt, " \t\n\f\v\r"))
-			inpt++;
-	return (inpt);
 }

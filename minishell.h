@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/07 17:04:02 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/08 18:48:29 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ enum e_define
 
 typedef struct t_list
 {
-	char *name;
-	char *value;
-	struct t_list *next;
+	char			*name;
+	char			*value;
+	struct t_list	*next;
 }	t_list;
 
 typedef struct t_cmd
@@ -108,18 +108,18 @@ int		exist(char **ps, char *token);
 int		get_token(char **ps, char **q);
 t_cmd	*parsecmd(char *str, char **env);
 t_cmd	*parsepipe(char	**ps, char **env, t_quote quote);
-t_cmd	*parsered(t_cmd	*cmd, char **ps,char **env, t_quote quote);
+t_cmd	*parsered(t_cmd	*cmd, char **ps, char **env, t_quote quote);
 void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
-int		if_builtins(char **inpt,char **envp, t_list **data);
-char	*ft_skip_spaces(char *inpt);
+int		if_builtins(char **inpt, char **envp, t_list **data);
+int		ft_skip_spaces(char *inpt);
 char	*if_dsigne(char *inpt, char **env, t_quote quote, int *x);
 char	*quotes(char *str, t_quote *quote);
 void	handle_c(int sig);
 char	*get_next_line(int fd);
 char	**if_echo(char *str);
 int		wd_count(const char *str, char c, int access);
-int		much_to_skip(const char *str, int i);
+int		tokenizer(char *str, int *x);
 char	*no_space(char *str);
 int		ft_echo(char **cmd, t_list *data);
 char	**ft_splito(char const *s, char c);
@@ -131,5 +131,7 @@ char	**cashier(char *str);
 char	*after_world(char *str);
 char	*exdsigne(char *op, char **env);
 char	**forenv(char **env);
+int		exec_args(t_exec **exec, int i, char **ps);
+char	*corrected(char *line, char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/30 23:53:38 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/08 18:44:28 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ t_cmd	*exelior(char *s)
 
 	i = 0;
 	words = wd_count(s, ' ', 1);
-	//printf ("lwords dzeb = %d\n", words);
 	cmd = malloc (sizeof(t_exec) + 1);
 	cmd->args = malloc (sizeof(char *) * (words + 1));
 	cmd->type = EXEC;
@@ -100,8 +99,5 @@ int	exist(char **ps, char *token)
 	while (s[i] != '\0' && s[i] == 2)
 		s++;
 	*ps = &s[i];
-	//printf ("%c\n", s[i]);
-	// if (s[i] == '|')
-	// 	printf ("hna\n");
 	return (s[i] && ft_strchr(s[i], token));
 }

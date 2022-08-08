@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/07 16:53:58 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/08 18:39:16 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	handle_d(int sig)
 	{
 		rl_replace_line("", 0);
 		printf ("exit\n");
-		rl_redisplay();
 		exit(0);
 	}
 }
@@ -71,7 +70,7 @@ void	handle_s(int sig)
 	if (sig == 3)
 	{
 		readline ("-> minishell ");
-		//rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 		// rl_redisplay();
 	}
 }
@@ -81,7 +80,7 @@ char	*ft_read(void)
 	char	*inpt;
 
 	inpt = readline("-> minishell ");
-	inpt = ft_skip_spaces(inpt);
+	//inpt = ft_skip_spaces(inpt);
 	return (inpt);
 }
 
