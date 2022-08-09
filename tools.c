@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/08 19:02:13 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/09 13:55:09 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	tokenizer(char *s, int *x)
 		token = '|';
 	}
 	else if (s[i] == '<' || s[i] == '>')
-		token = followed(&s);
+		token = followed(s, &i);
 	else
 		token = 'F';
 	*x = i;
@@ -115,12 +115,8 @@ char	*clean(char *str)
 	return (clean);
 }
 
-int	ft_skip_spaces(char *inpt)
+void	ft_skip_spaces(char *inpt, int *i)
 {
-	int	i;
-
-	i = 0;
-	while (inpt[i] != '\0' && ft_strchr(inpt[i], " \t\n\f\v\r"))
-			i++;
-	return (i);
+	while (inpt[(*i)] != '\0' && ft_strchr(inpt[(*i)], " \t\n\f\v\r"))
+			(*i)++;
 }

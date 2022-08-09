@@ -17,6 +17,9 @@ SRCS =	main.c \
 		ft_splito.c \
 		expand_tools.c \
 		correction.c \
+		quotes.c \
+		sidekick.c  \
+		branch.c \
 
 all : $(NAME)
 

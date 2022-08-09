@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/08 18:48:29 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/09 18:16:05 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	**ft_advanced(char const *s, char *buf);
 char	*get_path(t_exec *exe, char **envp);
 int		lets_check(char *str);
 char	*ft_path(char *line);
-int		followed(char **s);
+int		followed(char *s, int *i);
 t_cmd	*piping(t_cmd *left, t_cmd *right);
 t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token);
 t_cmd	*exelior(char *s);
@@ -112,7 +112,7 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, char **env, t_quote quote);
 void	run_cmd(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int		if_builtins(char **inpt, char **envp, t_list **data);
-int		ft_skip_spaces(char *inpt);
+void	ft_skip_spaces(char *inpt, int *i);
 char	*if_dsigne(char *inpt, char **env, t_quote quote, int *x);
 char	*quotes(char *str, t_quote *quote);
 void	handle_c(int sig);
@@ -133,5 +133,10 @@ char	*exdsigne(char *op, char **env);
 char	**forenv(char **env);
 int		exec_args(t_exec **exec, int i, char **ps);
 char	*corrected(char *line, char *str);
+void	type_pipe(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
+void	type_exec(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
+void	type_redir(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
+void	heredoc(t_redir *red, t_tool *tools);
+void	ft_putstr_fd(char *s, int fd);
 
 #endif

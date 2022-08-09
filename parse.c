@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/08 18:42:01 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/09 15:01:13 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	get_token(char **ps, char **q)
 
 	i = 0;
 	s = *ps;
-	i = ft_skip_spaces(s);
+	ft_skip_spaces(s, &i);
 	if (q)
 		*q = &s[i];
 	token = tokenizer(s, &i);
@@ -36,9 +36,8 @@ int	get_token(char **ps, char **q)
 		while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f")
 			&& !ft_strchr(s[i], "|<>") && s[i] != 1)
 			i++;
-	i = ft_skip_spaces(s);
+	ft_skip_spaces(s, &i);
 	*ps = &s[i];
-	//printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
 	return (token);
 }
 
@@ -58,7 +57,6 @@ t_cmd	*parseexec(char **ps, char **env, t_quote quote)
 	{
 		if (exec_args(&exec, i, ps) == 0)
 			break ;
-		// //printf ("exe[%d] = %s with %d for %d quote with %d lenght\n", i, exec->args[i], quote.quote[x], x, ft_strlen(one[0]));
 		exec->args[i] = if_dsigne(exec->args[i], env, quote, &x);
 		i++;
 		cmd = parsered (cmd, ps, env, quote);
