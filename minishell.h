@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/09 18:16:05 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/10 12:06:09 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		lets_check(char *str);
 char	*ft_path(char *line);
 int		followed(char *s, int *i);
 t_cmd	*piping(t_cmd *left, t_cmd *right);
-t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token);
+t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd);
 t_cmd	*exelior(char *s);
 int		ft_strchr(char s, char *scan);
 int		ft_skip(char *s, char *skip);

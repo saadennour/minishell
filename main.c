@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/08 18:39:16 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/10 12:02:11 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,27 +68,13 @@ void	handle_d(int sig)
 void	handle_s(int sig)
 {
 	if (sig == 3)
-	{
 		readline ("-> minishell ");
-		// rl_replace_line("", 0);
-		// rl_redisplay();
-	}
-}
-
-char	*ft_read(void)
-{
-	char	*inpt;
-
-	inpt = readline("-> minishell ");
-	//inpt = ft_skip_spaces(inpt);
-	return (inpt);
 }
 
 int	main(int ac, char **av, char **envp)
 {
 	char	*buf;
 	t_list	*data;
-	char	*limiter;
 	t_tool	tools;
 
 	tools.fd = 0;
@@ -97,7 +83,6 @@ int	main(int ac, char **av, char **envp)
 	tools.stdin_copy = dup(STDIN_FILENO);
 	tools.stdout_copy = dup(STDOUT_FILENO);
 	data = NULL;
-	limiter = NULL;
 	(void) ac;
 	(void) av;
 	signal (SIGINT, handle_c);
@@ -105,7 +90,7 @@ int	main(int ac, char **av, char **envp)
 	signal (SIGQUIT, handle_s);
 	while (1)
 	{
-		buf = ft_read();
+		buf = readline("-> minishell ");
 		add_history(buf);
 		if (fork() == 0)
 			run_cmd(parsecmd(buf, envp), envp, &tools, &data);

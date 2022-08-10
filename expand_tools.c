@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/07 19:43:58 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/10 13:18:01 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	*edges(char *more, char **env)
 	quote[0] = 34;
 	quote[1] = 39;
 	quote[2] = ' ';
-	if (ft_skip(more, quote))
+	if (ft_skip(more, quote))				// if there is a char that diff than num or alpha
 		end = after_world(more);
 	dollar = assigning(more, end, env, &thief);
 	if (ft_skip(more, quote))

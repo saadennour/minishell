@@ -6,47 +6,11 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 13:44:37 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/09 14:56:35 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/10 11:41:50 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static int	sign_pos(char *str)
-// {
-// 	static int	j;
-// 	char		quote;
-// 	int			sign;
-
-// 	sign = 0;
-// 	while (str[j])
-// 	{
-// 		if (str[j] == 34 || str[j] == 39)
-// 		{
-// 			quote = str[j];
-// 			j++;
-// 			while (str[j] && str[j] != quote)
-// 			{
-// 				if (str[j] == '$')
-// 					sign = j;
-// 				j++;
-// 			}
-// 			if (str[j])
-// 				j++;
-// 			break ;
-// 		}
-// 		else
-// 		{
-// 			if (str[j] == '$')
-// 			{
-// 				sign = j;
-// 				break ;
-// 			}
-// 		}
-// 		j++;
-// 	}
-// 	return (sign);
-// }
 
 static int	double_quotes(char *str, int *i)
 {

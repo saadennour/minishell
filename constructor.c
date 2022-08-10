@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/09 14:57:52 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/10 12:05:55 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_cmd	*piping(t_cmd *left, t_cmd *right)
 	return ((t_cmd *)cmd);
 }
 
-t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token)
+t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd)
 {
 	t_redir	*cmd;
 
@@ -33,7 +33,6 @@ t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token)
 	cmd->file = file;
 	cmd->mode = mode;
 	cmd->fd = fd;
-	cmd->token = token;
 	return ((t_cmd *)cmd);
 }
 

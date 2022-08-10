@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/09 18:18:30 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/10 12:35:02 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ void	type_redir(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 	t_redir	*red2;
 
 	red = (t_redir *)cmd;
-	red2 = (t_redir *)red->exe;
-	if (red->token == 4)
+	if (red->mode == 3)
 		heredoc(red, tools);
 	else
 	{
@@ -108,12 +107,14 @@ void	type_redir(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 			dup2(tools->fd, red->fd);
 			if (red->exe->type == REDIR)
 			{
+				red2 = (t_redir *)red->exe;
 				if (red->fd == red2->fd)
 					(tools->c) = 1;
 			}
 		}
 		if (red->exe->type == REDIR)
 		{
+			red2 = (t_redir *)red->exe;
 			if (red->fd != red2->fd)
 				(tools->c) = 0;
 		}
