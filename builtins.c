@@ -132,10 +132,10 @@ int	ft_dollars(char *inpt, t_list **data)
 void 	*ft_unset(char **cmd, t_list **data)
 {
 	int		i;
-	t_list	*tmp;
+	//t_list	*tmp;
 
 	i = 1;
-	tmp = *data;
+	//tmp = *data;
 	while(cmd[i])
 	{
 		deletenode(data, cmd[i]);

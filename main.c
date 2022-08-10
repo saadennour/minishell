@@ -59,7 +59,7 @@ void	handle_d(int sig)
 {
 	if (sig == 11)
 	{
-		rl_replace_line("", 0);
+		//rl_replace_line("", 0);
 		printf ("exit\n");
 		exit(0);
 	}
@@ -86,11 +86,12 @@ int	main(int ac, char **av, char **envp)
 	(void) ac;
 	(void) av;
 	signal (SIGINT, handle_c);
-	signal (SIGSEGV, handle_d);
 	signal (SIGQUIT, handle_s);
 	while (1)
 	{
 		buf = readline("-> minishell ");
+		if (buf == NULL)
+			exit(0);
 		add_history(buf);
 		if (fork() == 0)
 			run_cmd(parsecmd(buf, envp), envp, &tools, &data);

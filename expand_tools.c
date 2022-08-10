@@ -31,10 +31,7 @@ static char	*assigning(char *more, char *end, char **env, int *thief)
 		}
 		i++;
 		if (op[i] == NULL)
-		{
 			(*thief) = 1;
-			dollar = "";
-		}
 	}
 	return (dollar);
 }
@@ -43,24 +40,16 @@ static char	*edges(char *more, char **env)
 {
 	char	*end;
 	char	*dollar;
-	char	quote[3];
 	int		thief;
 
 	end = NULL;
 	thief = 0;
-	quote[0] = 34;
-	quote[1] = 39;
-	quote[2] = ' ';
-	if (ft_skip(more, quote))				// if there is a char that diff than num or alpha
-		end = after_world(more);
+	end = after_world(more);
 	dollar = assigning(more, end, env, &thief);
-	if (ft_skip(more, quote))
-	{
-		if (dollar && thief != 1)
-			dollar = ft_strjoin(dollar, after_world(more));
-		else if (thief == 1)
-			dollar = after_world(more);
-	}
+	if (dollar && thief != 1)
+		dollar = ft_strjoin(dollar, after_world(more));
+	else if (thief == 1)
+		dollar = "";
 	return (dollar);
 }
 
@@ -121,7 +110,11 @@ char	*if_dsigne(char *inpt, char **env, t_quote quote, int *x)
 	while (var[j])
 	{
 		if (quote.quote[(*x)] == 1)
+		{
+			if (ft_strcmp(var[j], "$") == 0)
+				return ("$");
 			expand(&assign, env, var[j]);
+		}
 		else
 		{
 			if (ft_skip(var[j], sign))

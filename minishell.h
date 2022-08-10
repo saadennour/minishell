@@ -138,5 +138,6 @@ void	type_exec(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
 void	type_redir(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
 void	heredoc(t_redir *red, t_tool *tools);
 void	ft_putstr_fd(char *s, int fd);
+int		is_alnum(int c);
 
 #endif

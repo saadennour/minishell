@@ -86,7 +86,7 @@ static char	*copy(int t, char const *s, char c, int access)
 		return (NULL);
 	if (s[t] == 1 && access == 1)
 	{
-		while (s[t] && s[t] == 1)
+		if (s[t] && s[t] == 1)
 			t++;
 		while (j < len && !((s[t] == 1 && s[t + 1] == ' ')))
 		{

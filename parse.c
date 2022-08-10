@@ -34,7 +34,7 @@ int	get_token(char **ps, char **q)
 	}
 	else
 		while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f")
-			&& !ft_strchr(s[i], "|<>") && s[i] != 1)
+			&& !ft_strchr(s[i], "|<>"))
 			i++;
 	ft_skip_spaces(s, &i);
 	*ps = &s[i];

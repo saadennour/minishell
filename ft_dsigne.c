@@ -114,7 +114,7 @@ char	*after_world(char *str)
 	len = 0;
 	while (str[i])
 	{
-		if (str[i] == 34 || str[i] == 39 || str[i] == ' ')
+		if (!is_alnum(str[i]))
 			break ;
 		i++;
 	}

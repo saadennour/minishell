@@ -15,13 +15,11 @@
 static int	echoprint(char **cmd, int i, t_list *data)
 {
 	char *line;
-	int	j;
 	int n;
 
-	j = 0;
 	n = i;
 	line = NULL;
-	data = NULL;
+	(void)data;
 	if (!cmd[i])
 		return(1);
 	while (cmd[i])
