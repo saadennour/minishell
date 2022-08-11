@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/10 12:34:28 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/11 15:54:56 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	get_token(char **ps, char **q)
 	return (token);
 }
 
-t_cmd	*parseexec(char **ps, char **env, t_quote quote)
+t_cmd	*parseexec(char **ps, t_list **env, t_quote quote)
 {
 	t_exec	*exec;
 	int		x;
@@ -64,7 +64,7 @@ t_cmd	*parseexec(char **ps, char **env, t_quote quote)
 	return (cmd);
 }
 
-t_cmd	*parsecmd(char *str, char **env)
+t_cmd	*parsecmd(char *str, t_list **env)
 {
 	int		x;
 	int		words;
@@ -83,7 +83,7 @@ t_cmd	*parsecmd(char *str, char **env)
 	if (str[0] == '|')
 	{
 		printf ("minishell: syntax error near unexpected token '|'\n");
-		exit (1);
+		exit (0);
 	}
 	str = quotes(str, &quote);
 	str = ft_path(str);
@@ -91,7 +91,7 @@ t_cmd	*parsecmd(char *str, char **env)
 	return (cmd);
 }
 
-t_cmd	*parsepipe(char	**ps, char **env, t_quote quote)
+t_cmd	*parsepipe(char	**ps, t_list **env, t_quote quote)
 {
 	t_cmd	*cmd;
 
@@ -104,7 +104,7 @@ t_cmd	*parsepipe(char	**ps, char **env, t_quote quote)
 	return (cmd);
 }
 
-t_cmd	*parsered(t_cmd	*cmd, char **ps, char **env, t_quote quote)
+t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote)
 {
 	int		token;
 	char	*q;

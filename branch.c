@@ -6,13 +6,13 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/10 12:35:02 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/11 14:53:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	type_pipe(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
+void	type_pipe(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 {
 	int		p[2];
 	t_pipe	*pip;
@@ -28,7 +28,7 @@ void	type_pipe(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 		dup2(p[1], STDOUT_FILENO);
 		close(p[0]);
 		close(p[1]);
-		run_cmd(pip->left, envp, tools, data);
+		run_cmd(pip->left, path, tools, data);
 		if (pip->left->type == EXEC)
 			exit (1);
 	}
@@ -39,7 +39,7 @@ void	type_pipe(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 		dup2(p[0], STDIN_FILENO);
 		close(p[0]);
 		close(p[1]);
-		run_cmd(pip->right, envp, tools, data);
+		run_cmd(pip->right, path, tools, data);
 		if (pip->right->type == EXEC)
 			exit (1);
 	}
@@ -48,21 +48,28 @@ void	type_pipe(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 	wait(0);
 }
 
-void	type_exec(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
+void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 {
 	t_exec	*exe;
 	char	*buf;
 	char	**end;
 	char	*ar;
 	int		i;
+	int		bult;
 
 	i = 0;
 	exe = (t_exec *)cmd;
 	if (exe->args[0] == 0)
 		exit (1);
-	if (if_builtins(exe->args, envp, data) == 0)
-		return ;
-	buf = get_path(exe, envp);
+	bult = if_builtins(exe->args, data, path);
+	if (bult)
+	{
+		if(bult == 2)
+			exit(0);
+		exit(bult);
+	}
+	//printf("hello\n");
+	buf = get_path(exe, data);
 	if (tools->limiter != NULL)
 	{
 		end = ft_splito(tools->limiter, ' ');
@@ -76,17 +83,17 @@ void	type_exec(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 					close(tools->fd);
 					tools->fd = open("/tmp/ ", O_RDONLY, 0644);
 					dup2(tools->fd, STDIN_FILENO);
-					execve(buf, exe->args, envp);
+					execve(buf, exe->args, tools->envp);
 				}
 			}
 			else
 				ft_putstr_fd(ar, tools->fd);
 		}
 	}
-	execve(buf, exe->args, envp);
+	execve(buf, exe->args, tools->envp);
 }
 
-void	type_redir(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
+void	type_redir(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 {	
 	t_redir	*red;
 	t_redir	*red2;
@@ -119,7 +126,7 @@ void	type_redir(t_cmd *cmd, char **envp, t_tool *tools, t_list **data)
 				(tools->c) = 0;
 		}
 	}
-	run_cmd(red->exe, envp, tools, data);
+	run_cmd(red->exe, path, tools, data);
 }
 
 void	heredoc(t_redir *red, t_tool *tools)

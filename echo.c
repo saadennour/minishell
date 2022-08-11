@@ -6,20 +6,19 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 04:34:11 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/03 23:03:23 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/11 14:53:03 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	echoprint(char **cmd, int i, t_list *data)
+static int	echoprint(char **cmd, int i)
 {
 	char *line;
 	int n;
 
 	n = i;
 	line = NULL;
-	(void)data;
 	if (!cmd[i])
 		return(1);
 	while (cmd[i])
@@ -34,7 +33,7 @@ static int	echoprint(char **cmd, int i, t_list *data)
 	return (1);
 }
 
-int	ft_echo(char **cmd, t_list *data)
+int	ft_echo(char **cmd)
 {
 	int i;
 	int n;
@@ -47,8 +46,8 @@ int	ft_echo(char **cmd, t_list *data)
 		{
 			if(cmd[i][n] != '-')
 			{
-				if(echoprint(cmd, i, data))
-					return (0);
+				if(echoprint(cmd, i))
+					return (2);
 			}
 			else
 				n++;
@@ -58,46 +57,11 @@ int	ft_echo(char **cmd, t_list *data)
 		if(ft_strlen(cmd[i]) == n)
 			i++;
 		else
-			if(echoprint(cmd, i, data))
-				return (0);
+			if(echoprint(cmd, i))
+				return (2);
 	}
-	echoprint(cmd, i, data);
-	return (0);
-}
-
-char *no_space(char *str)
-{
-	int		i;
-	int		len;
-	int		quote;
-	char	*buf;
-	
-	i = 0;
-	len = 0;
-	quote = 0;
-	//i can change get token or use it
-	while (str[i])
-	{
-		if (str[i] == 1)
-			quote++;
-		i++;
-	}
-	len = ft_strlen(str) - quote;
-	buf = malloc (sizeof(char) * len + 1);
-	i = 0;
-	len = 0;
-	while (str[i])
-	{
-		if (str[i] == 1)
-			i++;
-		buf[len] = str[i];
-		len++;
-		i++;
-	}
-	buf[len] = '\0';
-	//printf ("with no space : %s\n", str);
-	free (str);
-	return (buf);
+	echoprint(cmd, i);
+	return (2);
 }
 
 int	spaces_still(char *str)

@@ -1,5 +1,5 @@
 NAME = minishell
-FLAGS = -Wall -Wextra -Werror -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
+FLAGS = -Wall -Wextra -Werror -lreadline -L /Users/sfarhan/homebrew/opt/readline/lib -I /Users/sfarhan/homebrew/opt/readline/include
 
 SRCS =	main.c \
 		echo.c \
@@ -20,6 +20,11 @@ SRCS =	main.c \
 		quotes.c \
 		sidekick.c  \
 		branch.c \
+		env.c \
+		export.c \
+		ft_itoa.c \
+		more_tools.c \
+		unset.c \
 
 all : $(NAME)
 

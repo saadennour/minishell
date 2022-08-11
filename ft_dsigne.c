@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/07 16:44:43 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/11 15:09:37 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ void	accountant(char **str, int i, int *dollar)
 			s[i - (*dollar)] = 2;
 			(*dollar)--;
 		}
-		(*dollar) = 0;
+		if ((*dollar) == 1 && (s[i] == ' ' || s[i] == '\0'))
+			s[i - 1] = 3;
+		(*dollar) = 0;		// if u found a $ and after there is a space or none make it 3 then if u found 3 make it dollar ;)
 	}
 }
 
@@ -114,6 +116,8 @@ char	*after_world(char *str)
 	len = 0;
 	while (str[i])
 	{
+		if (str[0] == '?')
+			i++;
 		if (!is_alnum(str[i]))
 			break ;
 		i++;

@@ -6,37 +6,43 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/10 13:18:01 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/11 15:05:51 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*assigning(char *more, char *end, char **env, int *thief)
+static char	*assigning(char *more, char *end, t_list **env, int *thief)
 {
 	int		i;
-	char	**op;
+	t_list *tmp;
 	char	*dollar;
 
 	i = 0;
-	op = forenv(env);
-	while (op[i])
+	tmp = *env;
+	dollar = NULL;
+	if(ft_strcmp(more, ft_strjoin("?", end)) == 0)
 	{
-		if (strcmp(more, ft_strjoin(op[i], end)) == 0)
+		dollar = ft_itoa(exit_status);
+		end = NULL;
+		return (dollar);
+	}
+	while (tmp)
+	{
+		if (ft_strcmp(more, ft_strjoin(tmp->name, end)) == 0)
 		{
-			dollar = exdsigne(op[i], env);
+			dollar = tmp->value;
 			end = NULL;
 			break ;
-			free (op);
 		}
-		i++;
-		if (op[i] == NULL)
+		tmp = tmp->next;
+		if (tmp == NULL)
 			(*thief) = 1;
 	}
 	return (dollar);
 }
 
-static char	*edges(char *more, char **env)
+static char	*edges(char *more, t_list **env)
 {
 	char	*end;
 	char	*dollar;
@@ -53,27 +59,29 @@ static char	*edges(char *more, char **env)
 	return (dollar);
 }
 
-static char	*undo(char *str)
+static char	*undo(char *str, int c)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == 2)
+		if (str[i] == c)
 			str[i] = '$';
 		i++;
 	}
 	return (str);
 }
 
-static void	expand(char **assign, char **env, char *var)
+static void	expand(char **assign, t_list **env, char *var)
 {
 	char	*dollar;
 	char	**more;
 	int		y;
+	int		i;
 
 	y = 0;
+	i = 0;
 	while (var[y])
 	{
 		if (var[y] == '$')
@@ -81,6 +89,11 @@ static void	expand(char **assign, char **env, char *var)
 		y++;
 	}
 	more = ft_splito(var, '$');
+	while (more[i])
+	{
+		more[i] = undo(more[i], 3);
+		i++;
+	}
 	if (y > 0)
 	{
 		(*assign) = ft_strjoin((*assign), more[0]);
@@ -96,7 +109,7 @@ static void	expand(char **assign, char **env, char *var)
 	}
 }
 
-char	*if_dsigne(char *inpt, char **env, t_quote quote, int *x)
+char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 {
 	char	*assign;
 	char	sign[1];
@@ -110,15 +123,14 @@ char	*if_dsigne(char *inpt, char **env, t_quote quote, int *x)
 	while (var[j])
 	{
 		if (quote.quote[(*x)] == 1)
-		{
-			if (ft_strcmp(var[j], "$") == 0)
-				return ("$");
 			expand(&assign, env, var[j]);
-		}
 		else
 		{
 			if (ft_skip(var[j], sign))
-				var[j] = undo(var[j]);
+			{
+				var[j] = undo(var[j], 3);
+				var[j] = undo(var[j], 2);
+			}
 			assign = ft_strjoin(assign, var[j]);
 		}
 		(*x)++;
