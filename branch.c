@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 14:53:27 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/11 23:18:01 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 	i = 0;
 	exe = (t_exec *)cmd;
 	if (exe->args[0] == 0)
-		exit (1);
+		exit (0);
 	bult = if_builtins(exe->args, data, path);
 	if (bult)
 	{
@@ -68,14 +68,13 @@ void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 			exit(0);
 		exit(bult);
 	}
-	//printf("hello\n");
 	buf = get_path(exe, data);
 	if (tools->limiter != NULL)
 	{
 		end = ft_splito(tools->limiter, ' ');
 		while ((ar = get_next_line(0)))
 		{
-			if (ft_strcmp(end[i], ar) == 0)
+			if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
 			{
 				i++;
 				if (end[i] == 0)
@@ -111,6 +110,7 @@ void	type_redir(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 		}
 		if (tools->c != 1)
 		{
+			//printf ("%d\n", red->fd);
 			dup2(tools->fd, red->fd);
 			if (red->exe->type == REDIR)
 			{
@@ -138,7 +138,7 @@ void	heredoc(t_redir *red, t_tool *tools)
 
 	i = 0;
 	red->file = ft_strjoin(red->file, " ");
-	tools->c = 1;
+	//tools->c = 1;
 	tools->fd = open("/tmp/ ", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (tools->fd < 0)
 	{
@@ -152,12 +152,14 @@ void	heredoc(t_redir *red, t_tool *tools)
 		exe = (t_exec *)red->exe;
 		if (exe->args[0] == 0)
 		{
+			printf ("hello 2\n");
 			end = ft_splito(tools->limiter, ' ');
 			i = 0;
 			while ((ar = get_next_line(0)))
 			{
-				if (ft_strcmp(end[i], ar) == 0)
+				if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
 				{
+					printf ("hello 3\n");
 					i++;
 					if (end[i] == 0)
 					{

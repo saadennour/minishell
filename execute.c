@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 14:26:55 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/11 23:13:23 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	ft_putstr_fd(char *s, int fd)
 			write (fd, &s[i], 1);
 			i++;
 		}
+		//write (fd, "\n", 1);
 	}
 }
 
@@ -98,7 +99,7 @@ char	*get_path(t_exec *exe, t_list **data)
 void	run_cmd(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 {
 	if (cmd == 0)
-		exit (1);
+		exit (0);
 	if (cmd->type == EXEC)
 		type_exec(cmd, path, tools, data);
 	else if (cmd->type == PIPE)

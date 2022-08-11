@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 14:39:25 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/11 19:23:16 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ int	main(int ac, char **av, char **envp)
 	{
 		buf = readline("-> minishell ");
 		if (buf == NULL)
+		{
+			printf ("exit\n");
 			exit(0);
+		}
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
 		if(ifexit(cmd) || ifenv(cmd, &data, &path))
