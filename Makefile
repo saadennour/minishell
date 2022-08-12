@@ -25,6 +25,8 @@ SRCS =	main.c \
 		ft_itoa.c \
 		more_tools.c \
 		unset.c \
+		undo.c \
+		heredoc.c \
 
 all : $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/11 12:37:33 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 20:28:19 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	check_exp(char *str)
 	char **str2;
 
 	i = 0;
-	str2 = ft_split(str,'=', 0);
+	str2 = ft_splito(str, '=');
     pos = n_position(str2[0], '!');
 			
 	write(1, "check_exp\n",10);
@@ -226,7 +226,7 @@ int	ft_export(char **cmd, t_list **data)
             return (sep);
 		if(cmd[i][0] == '#')
 			return (2);
-		op = ft_split(cmd[i], '=', 0);
+		op = ft_splito(cmd[i], '=');
 		if(op[0][ft_strlen(op[0]) - 1] == '+')
 		{
 			op[0][ft_strlen(op[0]) - 1] = '\0';

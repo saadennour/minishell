@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 18:45:41 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 19:28:11 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,15 @@
 char	*assigning(char *more, char *end, t_list **env, int *thief)
 {
 	int		i;
-	t_list *tmp;
+	t_list	*tmp;
 	char	*dollar;
 
 	i = 0;
 	tmp = *env;
 	dollar = NULL;
-	if(ft_strcmp(more, ft_strjoin("?", end)) == 0)
+	if (ft_strcmp(more, ft_strjoin("?", end)) == 0)
 	{
 		dollar = ft_itoa(exit_status);
-		end = NULL;
 		return (dollar);
 	}
 	while (tmp)
@@ -59,41 +58,20 @@ static char	*edges(char *more, t_list **env)
 	return (dollar);
 }
 
-static char	*undo(char *str, int c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			str[i] = '$';
-		i++;
-	}
-	return (str);
-}
-
 static void	expand(char **assign, t_list **env, char *var)
 {
 	char	*dollar;
 	char	**more;
 	int		y;
-	int		i;
 
 	y = 0;
-	i = 0;
 	while (var[y])
 	{
 		if (var[y] == '$')
 			break ;
 		y++;
 	}
-	more = ft_splito(var, '$');
-	while (more[i])
-	{
-		more[i] = undo(more[i], 3);
-		i++;
-	}
+	more = dq_undo(var);
 	if (y > 0)
 	{
 		(*assign) = ft_strjoin((*assign), more[0]);
@@ -112,15 +90,12 @@ static void	expand(char **assign, t_list **env, char *var)
 char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 {
 	char	*assign;
-	char	sign[2];
 	char	**var;
 	int		j;
 	int		i;
 
 	j = 0;
 	i = 0;
-	sign[0] = 2;
-	sign[1] = 3;
 	assign = NULL;
 	var = cashier(inpt);
 	while (var[j])
@@ -129,11 +104,7 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 			expand(&assign, env, var[j]);
 		else
 		{
-			if (ft_skip(var[j], sign))
-			{
-				var[j] = undo(var[j], 3);
-				var[j] = undo(var[j], 2);
-			}
+			var[j] = sq_undo(var[j]);
 			assign = ft_strjoin(assign, var[j]);
 		}
 		(*x)++;

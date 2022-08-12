@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/11 15:09:37 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 20:26:34 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**forenv(char **env)
 	i = 0;
 	while (env[i])
 	{
-		op = ft_split(env[i], '=', 0);
+		op = ft_splito(env[i], '=');
 		operation[i] = op[0];
 		i++;
 	}
@@ -43,7 +43,7 @@ char	*exdsigne(char *op, char **env)
 	{
 		if (ft_strncmp(op, env[i], ft_strlen(op)) == 0)
 		{
-			operation = ft_split(env[i], '=', 0);
+			operation = ft_splito(env[i], '=');
 			return (operation[1]);
 		}
 		i++;
@@ -73,7 +73,7 @@ void	accountant(char **str, int i, int *dollar)
 		}
 		if ((*dollar) == 1 && (s[i] == ' ' || s[i] == '\0'))
 			s[i - 1] = 3;
-		(*dollar) = 0;		// if u found a $ and after there is a space or none make it 3 then if u found 3 make it dollar ;)
+		(*dollar) = 0;
 	}
 }
 
@@ -128,11 +128,7 @@ char	*after_world(char *str)
 	quote = malloc (sizeof(char) * (len + 1));
 	len = 0;
 	while (str[i])
-	{
-		quote[len] = str[i];
-		i++;
-		len++;
-	}
+		quote[len++] = str[i++];
 	quote[len] = '\0';
 	return (quote);
 }

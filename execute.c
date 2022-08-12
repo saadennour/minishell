@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 15:21:42 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 20:26:51 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	ft_putstr_fd(char *s, int fd)
 			write (fd, &s[i], 1);
 			i++;
 		}
-		//write (fd, "\n", 1);
 	}
 }
 
@@ -63,7 +62,7 @@ static char	*get_cmd(t_exec *exe, char *path)
 	char	**cmd;
 
 	j = -1;
-	cmd = ft_split(path, ':', 0);
+	cmd = ft_splito(path, ':');
 	if (access(exe->args[0], F_OK | X_OK) != -1)
 		return (exe->args[0]);
 	while (cmd[++j])

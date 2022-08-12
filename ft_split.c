@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 17:21:30 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 20:34:55 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,21 @@ int	wd_count(const char *str, char c, int access)
 
 static int	ft_test(const char *str, int i, char c, int access)
 {
-	int		cnt;
 	char	*s;
 
 	s = (char *)str;
-	cnt = 0;
 	if (s[i] == 1 && access == 1)
 	{
 		i++;
 		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ')))
-		{
 			i++;
-			cnt++;
-		}
 		if (s[i])
 			i++;
 	}
 	else
 	{
 		while (s[i] && (s[i] != c))
-		{
 			i++;
-			cnt++;
-		}
 	}
 	return (i);
 }
@@ -76,7 +68,7 @@ static int	ft_test(const char *str, int i, char c, int access)
 static char	*copy(int t, char const *s, char c, int access)
 {
 	int		j;
-	int		len ;
+	int		len;
 	char	*str;
 
 	j = 0;

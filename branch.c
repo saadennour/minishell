@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 15:33:51 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 19:38:16 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,8 @@ void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 {
 	t_exec	*exe;
 	char	*buf;
-	char	**end;
-	char	*ar;
-	int		i;
 	int		bult;
 
-	i = 0;
 	exe = (t_exec *)cmd;
 	if (exe->args[0] == 0)
 		exit (0);
@@ -65,31 +61,13 @@ void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 	bult = if_builtins(exe->args, data, path);
 	if (bult)
 	{
-		if(bult == 2)
+		if (bult == 2)
 			exit(0);
 		exit(bult);
 	}
 	buf = get_path(exe, data);
 	if (tools->limiter != NULL)
-	{
-		end = ft_splito(tools->limiter, ' ');
-		while ((ar = get_next_line(0)))
-		{
-			if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
-			{
-				i++;
-				if (end[i] == 0)
-				{
-					close(tools->fd);
-					tools->fd = open("/tmp/ ", O_RDONLY, 0644);
-					dup2(tools->fd, STDIN_FILENO);
-					execve(buf, exe->args, tools->envp);
-				}
-			}
-			else
-				ft_putstr_fd(ar, tools->fd);
-		}
-	}
+		exe_doc(buf, exe, tools);
 	execve(buf, exe->args, tools->envp);
 }
 
@@ -111,7 +89,6 @@ void	type_redir(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 		}
 		if (tools->c != 1)
 		{
-			//printf ("%d\n", red->fd);
 			dup2(tools->fd, red->fd);
 			if (red->exe->type == REDIR)
 			{
@@ -128,47 +105,4 @@ void	type_redir(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 		}
 	}
 	run_cmd(red->exe, path, tools, data);
-}
-
-void	heredoc(t_redir *red, t_tool *tools)
-{
-	t_exec	*exe;
-	char	*ar;
-	char	**end;
-	int		i;
-
-	i = 0;
-	red->file = ft_strjoin(red->file, " ");
-	//tools->c = 1;
-	tools->fd = open("/tmp/ ", O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (tools->fd < 0)
-	{
-		printf ("Error\n");
-		exit(1);
-	}
-	dup2(tools->stdin_copy, 0);
-	tools->limiter = ft_strjoin(red->file, tools->limiter);
-	if (red->exe->type == EXEC)
-	{
-		exe = (t_exec *)red->exe;
-		if (exe->args[0] == 0)
-		{
-			end = ft_splito(tools->limiter, ' ');
-			i = 0;
-			while ((ar = get_next_line(0)))
-			{
-				if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
-				{
-					i++;
-					if (end[i] == 0)
-					{
-						close(0);
-						exit(1);
-					}
-				}
-				else
-					ft_putstr_fd(ar, tools->fd);
-			}
-		}
-	}
 }

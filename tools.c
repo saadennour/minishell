@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 17:55:52 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 20:33:07 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	exec_args(t_exec **exec, int i, char **ps)
 	if (ft_strlen(one[0]) == 0)
 		one[0] = " ";
 	(*exec)->args[i] = one[0];
+	free(one);
 	return (1);
 }
 

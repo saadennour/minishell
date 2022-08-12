@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 17:12:54 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/11 12:36:18 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 19:43:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int	ifexit(t_cmd	*cmd)
 	}
 	return 0;
 }
-int	ifenv(t_cmd *cmd ,t_list	**data, char **path)
+int	ifenv(t_cmd *cmd, t_list **data, char **path)
  {
 	t_exec	*exe;
-	int bult;
+	int		bult;
 	
 	if(cmd->type != EXEC)
 		return 0;
@@ -73,7 +73,7 @@ int	ifenv(t_cmd *cmd ,t_list	**data, char **path)
 	if (exe->args[0] == 0)
 		return 0;
 	bult = bult_2(exe->args, data, path);
-	if(bult)
+	if (bult)
 	{
 		if(bult == 2)
 			exit_status = 0;
@@ -81,6 +81,6 @@ int	ifenv(t_cmd *cmd ,t_list	**data, char **path)
 			exit_status = bult;
 		return(bult);
 	}
-	return(0);
+	return (0);
  }
  
