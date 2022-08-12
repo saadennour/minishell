@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 20:10:29 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 15:16:20 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	ft_skip_spaces(char *inpt, int *i);
 char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x);
 char	*quotes(char *str, t_quote *quote);
 void	handle_c(int sig);
+void	handle_s(int sig);
 char	*get_next_line(int fd);
 char	**if_echo(char *str);
 int		wd_count(const char *str, char c, int access);
@@ -143,7 +144,7 @@ void	ft_putstr_fd(char *s, int fd);
 int		is_alnum(int c);
 int		ifenv(t_cmd *cmd , t_list **data, char **path);
 int		ifexit(t_cmd *cmd);
-int		ft_cd(char **inpt, char **path);
+int		ft_cd(char **inpt, char **path, t_list **data);
 void	ft_envp(char **envp, t_list **data);
 int		printenvp(char **inpt, t_list **data);
 t_list	*ft_lstnew(void *name,void *value, void *sep);
@@ -153,5 +154,6 @@ int		ft_export(char **cmd, t_list **data);
 int		ft_unset(char **cmd, t_list **data);
 int		bult_2(char	**inpt, t_list **data, char **path);
 char	*ft_itoa(int n);
+char	*assigning(char *more, char *end, t_list **env, int *thief);
 
 #endif

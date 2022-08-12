@@ -9,8 +9,10 @@ heredoc and pipes		done
 echo -n -n				done
 stdin in heredoc		done
 many dollars			done
-unlink
-norm
-leaks
-exit status
-signals
+unlink					done
+norm					 x
+leaks					 x
+exit status				done
+signals					 x
+cd						done
+OLDPWD					 x

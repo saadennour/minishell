@@ -6,19 +6,23 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 15:37:59 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 14:30:41 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd(char **inpt, char **path)
+int	ft_cd(char **inpt, char **path, t_list **data)
 {
 	char *oldpath;
 	
 	oldpath = NULL;
 	if (!inpt[1])
+	{
+		*path = getcwd(NULL, 0);
+		chdir(assigning("HOME", NULL, data, 0));
 		return (2);
+	}
 	if(!ft_strcmp(inpt[1],"-"))
 	{
 		printf("path-\n");
@@ -75,7 +79,7 @@ int		bult_2(char	**inpt, t_list **data, char **path)
 	else if (ft_strcmp(inpt[0],"unset") == 0)
 		return (ft_unset(inpt, data));
 	else if (ft_strcmp(inpt[0], "cd") == 0)
-		return (ft_cd(inpt, path));
+		return (ft_cd(inpt, path, data));
 	return (0);
 }
 

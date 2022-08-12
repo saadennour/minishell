@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 23:07:37 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 18:46:35 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,12 @@ t_cmd	*parsecmd(char *str, t_list **env)
 
 	x = 0;
 	words = num_quotes(str, ' ');
-	quote.quote = malloc(sizeof(int) * words + 1);
+	quote.quote = malloc(sizeof(int) * words);
 	while (x < words)
 	{
 		quote.quote[x] = 1;
 		x++;
 	}
-	quote.quote[x] = 0;
 	if (str[0] == '|')
 	{
 		printf ("minishell: syntax error near unexpected token '|'\n");

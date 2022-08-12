@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 19:23:16 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 15:36:39 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,11 @@ void	handle_d(int sig)
 void	handle_s(int sig)
 {
 	if (sig == 3)
-		readline ("-> minishell ");
+	{
+		write(2, "Quit: 3", 7);
+		write(2, "\n", 1);
+		exit (131);
+	}
 }
 
 int	main(int ac, char **av, char **envp)
@@ -92,7 +96,7 @@ int	main(int ac, char **av, char **envp)
 	(void) ac;
 	(void) av;
 	signal (SIGINT, handle_c);
-	signal (SIGQUIT, handle_s);
+	signal (SIGQUIT, SIG_IGN);
 	path = getcwd(NULL, 0);
 	ft_envp(envp,&data);
 	while (1)
@@ -113,6 +117,8 @@ int	main(int ac, char **av, char **envp)
 			if (pid == 0)
 				run_cmd(cmd, &path, &tools, &data);
 			waitpid(pid, &wait_status, 0);
+			if(access("/tmp/ ", F_OK) != -1)
+				unlink("/tmp/ ");
 			if(WIFEXITED(wait_status))
 				exit_status =  WEXITSTATUS(wait_status);
 		}

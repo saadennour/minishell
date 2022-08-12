@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/09 13:55:09 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 17:55:52 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	num_quotes(const char *str, char c)
 		if (str[i] == 34)
 		{
 			i++;
-			while (str[i] != '\0' && str[i] != 34)
+			while (str[i] && str[i] != 34)
 				i++;
 			if (str[i])
 				i++;
@@ -57,7 +57,7 @@ int	num_quotes(const char *str, char c)
 		else if (str[i] == 39)
 		{
 			i++;
-			while (str[i] != '\0' && str[i] != 39)
+			while (str[i] && str[i] != 39)
 				i++;
 			if (str[i])
 				i++;
@@ -65,9 +65,9 @@ int	num_quotes(const char *str, char c)
 		}
 		while (str[i] == c)
 			i++;
-		if (str[i] != '\0' && str[i] != c && str[i] != 39 && str[i] != 34)
+		if (str[i] && str[i] != c && str[i] != 39 && str[i] != 34)
 		{
-			while (str[i] != '\0' && str[i] != c)
+			while (str[i] && str[i] != c)
 				i++;
 			len++;
 		}

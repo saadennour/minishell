@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 23:18:01 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 15:33:51 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 	exe = (t_exec *)cmd;
 	if (exe->args[0] == 0)
 		exit (0);
+	signal(SIGQUIT, handle_s);
 	bult = if_builtins(exe->args, data, path);
 	if (bult)
 	{
@@ -152,14 +153,12 @@ void	heredoc(t_redir *red, t_tool *tools)
 		exe = (t_exec *)red->exe;
 		if (exe->args[0] == 0)
 		{
-			printf ("hello 2\n");
 			end = ft_splito(tools->limiter, ' ');
 			i = 0;
 			while ((ar = get_next_line(0)))
 			{
 				if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
 				{
-					printf ("hello 3\n");
 					i++;
 					if (end[i] == 0)
 					{

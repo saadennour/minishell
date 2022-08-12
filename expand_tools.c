@@ -6,13 +6,13 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 15:05:51 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 18:45:41 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*assigning(char *more, char *end, t_list **env, int *thief)
+char	*assigning(char *more, char *end, t_list **env, int *thief)
 {
 	int		i;
 	t_list *tmp;
@@ -112,12 +112,15 @@ static void	expand(char **assign, t_list **env, char *var)
 char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 {
 	char	*assign;
-	char	sign[1];
+	char	sign[2];
 	char	**var;
 	int		j;
+	int		i;
 
 	j = 0;
+	i = 0;
 	sign[0] = 2;
+	sign[1] = 3;
 	assign = NULL;
 	var = cashier(inpt);
 	while (var[j])
