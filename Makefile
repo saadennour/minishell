@@ -27,6 +27,8 @@ SRCS =	main.c \
 		unset.c \
 		undo.c \
 		heredoc.c \
+		hunter/leak_hunter.c \
+		hunter/list_tools.c \
 
 all : $(NAME)
 

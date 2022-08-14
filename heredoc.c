@@ -6,17 +6,42 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 19:30:48 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 19:36:12 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/13 21:19:15 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	doc_nocmd(t_tool *tools)
+{
+	int		i;
+	char	**end;
+	char	*ar;
+
+	i = 0;
+	end = ft_splito(tools->limiter, ' ');
+	i = 0;
+	while (1)
+	{
+		ar = get_next_line(0);
+		if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
+		{
+			i++;
+			if (end[i] == 0)
+			{
+				close(0);
+				free_tab(end, 0);
+				exit(1);
+			}
+		}
+		else
+			ft_putstr_fd(ar, tools->fd);
+	}
+}
+
 void	heredoc(t_redir *red, t_tool *tools)
 {
 	t_exec	*exe;
-	char	*ar;
-	char	**end;
 	int		i;
 
 	i = 0;
@@ -33,24 +58,7 @@ void	heredoc(t_redir *red, t_tool *tools)
 	{
 		exe = (t_exec *)red->exe;
 		if (exe->args[0] == 0)
-		{
-			end = ft_splito(tools->limiter, ' ');
-			i = 0;
-			while ((ar = get_next_line(0)))
-			{
-				if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
-				{
-					i++;
-					if (end[i] == 0)
-					{
-						close(0);
-						exit(1);
-					}
-				}
-				else
-					ft_putstr_fd(ar, tools->fd);
-			}
-		}
+			doc_nocmd(tools);
 	}
 }
 
@@ -62,14 +70,16 @@ void	exe_doc(char *buf, t_exec *exe, t_tool *tools)
 
 	i = 0;
 	end = ft_splito(tools->limiter, ' ');
-	while ((ar = get_next_line(0)))
+	while (1)
 	{
+		ar = get_next_line(0);
 		if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
 		{
 			i++;
 			if (end[i] == 0)
 			{
 				close(tools->fd);
+				free_tab(end, 0);
 				tools->fd = open("/tmp/ ", O_RDONLY, 0644);
 				dup2(tools->fd, STDIN_FILENO);
 				execve(buf, exe->args, tools->envp);

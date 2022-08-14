@@ -6,23 +6,32 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:02:03 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/08 18:48:44 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/13 21:18:33 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_tab(char **path)
+void	free_tab(char **path, int i)
 {
-	int	i;
-
-	i = 0;
 	while (path[i])
 	{
 		free(path[i]);
 		i++;
 	}
 }
+
+// void	free_quote(int **path)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (path[i])
+// 	{
+// 		free(path[i]);
+// 		i++;
+// 	}
+// }
 
 static int	measure(char *line, int j, int *count)
 {
@@ -49,6 +58,26 @@ static int	measure(char *line, int j, int *count)
 	return (i);
 }
 
+static int	spaces_needed(char *line, int i, int *count)
+{
+	if (ft_limites(&line[i]) == 1)
+	{
+		if (line[i - 1] != ' ')
+			(*count)++;
+		if (line[i + 1] != ' ')
+			(*count)++;
+	}
+	else if (ft_limites(&line[i]) == 2)
+	{
+		if (line[i - 1] != ' ' && line[i - 1] != '|')
+			(*count)++;
+		if (line[i + 2] != ' ')
+			(*count)++;
+		i++;
+	}
+	return (i);
+}
+
 char	*ft_path(char *line)
 {
 	int		i;
@@ -60,25 +89,9 @@ char	*ft_path(char *line)
 	while (line[i])
 	{
 		if ((i == 0 && ft_strchr(line[i], "<>") == 1) || line[i] == 1)
-			i += measure(line, i, &count);
+			i = measure(line, i, &count);
 		if (ft_strchr(line[i], "|<>"))
-		{
-			if (ft_limites(&line[i]) == 1)
-			{
-				if (line[i - 1] != ' ')
-					count++;
-				if (line[i + 1] != ' ')
-					count++;
-			}
-			else if (ft_limites(&line[i]) == 2)
-			{
-				if (line[i - 1] != ' ' && line[i - 1] != '|')
-					count++;
-				if (line[i + 2] != ' ')
-					count++;
-				i++;
-			}
-		}
+			i = spaces_needed(line, i, &count);
 		i++;
 	}
 	if (count > 0)

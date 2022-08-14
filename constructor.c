@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/10 12:05:55 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/13 18:07:52 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_cmd	*exelior(char *s)
 
 	i = 0;
 	words = wd_count(s, ' ', 1);
+	printf ("words = %d\n", words);
 	cmd = malloc (sizeof(t_exec) + 1);
 	cmd->args = malloc (sizeof(char *) * (words + 1));
 	cmd->type = EXEC;

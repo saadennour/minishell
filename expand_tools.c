@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 19:28:11 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/14 00:35:26 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*assigning(char *more, char *end, t_list **env, int *thief)
 	dollar = NULL;
 	if (ft_strcmp(more, ft_strjoin("?", end)) == 0)
 	{
-		dollar = ft_itoa(exit_status);
+		dollar = ft_itoa(g_exit_status);
 		return (dollar);
 	}
 	while (tmp)
@@ -52,9 +52,10 @@ static char	*edges(char *more, t_list **env)
 	end = after_world(more);
 	dollar = assigning(more, end, env, &thief);
 	if (dollar && thief != 1)
-		dollar = ft_strjoin(dollar, after_world(more));
+		dollar = ft_strjoin(dollar, end);
 	else if (thief == 1)
 		dollar = "";
+	free (end);
 	return (dollar);
 }
 
@@ -82,9 +83,11 @@ static void	expand(char **assign, t_list **env, char *var)
 		dollar = edges(more[y], env);
 		if (dollar)
 			(*assign) = ft_strjoin((*assign), dollar);
-		dollar = NULL;
+		free (dollar);
 		y++;
 	}
+	printf ("hello\n");
+	free_tab(more, 0);
 }
 
 char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
@@ -94,6 +97,7 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 	int		j;
 	int		i;
 
+	// while (1);
 	j = 0;
 	i = 0;
 	assign = NULL;
@@ -106,9 +110,11 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 		{
 			var[j] = sq_undo(var[j]);
 			assign = ft_strjoin(assign, var[j]);
+			free (var[j]);
 		}
 		(*x)++;
 		j++;
 	}
+	free_tab (var, 0);
 	return (assign);
 }

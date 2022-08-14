@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 20:33:07 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/13 21:21:09 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,47 +34,6 @@ int	tokenizer(char *s, int *x)
 	return (token);
 }
 
-int	num_quotes(const char *str, char c)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	if (str == NULL)
-		return (0);
-	while (str[i])
-	{
-		if (str[i] == 34)
-		{
-			i++;
-			while (str[i] && str[i] != 34)
-				i++;
-			if (str[i])
-				i++;
-			len++;
-		}
-		else if (str[i] == 39)
-		{
-			i++;
-			while (str[i] && str[i] != 39)
-				i++;
-			if (str[i])
-				i++;
-			len++;
-		}
-		while (str[i] == c)
-			i++;
-		if (str[i] && str[i] != c && str[i] != 39 && str[i] != 34)
-		{
-			while (str[i] && str[i] != c)
-				i++;
-			len++;
-		}
-	}
-	return (len);
-}
-
 int	exec_args(t_exec **exec, int i, char **ps)
 {
 	char		**one;
@@ -93,7 +52,7 @@ int	exec_args(t_exec **exec, int i, char **ps)
 	if (ft_strlen(one[0]) == 0)
 		one[0] = " ";
 	(*exec)->args[i] = one[0];
-	free(one);
+	free_tab(one, 1);
 	return (1);
 }
 

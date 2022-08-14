@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 19:16:36 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/13 18:37:28 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	main(int ac, char **av, char **envp)
 	t_list	*data;
 	t_tool	tools;
 	t_cmd	*cmd;
-	char	*path;
 	pid_t	pid;
 
 	tools.fd = 0;
@@ -91,12 +90,11 @@ int	main(int ac, char **av, char **envp)
 	tools.stdin_copy = dup(STDIN_FILENO);
 	tools.stdout_copy = dup(STDOUT_FILENO);
 	data = NULL;
-	path = NULL;
 	(void) ac;
 	(void) av;
 	signal (SIGINT, handle_c);
 	signal (SIGQUIT, SIG_IGN);
-	path = getcwd(NULL, 0);
+	tools.path = getcwd(NULL, 0);
 	ft_envp(envp, &data);
 	while (1)
 	{
@@ -108,18 +106,19 @@ int	main(int ac, char **av, char **envp)
 		}
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
-		if (ifexit(cmd) || ifenv(cmd, &data, &path))
+		if (ifexit(cmd) || ifenv(cmd, &data, &tools.path))
 			continue ;
 		else
 		{
 			pid = fork();
 			if (pid == 0)
-				run_cmd(cmd, &path, &tools, &data);
+				run_cmd(cmd, &tools, &data);
 			waitpid(pid, &wait_status, 0);
 			if (access("/tmp/ ", F_OK) != -1)
 				unlink("/tmp/ ");
 			if (WIFEXITED(wait_status))
-				exit_status = WEXITSTATUS(wait_status);
+				g_exit_status = WEXITSTATUS(wait_status);
+			//free (cmd);
 		}
 		//free (buf);
 		//system("leaks minishell");

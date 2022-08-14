@@ -6,11 +6,21 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 20:34:55 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/12 22:54:59 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	if_quote(const char *str, int *i, int *len)
+{
+	(*i)++;
+	while (str[(*i)] != '\0' && !((str[(*i)] == 1 && str[(*i) + 1] == ' ')))
+		(*i)++;
+	if (str[(*i)])
+		(*i)++;
+	(*len)++;
+}
 
 int	wd_count(const char *str, char c, int access)
 {
@@ -24,14 +34,7 @@ int	wd_count(const char *str, char c, int access)
 	while (str[i])
 	{
 		if (str[i] == 1 && access == 1)
-		{
-			i++;
-			while (str[i] != '\0' && !((str[i] == 1 && str[i + 1] == ' ')))
-				i++;
-			if (str[i])
-				i++;
-			len++;
-		}
+			if_quote(str, &i, &len);
 		while (str[i] == c)
 			i++;
 		if (str[i] != '\0' && str[i] != c && str[i] != 1)
@@ -76,35 +79,11 @@ static char	*copy(int t, char const *s, char c, int access)
 	str = (char *)malloc(sizeof (char) * len + 1);
 	if (!str)
 		return (NULL);
-	if (s[t] == 1 && access == 1)
+	while (j < len)
 	{
-		if (s[t] && s[t] == 1)
-		{
-			str[j] = (char)s[t];
-			t++;
-			j++;
-		}
-		while (j < len && !((s[t] == 1 && s[t + 1] == ' ')))
-		{
-			str[j] = (char)s[t];
-			j++;
-			t++;
-		}
-		if (s[t])
-		{
-			str[j] = (char)s[t];
-			t++;
-			j++;
-		}
-	}
-	else
-	{
-		while (j < len && (s[t] != c))
-		{
-			str[j] = (char)s[t];
-			j++;
-			t++;
-		}
+		str[j] = (char)s[t];
+		j++;
+		t++;
 	}
 	str[j] = '\0';
 	return (str);

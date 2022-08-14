@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 18:46:35 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/14 00:33:38 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,18 @@ t_cmd	*parseexec(char **ps, t_list **env, t_quote quote)
 	cmd = exelior(*ps);
 	exec = (t_exec *)cmd;
 	cmd = parsered (cmd, ps, env, quote);
+	if (cmd == 0)
+		return (0);
 	while (!exist(ps, "|"))
 	{
 		if (exec_args(&exec, i, ps) == 0)
 			break ;
+		//while (1);
 		exec->args[i] = if_dsigne(exec->args[i], env, quote, &x);
 		i++;
 		cmd = parsered (cmd, ps, env, quote);
+		if (cmd == 0)
+			return (0);
 	}
 	return (cmd);
 }
@@ -79,14 +84,15 @@ t_cmd	*parsecmd(char *str, t_list **env)
 		quote.quote[x] = 1;
 		x++;
 	}
-	if (str[0] == '|')
+	if (str[0] == '|' || ft_strcmp(str, ".") == 0 || ft_strcmp(str, "..") == 0)
 	{
-		printf ("minishell: syntax error near unexpected token '|'\n");
-		exit (0);
+		printf ("minishell: syntax error near unexpected token '%c'\n", str[0]);
+		return (0);
 	}
 	str = quotes(str, &quote);
 	str = ft_path(str);
 	cmd = parsepipe(&str, env, quote);
+	free (quote.quote);
 	return (cmd);
 }
 
@@ -115,7 +121,7 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote)
 		if (get_token(ps, &q) != 'F')
 		{
 			printf ("Error missing file\n");
-			exit (1);
+			return (0);
 		}
 		clear = clean(q);
 		if (token == '<')

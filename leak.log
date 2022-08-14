@@ -1,0 +1,499 @@
+┌─────────┤ LEAKS LOG ├─────────┐
+│ Total leaks found:         99 │
+│ Total leaks size:        2360 │
+├───────────────────────────────┤
+│ address:       0x7fe0154006a0 │
+│ size (bytes):               7 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015402ae0 │
+│ size (bytes):              50 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015402b70 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015402bc0 │
+│ size (bytes):              24 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015402c20 │
+│ size (bytes):              15 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015402c70 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015402ce0 │
+│ size (bytes):               5 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015402d30 │
+│ size (bytes):              15 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015402d80 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015402df0 │
+│ size (bytes):               6 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015402e40 │
+│ size (bytes):               9 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015402e90 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015402f00 │
+│ size (bytes):              27 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015402f60 │
+│ size (bytes):              49 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015402fe0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403050 │
+│ size (bytes):              14 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154030a0 │
+│ size (bytes):              52 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403120 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403190 │
+│ size (bytes):               5 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154031e0 │
+│ size (bytes):              62 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403260 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe0154032d0 │
+│ size (bytes):               8 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403320 │
+│ size (bytes):               8 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403370 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe0154033e0 │
+│ size (bytes):              17 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403440 │
+│ size (bytes):               2 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403490 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403500 │
+│ size (bytes):              15 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403550 │
+│ size (bytes):               2 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154035a0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403610 │
+│ size (bytes):               5 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403660 │
+│ size (bytes):               8 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154036b0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403720 │
+│ size (bytes):              10 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403770 │
+│ size (bytes):               4 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154037c0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403830 │
+│ size (bytes):              29 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403890 │
+│ size (bytes):              10 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154038e0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403950 │
+│ size (bytes):               6 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154039a0 │
+│ size (bytes):               2 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154039f0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403a60 │
+│ size (bytes):               4 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403ab0 │
+│ size (bytes):              33 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403b20 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403b90 │
+│ size (bytes):               7 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403be0 │
+│ size (bytes):              33 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403c50 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403cc0 │
+│ size (bytes):               4 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403d10 │
+│ size (bytes):              26 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403d70 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403de0 │
+│ size (bytes):               6 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403e30 │
+│ size (bytes):               5 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403e80 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015403ef0 │
+│ size (bytes):               5 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403f40 │
+│ size (bytes):               3 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015403f90 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404000 │
+│ size (bytes):               9 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404050 │
+│ size (bytes):              23 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154040b0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404120 │
+│ size (bytes):              13 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404170 │
+│ size (bytes):               7 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154041c0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404230 │
+│ size (bytes):              21 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404290 │
+│ size (bytes):               7 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154042e0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404350 │
+│ size (bytes):               5 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154043a0 │
+│ size (bytes):              12 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154043f0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404460 │
+│ size (bytes):              10 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154044b0 │
+│ size (bytes):              10 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404500 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404570 │
+│ size (bytes):              12 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154045c0 │
+│ size (bytes):              91 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404660 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe0154046d0 │
+│ size (bytes):              24 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404730 │
+│ size (bytes):             100 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154047e0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404850 │
+│ size (bytes):              30 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154048b0 │
+│ size (bytes):              33 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404920 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404990 │
+│ size (bytes):              24 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe0154049f0 │
+│ size (bytes):              96 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404a90 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404b00 │
+│ size (bytes):              22 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404b60 │
+│ size (bytes):              76 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404bf0 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404c60 │
+│ size (bytes):               5 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404cb0 │
+│ size (bytes):              15 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404d00 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe015404d70 │
+│ size (bytes):               2 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404dc0 │
+│ size (bytes):              45 │
+│ file:             ft_splito.c │
+│ line:                      61 │
+├───────────────────────────────┤
+│ address:       0x7fe015404e30 │
+│ size (bytes):              32 │
+│ file:                   env.c │
+│ line:                      37 │
+├───────────────────────────────┤
+│ address:       0x7fe0154060c0 │
+│ size (bytes):              17 │
+│ file:           constructor.c │
+│ line:                      48 │
+├───────────────────────────────┤
+│ address:       0x7fe015406120 │
+│ size (bytes):              16 │
+│ file:           constructor.c │
+│ line:                      49 │
+├───────────────────────────────┤
+│ address:       0x7fe015406170 │
+│ size (bytes):              16 │
+│ file:              ft_split.c │
+│ line:                     103 │
+├───────────────────────────────┤
+│ address:       0x7fe015406210 │
+│ size (bytes):              16 │
+│ file:             ft_splito.c │
+│ line:                      83 │
+├───────────────────────────────┤
+│ address:       0x7fe0154062b0 │
+│ size (bytes):              16 │
+│ file:             ft_splito.c │
+│ line:                      83 │
+├───────────────────────────────┤
+│ address:       0x7fe015406350 │
+│ size (bytes):               3 │
+│ file:            ft_strjoin.c │
+│ line:                      23 │
+└───────────────────────────────┘└───────────────────────────────┘

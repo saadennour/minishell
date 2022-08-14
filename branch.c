@@ -6,13 +6,25 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 19:38:16 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/13 15:23:56 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	type_pipe(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
+static void	right_pipe(t_pipe *pip, t_tool *tools, t_list **data, int *p)
+{
+	if (pip->left->type == REDIR)
+		wait(0);
+	dup2(p[0], STDIN_FILENO);
+	close(p[0]);
+	close(p[1]);
+	run_cmd(pip->right, tools, data);
+	if (pip->right->type == EXEC)
+		exit (1);
+}
+
+void	type_pipe(t_cmd *cmd, t_tool *tools, t_list **data)
 {
 	int		p[2];
 	t_pipe	*pip;
@@ -28,27 +40,18 @@ void	type_pipe(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 		dup2(p[1], STDOUT_FILENO);
 		close(p[0]);
 		close(p[1]);
-		run_cmd(pip->left, path, tools, data);
+		run_cmd(pip->left, tools, data);
 		if (pip->left->type == EXEC)
 			exit (1);
 	}
 	else
-	{
-		if (pip->left->type == REDIR)
-			wait(0);
-		dup2(p[0], STDIN_FILENO);
-		close(p[0]);
-		close(p[1]);
-		run_cmd(pip->right, path, tools, data);
-		if (pip->right->type == EXEC)
-			exit (1);
-	}
+		right_pipe(pip, tools, data, p);
 	close(p[0]);
 	close(p[1]);
 	wait(0);
 }
 
-void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
+void	type_exec(t_cmd *cmd, t_tool *tools, t_list **data)
 {
 	t_exec	*exe;
 	char	*buf;
@@ -58,7 +61,7 @@ void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 	if (exe->args[0] == 0)
 		exit (0);
 	signal(SIGQUIT, handle_s);
-	bult = if_builtins(exe->args, data, path);
+	bult = if_builtins(exe->args, data, &tools->path);
 	if (bult)
 	{
 		if (bult == 2)
@@ -71,10 +74,31 @@ void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 	execve(buf, exe->args, tools->envp);
 }
 
-void	type_redir(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
+static void	multi_red(t_redir *red, t_tool *tools)
+{
+	t_redir	*red2;
+
+	if (tools->c != 1)
+	{
+		dup2(tools->fd, red->fd);
+		if (red->exe->type == REDIR)
+		{
+			red2 = (t_redir *)red->exe;
+			if (red->fd == red2->fd)
+				(tools->c) = 1;
+		}
+	}
+	if (red->exe->type == REDIR)
+	{
+		red2 = (t_redir *)red->exe;
+		if (red->fd != red2->fd)
+		(tools->c) = 0;
+	}
+}
+
+void	type_redir(t_cmd *cmd, t_tool *tools, t_list **data)
 {	
 	t_redir	*red;
-	t_redir	*red2;
 
 	red = (t_redir *)cmd;
 	if (red->mode == 3)
@@ -87,22 +111,7 @@ void	type_redir(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 			printf ("Errooor\n");
 			exit (1);
 		}
-		if (tools->c != 1)
-		{
-			dup2(tools->fd, red->fd);
-			if (red->exe->type == REDIR)
-			{
-				red2 = (t_redir *)red->exe;
-				if (red->fd == red2->fd)
-					(tools->c) = 1;
-			}
-		}
-		if (red->exe->type == REDIR)
-		{
-			red2 = (t_redir *)red->exe;
-			if (red->fd != red2->fd)
-				(tools->c) = 0;
-		}
+		multi_red(red, tools);
 	}
-	run_cmd(red->exe, path, tools, data);
+	run_cmd(red->exe, tools, data);
 }
