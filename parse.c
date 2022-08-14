@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/14 00:33:38 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/14 19:03:31 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	get_token(char **ps, char **q)
 	i = 0;
 	s = *ps;
 	ft_skip_spaces(s, &i);
+
 	if (q)
 		*q = &s[i];
 	token = tokenizer(s, &i);
@@ -57,9 +58,9 @@ t_cmd	*parseexec(char **ps, t_list **env, t_quote quote)
 		return (0);
 	while (!exist(ps, "|"))
 	{
+
 		if (exec_args(&exec, i, ps) == 0)
 			break ;
-		//while (1);
 		exec->args[i] = if_dsigne(exec->args[i], env, quote, &x);
 		i++;
 		cmd = parsered (cmd, ps, env, quote);
@@ -86,7 +87,7 @@ t_cmd	*parsecmd(char *str, t_list **env)
 	}
 	if (str[0] == '|' || ft_strcmp(str, ".") == 0 || ft_strcmp(str, "..") == 0)
 	{
-		printf ("minishell: syntax error near unexpected token '%c'\n", str[0]);
+		printf ("minishell: syntax error near unexpected token '%s'\n", str);
 		return (0);
 	}
 	str = quotes(str, &quote);

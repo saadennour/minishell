@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 14:35:55 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/14 14:00:18 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_cd(char **inpt, char **path, t_list **data)
 		*path = getcwd(NULL, 0);
 		chdir(oldpath);
 		printf("~%s\n", oldpath);
-		free(oldpath);
+		// free(oldpath);
 		return (2);
 	}
 	*path = getcwd(NULL, 0);

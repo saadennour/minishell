@@ -6,14 +6,13 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 21:18:44 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/14 23:39:14 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//# include "hunter/leak_hunter.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -92,6 +91,7 @@ typedef struct t_quote
 	int	start;
 }	t_quote;
 
+void	check_leaks();
 int		ft_strlen(char *str);
 char	*clean(char *str);
 int		ft_limites(char *str);
@@ -162,5 +162,6 @@ char	*undo(char *str, int c);
 char	*sq_undo(char *var);
 char	**dq_undo(char *var);
 char	*assigning(char *more, char *end, t_list **env, int *thief);
+void	free_struct(t_cmd *cmd);
 
 #endif

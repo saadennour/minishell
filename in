@@ -1,33 +1,42 @@
-Makefile
-README.md
-advanced.c
-branch.c
-builtins.c
-constructor.c
-correction.c
-echo.c
-env.c
-execute.c
-expand_tools.c
-export.c
-ft_dsigne.c
-ft_itoa.c
-ft_split.c
-ft_splito.c
-ft_strjoin.c
-get_next_line.c
-heredoc.c
-in
-main.c
-minishell
-minishell.h
-minishell.o
-more_tools.c
-parse.c
-path.c
-quotes.c
-sidekick.c
-test3
-tools.c
-undo.c
-unset.c
+NAME = minishell
+FLAGS = -Wall -Wextra -Werror -lreadline -L /Users/sfarhan/homebrew/opt/readline/lib -I /Users/sfarhan/homebrew/opt/readline/include
+
+SRCS =	main.c \
+		echo.c \
+		ft_split.c \
+		ft_strjoin.c \
+		path.c \
+		constructor.c \
+		tools.c \
+		execute.c \
+		parse.c \
+		builtins.c \
+		ft_dsigne.c \
+		advanced.c \
+		get_next_line.c \
+		ft_splito.c \
+		expand_tools.c \
+		correction.c \
+		quotes.c \
+		sidekick.c  \
+		branch.c \
+		env.c \
+		export.c \
+		ft_itoa.c \
+		more_tools.c \
+		unset.c \
+		undo.c \
+		heredoc.c \
+		# leaks/leacks_cheker_ex.c \
+
+all : $(NAME)
+
+$(NAME) : $(SRCS)
+	@gcc $(FLAGS) $(SRCS) -o $(NAME) 
+
+clean :
+	@rm -rf $(NAME)
+fclean :
+	@rm -rf $(NAME)
+
+re: fclean all

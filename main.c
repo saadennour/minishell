@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 18:37:28 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/14 23:56:04 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,13 @@ void	handle_s(int sig)
 {
 	if (sig == 3)
 	{
-		write(2, "Quit: 3", 7);
-		write(2, "\n", 1);
-		exit (131);
+		if (get_next_line(0))
+		{
+			write(1, "Quit: 3", 7);
+			write(1, "\n", 1);
+			g_exit_status = 131;
+			return ;
+		}
 	}
 }
 
@@ -118,9 +122,9 @@ int	main(int ac, char **av, char **envp)
 				unlink("/tmp/ ");
 			if (WIFEXITED(wait_status))
 				g_exit_status = WEXITSTATUS(wait_status);
-			//free (cmd);
 		}
-		//free (buf);
+		free (buf);
+		free_struct(cmd);
 		//system("leaks minishell");
 	}
 	return (0);

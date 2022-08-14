@@ -27,13 +27,12 @@ SRCS =	main.c \
 		unset.c \
 		undo.c \
 		heredoc.c \
-		hunter/leak_hunter.c \
-		hunter/list_tools.c \
+		# leaks/leacks_cheker_ex.c \
 
 all : $(NAME)
 
 $(NAME) : $(SRCS)
-	@gcc $(FLAGS) $(SRCS) -o $(NAME)
+	@gcc $(FLAGS) $(SRCS) -o $(NAME) 
 
 clean :
 	@rm -rf $(NAME)

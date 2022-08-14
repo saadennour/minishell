@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 15:23:56 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/14 23:48:59 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	type_exec(t_cmd *cmd, t_tool *tools, t_list **data)
 	exe = (t_exec *)cmd;
 	if (exe->args[0] == 0)
 		exit (0);
-	signal(SIGQUIT, handle_s);
 	bult = if_builtins(exe->args, data, &tools->path);
 	if (bult)
 	{

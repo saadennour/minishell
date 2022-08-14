@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 22:54:59 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/14 18:45:49 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ int	wd_count(const char *str, char c, int access)
 static int	ft_test(const char *str, int i, char c, int access)
 {
 	char	*s;
+	int		len;
 
+	len = i;
 	s = (char *)str;
-	if (s[i] == 1 && access == 1)
+	if (s[i] == 1)
 	{
 		i++;
 		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ')))
@@ -65,17 +67,19 @@ static int	ft_test(const char *str, int i, char c, int access)
 		while (s[i] && (s[i] != c))
 			i++;
 	}
+	if (access == 1)
+		return (i - len);
 	return (i);
 }
 
-static char	*copy(int t, char const *s, char c, int access)
+static char	*copy(int t, char const *s, char c)
 {
-	int		j;
-	int		len;
-	char	*str;
+	int			j;
+	int			len;
+	char		*str;
 
 	j = 0;
-	len = ft_test(s, t, c, access);
+	len = ft_test(s, t, c, 1);
 	str = (char *)malloc(sizeof (char) * len + 1);
 	if (!str)
 		return (NULL);
@@ -107,8 +111,8 @@ char	**ft_split(char const *s, char c, int access)
 	{
 		while (s[i] == c)
 			i++;
-		tab[j] = copy(i, s, c, access);
-		i = ft_test(s, i, c, access);
+		tab[j] = copy(i, s, c);
+		i = ft_test(s, i, c, 0);
 		j++;
 	}
 	tab[j] = 0;

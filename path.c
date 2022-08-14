@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:02:03 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 21:18:33 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/14 18:25:45 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,8 @@ void	free_tab(char **path, int i)
 		free(path[i]);
 		i++;
 	}
+	free (path);
 }
-
-// void	free_quote(int **path)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (path[i])
-// 	{
-// 		free(path[i]);
-// 		i++;
-// 	}
-// }
 
 static int	measure(char *line, int j, int *count)
 {

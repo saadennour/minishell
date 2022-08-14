@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 13:44:37 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 13:15:38 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/14 18:45:33 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ static int	double_quotes(char *str, int *i)
 
 static int	single_quotes(char *str, int *i)
 {
+	int	tmp;
+
+	tmp = (*i);
 	str[(*i)] = 1;
 	while (str[(*i)] && str[(*i)] != 39)
 		(*i)++;
@@ -37,6 +40,8 @@ static int	single_quotes(char *str, int *i)
 		exit (1);
 	}
 	str[(*i)] = 1;
+	if (tmp + 2 == (*i))
+		return (1);
 	return (2);
 }
 
@@ -56,12 +61,11 @@ char	*quotes(char *str, t_quote *quote)
 		else if (str[i] == 39)
 			quote->quote[x] = single_quotes(str, &i);
 		i++;
-		if (str[i] == ' ' || str[i] == 34 || str[i] == 39 || str[i] == '$')
+		if (str[i] == ' ' || str[i] == 34 || str[i] == 39)
 		{
 			if (tmp + 2 == i)
 				x--;
 			x++;
-			quote->quote[x] = 1;
 			if (str[i] == ' ')
 				i++;
 		}
