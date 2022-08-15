@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/14 23:56:04 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 00:50:54 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	handle_s(int sig)
 int	main(int ac, char **av, char **envp)
 {
 	int		wait_status;
+	int		error;
 	char	*buf;
 	t_list	*data;
 	t_tool	tools;
@@ -96,12 +97,11 @@ int	main(int ac, char **av, char **envp)
 	data = NULL;
 	(void) ac;
 	(void) av;
-	signal (SIGINT, handle_c);
-	signal (SIGQUIT, SIG_IGN);
 	tools.path = getcwd(NULL, 0);
 	ft_envp(envp, &data);
 	while (1)
 	{
+		error = 0;
 		buf = readline("-> minishell ");
 		if (buf == NULL)
 		{
@@ -116,14 +116,22 @@ int	main(int ac, char **av, char **envp)
 		{
 			pid = fork();
 			if (pid == 0)
-				run_cmd(cmd, &tools, &data);
+			{
+				signal (SIGINT, SIG_DFL);
+				signal (SIGQUIT, SIG_DFL);
+				error = run_cmd(cmd, &tools, &data);
+			}
+			signal (SIGINT, handle_c);
+			signal (SIGQUIT, SIG_IGN);
 			waitpid(pid, &wait_status, 0);
 			if (access("/tmp/ ", F_OK) != -1)
 				unlink("/tmp/ ");
-			if (WIFEXITED(wait_status))
+			if (error == 258)
+				g_exit_status = 258;
+			else if (WIFEXITED(wait_status))
 				g_exit_status = WEXITSTATUS(wait_status);
 		}
-		free (buf);
+		//free (buf);
 		free_struct(cmd);
 		//system("leaks minishell");
 	}

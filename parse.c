@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/14 19:03:31 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/15 21:36:03 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	get_token(char **ps, char **q)
 	i = 0;
 	s = *ps;
 	ft_skip_spaces(s, &i);
-
 	if (q)
 		*q = &s[i];
 	token = tokenizer(s, &i);
@@ -53,17 +52,16 @@ t_cmd	*parseexec(char **ps, t_list **env, t_quote quote)
 	x = 0;
 	cmd = exelior(*ps);
 	exec = (t_exec *)cmd;
-	cmd = parsered (cmd, ps, env, quote);
+	cmd = parsered (cmd, ps, env, quote, &x);
 	if (cmd == 0)
 		return (0);
 	while (!exist(ps, "|"))
 	{
-
 		if (exec_args(&exec, i, ps) == 0)
 			break ;
 		exec->args[i] = if_dsigne(exec->args[i], env, quote, &x);
 		i++;
-		cmd = parsered (cmd, ps, env, quote);
+		cmd = parsered (cmd, ps, env, quote, &x);
 		if (cmd == 0)
 			return (0);
 	}
@@ -91,6 +89,8 @@ t_cmd	*parsecmd(char *str, t_list **env)
 		return (0);
 	}
 	str = quotes(str, &quote);
+	if (!str)
+		return (0);
 	str = ft_path(str);
 	cmd = parsepipe(&str, env, quote);
 	free (quote.quote);
@@ -110,7 +110,7 @@ t_cmd	*parsepipe(char	**ps, t_list **env, t_quote quote)
 	return (cmd);
 }
 
-t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote)
+t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote, int *x)
 {
 	int		token;
 	char	*q;
@@ -125,6 +125,8 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote)
 			return (0);
 		}
 		clear = clean(q);
+		clear = if_dsigne(clear, env, quote, x);
+		//printf ("exe : %s x should be %d\n", clear, x);
 		if (token == '<')
 			cmd = redirect(cmd, clear, O_RDONLY, 0);
 		else if (token == '>')
@@ -133,7 +135,8 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote)
 			cmd = redirect (cmd, clear, O_WRONLY | O_CREAT | O_APPEND, 1);
 		else if (token == '-')
 			cmd = redirect (cmd, clear, 3, 0);
-		cmd = parsered(cmd, ps, env, quote);
+		(*x)++;
+		cmd = parsered(cmd, ps, env, quote, x);
 	}
 	return (cmd);
 }

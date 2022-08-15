@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/14 23:48:59 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/15 18:32:15 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void	type_redir(t_cmd *cmd, t_tool *tools, t_list **data)
 		heredoc(red, tools);
 	else
 	{
+		printf ("file => %s\n", red->file);
 		tools->fd = open(red->file, red->mode, 0644);
 		if (tools->fd < 0)
 		{

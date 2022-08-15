@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/14 18:30:56 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/15 21:05:18 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int	exec_args(t_exec **exec, int i, char **ps)
 		return (0);
 	if (token != 'F')
 	{
-		printf ("%d\n", i);
-		exit (1);
+		printf ("syntax error unexpected token '%c'\n", token);
+		return (0);
 	}
 	one = ft_split(q, ' ', 1);
 	if (ft_strlen(one[0]) == 0)
@@ -59,17 +59,22 @@ int	exec_args(t_exec **exec, int i, char **ps)
 char	*clean(char *str)
 {
 	int		i;
+	int		j;
 	char	*clean;
 
 	i = 0;
+	j = 0;
 	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
 		i++;
 	clean = malloc (sizeof(char) * i);
 	i = 0;
 	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
 	{
-		clean[i] = str[i];
+		if (str[i] == 1)
+			i++;
+		clean[j] = str[i];
 		i++;
+		j++;
 	}
 	clean[i] = '\0';
 	return (clean);
@@ -79,4 +84,11 @@ void	ft_skip_spaces(char *inpt, int *i)
 {
 	while (inpt[(*i)] != '\0' && ft_strchr(inpt[(*i)], " \t\n\f\v\r"))
 			(*i)++;
+}
+
+char *skip_c(char *str, char c)
+{
+	while(*str && *str != c)
+		str++;
+	return(str);
 }

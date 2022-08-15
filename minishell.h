@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/14 23:39:14 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 00:48:39 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ int		exist(char **ps, char *token);
 int		get_token(char **ps, char **q);
 t_cmd	*parsecmd(char *str, t_list **env);
 t_cmd	*parsepipe(char	**ps, t_list **env, t_quote quote);
-t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote);
-void	run_cmd(t_cmd *cmd, t_tool *tools, t_list **data);
+t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote, int *x);
+int		run_cmd(t_cmd *cmd, t_tool *tools, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int		if_builtins(char **inpt, t_list **data, char **path);
 void	ft_skip_spaces(char *inpt, int *i);
@@ -148,7 +148,7 @@ void	ft_putstr_fd(char *s, int fd);
 int		is_alnum(int c);
 int		ifenv(t_cmd *cmd, t_list **data, char **path);
 int		ifexit(t_cmd *cmd);
-int		ft_cd(char **inpt, char **path, t_list **data);
+int		ft_cd(char **inpt, t_list **env);
 void	ft_envp(char **envp, t_list **data);
 int		printenvp(char **inpt, t_list **data);
 t_list	*ft_lstnew(void *name, void *value, void *sep);
@@ -156,12 +156,17 @@ void	ft_lstadd_back(t_list **alst, t_list *new);
 t_list	*ft_lstlast(t_list *lst);
 int		ft_export(char **cmd, t_list **data);
 int		ft_unset(char **cmd, t_list **data);
-int		bult_2(char	**inpt, t_list **data, char **path);
+int		bult_2(char	**inpt, t_list **data);
 char	*ft_itoa(int n);
 char	*undo(char *str, int c);
 char	*sq_undo(char *var);
 char	**dq_undo(char *var);
 char	*assigning(char *more, char *end, t_list **env, int *thief);
 void	free_struct(t_cmd *cmd);
+int		v_position(char *str, char c);
+char	*skip_c(char *str, char c);
+int		withvalue(char *cmd, t_list **data);
+int		existkey(char *cmd, char **op, t_list **data, char c);
+int		check_exp(char *str);
 
 #endif

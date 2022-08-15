@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/14 19:12:30 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/15 19:08:06 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,24 @@ char	*assigning(char *more, char *end, t_list **env, int *thief)
 	int		i;
 	t_list	*tmp;
 	char	*dollar;
-	char	*maybe;
+	//char	*maybe;
 
 	i = 0;
 	tmp = *env;
 	dollar = NULL;
-	maybe = ft_strjoin("?", end);
-	if (ft_strcmp(more, maybe) == 0)
+	if (ft_strcmp(more, ft_strjoin("?", end)) == 0)
 	{
 		dollar = ft_itoa(g_exit_status);
-		free (maybe);
 		return (dollar);
 	}
 	while (tmp)
 	{
-		free (maybe);
-		maybe = ft_strjoin(tmp->name, end);
 		//printf ("p => %p\n", maybe);
-		if (ft_strcmp(more, maybe) == 0)
+		//printf ("%s%s\n", tmp->name, end);
+		if (ft_strcmp(more, ft_strjoin(tmp->name, end)) == 0)
 		{
 			dollar = tmp->value;
 			end = NULL;
-			free (maybe);
 			break ;
 		}
 		tmp = tmp->next;
@@ -95,7 +91,6 @@ static void	expand(char **assign, t_list **env, char *var)
 			(*assign) = ft_strjoin(garbage, dollar);
 			free (garbage);
 		}
-		free (dollar);
 		y++;
 	}
 	free_tab(more, 0);

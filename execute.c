@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 18:32:56 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 00:48:31 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,15 @@ char	*get_path(t_exec *exe, t_list **data)
 	return (0);
 }
 
-void	run_cmd(t_cmd *cmd, t_tool *tools, t_list **data)
+int	run_cmd(t_cmd *cmd, t_tool *tools, t_list **data)
 {
 	if (cmd == 0)
-		exit (255);
+		return (258);
 	if (cmd->type == EXEC)
 		type_exec(cmd, tools, data);
 	else if (cmd->type == PIPE)
 		type_pipe(cmd, tools, data);
 	else if (cmd->type == REDIR)
 		type_redir(cmd, tools, data);
+	return (0);
 }

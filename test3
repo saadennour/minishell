@@ -10,9 +10,13 @@ echo -n -n				done
 stdin in heredoc		done
 many dollars			done
 unlink					done
-norm					 x
+norm					done
 leaks					 x
 exit status				done
 signals					 x
 cd						done
 OLDPWD					done
+filenames				 x
+unset then echo			done
+expand filename			done
+echo 'a'>'file' bk |pwd

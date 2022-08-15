@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:02:03 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/14 18:25:45 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/15 21:37:29 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*ft_path(char *line)
 	}
 	if (count > 0)
 	{
-		str = malloc(sizeof(char) * (ft_strlen(line) + (count * 2)));
+		str = malloc(sizeof(char) * (ft_strlen(line) + (count)));
 		return (corrected(line, str));
 	}
 	return (line);
