@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/15 21:05:18 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 01:42:25 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,22 @@ char	*clean(char *str)
 	i = 0;
 	j = 0;
 	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
+	{
+		if (str[i] == 1)
+			j++;
 		i++;
-	clean = malloc (sizeof(char) * i);
+	}
+	clean = malloc (sizeof(char) * (i - j + 1));
 	i = 0;
+	j = 0;
 	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
 	{
 		if (str[i] == 1)
 			i++;
-		clean[j] = str[i];
-		i++;
-		j++;
+		else
+			clean[j++] = str[i++];
 	}
-	clean[i] = '\0';
+	clean[j] = '\0';
 	return (clean);
 }
 

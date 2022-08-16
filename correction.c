@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 18:46:27 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 00:53:00 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 01:37:09 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ char	*corrected(char *line, char *str)
 			str[j++] = line[i++];
 	}
 	str[j] = '\0';
-	printf ("line %s\n", str);
-	exit (1);
 	free (line);
 	return (str);
 }

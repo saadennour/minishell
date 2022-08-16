@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:02:03 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/15 21:37:29 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 01:41:51 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@ void	free_tab(char **path, int i)
 	free (path);
 }
 
-static int	measure(char *line, int j, int *count)
+static int	measure(char *line, int i, int *count)
 {
-	int	i;
-
-	i = j;
 	if (ft_strchr(line[0], "<>") == 1)
 	{
 		if (ft_limites(&line[i]) == 2 && line[i + 2] != ' ')
@@ -39,7 +36,7 @@ static int	measure(char *line, int j, int *count)
 	if (line[i] == 1)
 	{
 		i++;
-		while (line[i] && !(line[i] == 1 && ft_strchr(line[i + 1], "|<>")))
+		while (line[i] && !(line[i] == 1 && ft_strchr(line[i + 1], "|<> ")))
 			i++;
 		if (line[i])
 			i++;
@@ -85,7 +82,7 @@ char	*ft_path(char *line)
 	}
 	if (count > 0)
 	{
-		str = malloc(sizeof(char) * (ft_strlen(line) + (count)));
+		str = malloc(sizeof(char) * (ft_strlen(line) + (count) + 1));
 		return (corrected(line, str));
 	}
 	return (line);

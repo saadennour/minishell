@@ -19,4 +19,4 @@ OLDPWD					done
 filenames				 x
 unset then echo			done
 expand filename			done
-echo 'a'>'file' bk |pwd
+echo 'a'>'file' bk |pwd done
