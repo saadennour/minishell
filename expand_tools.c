@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/15 19:08:06 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 20:22:24 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static void	expand(char **assign, t_list **env, char *var)
 {
 	char	*dollar;
 	char	**more;
-	char	*garbage;
 	int		y;
 
 	y = 0;
@@ -86,11 +85,7 @@ static void	expand(char **assign, t_list **env, char *var)
 	{
 		dollar = edges(more[y], env);
 		if (dollar)
-		{
-			garbage = (*assign);
-			(*assign) = ft_strjoin(garbage, dollar);
-			free (garbage);
-		}
+			(*assign) = ft_strjoin((*assign), dollar);
 		y++;
 	}
 	free_tab(more, 0);
@@ -103,7 +98,7 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 	int		j;
 
 	j = 0;
-	assign = NULL;
+	assign = "";
 	var = cashier(inpt);
 	while (var[j])
 	{
@@ -118,5 +113,6 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 		j++;
 	}
 	free_tab (var, 0);
+	//printf ("assign %s\n", assign);
 	return (assign);
 }

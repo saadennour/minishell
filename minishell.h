@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 00:48:39 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 23:18:45 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ typedef struct t_tool
 	char	*limiter;
 	char	*path;
 	char	**envp;
-	int		c;
+	int		in;
+	int		out;
+	int		free;
 	int		stdin_copy;
 	int		stdout_copy;
 	int		fd;
@@ -168,5 +170,16 @@ char	*skip_c(char *str, char c);
 int		withvalue(char *cmd, t_list **data);
 int		existkey(char *cmd, char **op, t_list **data, char c);
 int		check_exp(char *str);
+char	**abortmission(char **final, int i);
+char	**fill_it(char *s, char c, char **final, int flag);
+char	**ft_split_special(char *s, char c);
+size_t	len_count(const char *s, char c);
+int		wc(const char *s, char c);
+void	*ft_calloc(size_t count, size_t size);
+int		ft_strlcpy(char *dest, char *src, unsigned int size);
+void	ft_bzero(void *b, size_t n);
+int		should_open(t_redir *red);
+void	inside_quotes(char *str, int *i);
+
 
 #endif

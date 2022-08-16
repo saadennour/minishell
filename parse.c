@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/15 21:36:03 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 23:38:04 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,24 @@ int	get_token(char **ps, char **q)
 		*q = &s[i];
 	token = tokenizer(s, &i);
 	if (s[i] == 1)
-	{
-		i++;
-		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ')))
-			i++;
-		if (s[i])
-			i++;
-	}
+		inside_quotes(s, &i);
 	else
+	{
 		while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f")
 			&& !ft_strchr(s[i], "|<>"))
-			i++;
+		{
+			if (s[i] == 1)
+			{
+				i++;
+				while (s[i] && !(s[i] == 1))
+					i++;
+				if (s[i])
+					i++;
+			}
+			else
+				i++;
+		}
+	}
 	ft_skip_spaces(s, &i);
 	*ps = &s[i];
 	return (token);

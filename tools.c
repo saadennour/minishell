@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 01:42:25 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 23:31:32 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ int	exec_args(t_exec **exec, int i, char **ps)
 		return (0);
 	}
 	one = ft_split(q, ' ', 1);
-	if (ft_strlen(one[0]) == 0)
-		one[0] = " ";
 	(*exec)->args[i] = one[0];
+	//printf ("exe : %s %d\n", one[0], ft_strlen(one[0]));
 	free_tab(one, 1);
 	return (1);
 }
@@ -64,19 +63,29 @@ char	*clean(char *str)
 
 	i = 0;
 	j = 0;
-	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
+	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r") && ft_strchr(str[i], "|<>"))
 	{
 		if (str[i] == 1)
-			j++;
-		i++;
+		{
+			j += 2;
+			inside_quotes(str, &i);
+		}
+		else
+			i++;
 	}
 	clean = malloc (sizeof(char) * (i - j + 1));
 	i = 0;
 	j = 0;
-	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
+	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r") && !ft_strchr(str[i], "|<>"))
 	{
 		if (str[i] == 1)
+		{
 			i++;
+			while (str[i] && !(str[i] == 1))
+				clean[j++] = str[i++];
+			if (str[i])
+				i++;
+		}
 		else
 			clean[j++] = str[i++];
 	}

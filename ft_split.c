@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/14 18:45:49 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 18:08:26 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,18 @@ int	wd_count(const char *str, char c, int access)
 		if (str[i] != '\0' && str[i] != c && str[i] != 1)
 		{
 			while (str[i] != '\0' && str[i] != c)
-				i++;
+			{
+				if (str[i] == 1)
+				{
+					i++;
+					while (str[i] && !((str[i] == 1 && str[i + 1] == ' ')))
+						i++;
+					if (str[i])
+						i++;
+				}
+				else
+					i++;
+			}
 			len++;
 		}
 	}
@@ -65,7 +76,18 @@ static int	ft_test(const char *str, int i, char c, int access)
 	else
 	{
 		while (s[i] && (s[i] != c))
-			i++;
+		{
+			if (s[i] == 1)
+			{
+				i++;
+				while (s[i] && !((s[i] == 1 && s[i + 1] == ' ')))
+					i++;
+				if (s[i])
+				i++;
+			}
+			else
+				i++;
+		}
 	}
 	if (access == 1)
 		return (i - len);

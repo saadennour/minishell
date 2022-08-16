@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/15 18:32:15 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 17:37:31 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,15 @@ void	type_exec(t_cmd *cmd, t_tool *tools, t_list **data)
 
 static void	multi_red(t_redir *red, t_tool *tools)
 {
-	t_redir	*red2;
-
-	if (tools->c != 1)
+	if (tools->in != 1 && red->fd == 0)
 	{
 		dup2(tools->fd, red->fd);
-		if (red->exe->type == REDIR)
-		{
-			red2 = (t_redir *)red->exe;
-			if (red->fd == red2->fd)
-				(tools->c) = 1;
-		}
+		(tools->in) = 1;
 	}
-	if (red->exe->type == REDIR)
+	if (tools->out != 1 && red->fd == 1)
 	{
-		red2 = (t_redir *)red->exe;
-		if (red->fd != red2->fd)
-		(tools->c) = 0;
+		dup2(tools->fd, red->fd);
+		(tools->out) = 1;
 	}
 }
 
@@ -104,12 +96,16 @@ void	type_redir(t_cmd *cmd, t_tool *tools, t_list **data)
 		heredoc(red, tools);
 	else
 	{
-		printf ("file => %s\n", red->file);
+		//printf ("file => %s\n", red->file);
 		tools->fd = open(red->file, red->mode, 0644);
 		if (tools->fd < 0)
 		{
-			printf ("Errooor\n");
-			exit (1);
+			tools->fd = should_open(red);
+			if (tools->fd == -1)
+			{
+				printf ("Errooor\n");
+				exit (1);
+			}
 		}
 		multi_red(red, tools);
 	}

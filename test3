@@ -20,3 +20,14 @@ filenames				 x
 unset then echo			done
 expand filename			done
 echo 'a'>'file' bk |pwd done
+'' or ""				done
+export underscore		done
+
+
+
+
+
+
+
+check if there is more files who use stdin or stdout
+check if fd wont open then move for the rest reds if u hve to creat it , do it first.

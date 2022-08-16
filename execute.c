@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 00:48:31 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 22:37:38 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,14 @@ static char	*get_cmd(t_exec *exe, char *path)
 	{
 		cmd[j] = ft_strjoin(cmd[j], "/");
 		cmd[j] = ft_strjoin(cmd[j], exe->args[0]);
-		if (access(cmd[j], F_OK) != -1)
+		if (ft_strcmp(cmd[j] , "/usr/local/bin/") == 0)
+			break ;
+		if (access(cmd[j], F_OK | X_OK) != -1)
 			return (cmd[j]);
 	}
-	printf ("minishell: %s: command not found\n", exe->args[0]);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(exe->args[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
 	exit (127);
 }
 

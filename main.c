@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 00:50:54 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 23:08:11 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	handle_c(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_exit_status = 1;
 	}
 }
 
@@ -68,13 +69,9 @@ void	handle_s(int sig)
 {
 	if (sig == 3)
 	{
-		if (get_next_line(0))
-		{
-			write(1, "Quit: 3", 7);
-			write(1, "\n", 1);
-			g_exit_status = 131;
-			return ;
-		}
+		write(1, "Quit: 3", 7);
+		write(1, "\n", 1);
+		exit (131);
 	}
 }
 
@@ -91,7 +88,9 @@ int	main(int ac, char **av, char **envp)
 	tools.fd = 0;
 	tools.envp = envp;
 	tools.limiter = NULL;
-	tools.c = 10;
+	tools.in = 0;
+	tools.out = 0;
+	tools.free = 0;
 	tools.stdin_copy = dup(STDIN_FILENO);
 	tools.stdout_copy = dup(STDOUT_FILENO);
 	data = NULL;
@@ -117,11 +116,11 @@ int	main(int ac, char **av, char **envp)
 			pid = fork();
 			if (pid == 0)
 			{
-				signal (SIGINT, SIG_DFL);
-				signal (SIGQUIT, SIG_DFL);
+				signal (SIGINT, handle_c);
+				signal (SIGQUIT, handle_s);
 				error = run_cmd(cmd, &tools, &data);
 			}
-			signal (SIGINT, handle_c);
+			signal (SIGINT, SIG_IGN);
 			signal (SIGQUIT, SIG_IGN);
 			waitpid(pid, &wait_status, 0);
 			if (access("/tmp/ ", F_OK) != -1)
@@ -132,7 +131,7 @@ int	main(int ac, char **av, char **envp)
 				g_exit_status = WEXITSTATUS(wait_status);
 		}
 		//free (buf);
-		free_struct(cmd);
+		//free_struct(cmd);
 		//system("leaks minishell");
 	}
 	return (0);
