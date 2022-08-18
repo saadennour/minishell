@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 19:42:19 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 21:21:59 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <limits.h>
 
 # define BLUE    "\e[0;34m"
 # define RED     "\e[0;31m"
@@ -118,7 +119,7 @@ t_cmd	*parsepipe(char	*ps, t_list **env, t_quote quote);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote *quote);
 void	run_cmd(t_cmd *cmd, t_tool *tools, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
-int		if_builtins(char **inpt, t_list **data, char **path);
+int		if_builtins(char **inpt, t_list **data);
 void	ft_skip_spaces(char *inpt, int *i);
 char	*if_dsigne(char *inpt, t_list **env, t_quote *quote);
 char	*quotes(char *str, t_quote *quote);
@@ -148,7 +149,7 @@ void	heredoc(t_redir *red, t_tool *tools);
 void	exe_doc(char *buf, t_exec *exe, t_tool *tools, t_list **data);
 void	ft_putstr_fd(char *s, int fd);
 int		is_alnum(int c);
-int		ifenv(t_cmd *cmd, t_list **data, char **path);
+int		ifenv(t_cmd *cmd, t_list **data);
 int		ifexit(t_cmd *cmd);
 int		ft_cd(char **inpt, t_list **env);
 void	ft_envp(char **envp, t_list **data);
@@ -170,6 +171,7 @@ char	*skip_c(char *str, char c);
 int		withvalue(char *cmd, t_list **data);
 int		existkey(char *cmd, char **op, t_list **data, char c);
 int		check_exp(char *str);
+void	print_exp(t_list *data);
 int		should_open(t_redir *red);
 void	inside_quotes(char *str, int *i);
 void	if_quote(const char *str, int *i);
@@ -177,5 +179,10 @@ int		no_quote(const char *str, int i, char c);
 int		error_scanner(char *str);
 int		inside_string(char *s, int i);
 void	next_quote(char *str, int *i, int *x, int tmp);
+int		ft_atoi(char *str);
+void	fperror(char *arg, char *error);
+char	*ft_itoa(int n);
+char	*findkey(char *key, t_list **env);
+int		ft_pwd(char **inpt);
 
 #endif
