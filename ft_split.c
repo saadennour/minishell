@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 18:08:26 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 00:49:01 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	if_quote(const char *str, int *i, int *len)
 		(*i)++;
 	(*len)++;
 }
+
+// static void	
 
 int	wd_count(const char *str, char c, int access)
 {

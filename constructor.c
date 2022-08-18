@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 22:35:23 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/17 21:42:16 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,27 @@ t_cmd	*exelior(char *s)
 	return ((t_cmd *)cmd);
 }
 
+static int	free_exe(t_cmd *cmd)
+{
+	int		i;
+	t_exec	*exe;
+
+	i = 0;
+	exe = (t_exec *)cmd;
+	if (exe->args[0] == 0)
+	{
+		free (exe);
+		return (1);
+	}
+	if (g_exit_status == 127)
+		i++;
+	free_tab(exe->args, i);
+	free (exe);
+	return (0);
+}
+
 void	free_struct(t_cmd *cmd)
 {
-	t_exec	*exe;
 	t_redir	*red;
 	t_pipe	*pip;
 
@@ -66,20 +84,19 @@ void	free_struct(t_cmd *cmd)
 		return ;
 	if (cmd->type == EXEC)
 	{
-		exe = (t_exec*)cmd;
-		free_tab(exe->args, 0);
-		free (exe);
+		if (free_exe(cmd) == 1)
+			return ;
 	}
 	else if (cmd->type == PIPE)
 	{
-		pip = (t_pipe*)cmd;
+		pip = (t_pipe *)cmd;
 		free_struct(pip->left);
 		free_struct(pip->right);
 		free (pip);
 	}
 	else if (cmd->type == REDIR)
 	{
-		red =(t_redir*)cmd;
+		red = (t_redir *)cmd;
 		free (red->file);
 		free_struct(red->exe);
 		free (red);

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 18:46:27 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 23:31:53 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/17 20:15:03 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,17 @@ static void	start_line(char *line, char *str, int *x, int *y)
 
 static void	inside(char *line, char *str, int *x, int *y)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	quote;
 
 	i = *x;
 	j = *y;
 	if (line[i] == 1)
 	{
-		str[j] = line[i];
-		i++;
-		j++;
-		while (line[i] && !(line[i] == 1 && ft_strchr(line[i + 1], "|<>")))
+		quote = line[i];
+		str[j++] = line[i++];
+		while (line[i] && !(line[i] == quote && ft_strchr(line[i + 1], "|<>")))
 		{
 			str[j] = line[i];
 			i++;
@@ -129,7 +129,5 @@ char	*corrected(char *line, char *str)
 			str[j++] = line[i++];
 	}
 	str[j] = '\0';
-	printf ("%s\n", str);
-	free (line);
 	return (str);
 }

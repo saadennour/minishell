@@ -33,7 +33,7 @@ SRCS =	main.c \
 all : $(NAME)
 
 $(NAME) : $(SRCS)
-	@gcc $(FLAGS) $(SRCS) -o $(NAME) 
+	@gcc $(FLAGS) $(SRCS) -o $(NAME) #-fsanitize=address
 
 clean :
 	@rm -rf $(NAME)

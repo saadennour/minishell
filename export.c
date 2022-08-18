@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/15 15:21:41 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/17 20:34:11 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,6 @@ int	withvalue(char *cmd, t_list **data)
 		return (2);
 	value = skip_c(cmd, '=');
 	ft_lstadd_back(data, ft_lstnew(op[0], ++value, "="));
-	//free
 	return (2);
 }
 

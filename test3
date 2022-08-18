@@ -13,19 +13,26 @@ unlink					done
 norm					done
 leaks					 x
 exit status				done
-signals					 x
+signals					done
 cd						done
 OLDPWD					done
-filenames				 x
+filenames				done
 unset then echo			done
 expand filename			done
 echo 'a'>'file' bk |pwd done
 '' or ""				done
 export underscore		done
+exit(builts) | ls		done
+atoi
 
+$USER leaks
+heredoc leaks
+> leaks
+exit status leaks
+env leaks
+export leaks
 
-
-
+cmd && cmd[j] && 
 
 
 

@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 22:37:38 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 01:10:00 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	*get_cmd(t_exec *exe, char *path)
 	{
 		cmd[j] = ft_strjoin(cmd[j], "/");
 		cmd[j] = ft_strjoin(cmd[j], exe->args[0]);
-		if (ft_strcmp(cmd[j] , "/usr/local/bin/") == 0)
+		if (ft_strcmp(cmd[j], "/usr/local/bin/") == 0)
 			break ;
 		if (access(cmd[j], F_OK | X_OK) != -1)
 			return (cmd[j]);
@@ -77,15 +77,15 @@ static char	*get_cmd(t_exec *exe, char *path)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(exe->args[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
+	if (ft_strcmp(cmd[j], "/usr/local/bin/") != 0)
+		free (exe->args[0]);
 	exit (127);
 }
 
 char	*get_path(t_exec *exe, t_list **data)
 {
-	int		i;
 	t_list	*tmp;
 
-	i = -1;
 	tmp = *data;
 	while (tmp)
 	{
@@ -99,15 +99,14 @@ char	*get_path(t_exec *exe, t_list **data)
 	return (0);
 }
 
-int	run_cmd(t_cmd *cmd, t_tool *tools, t_list **data)
+void	run_cmd(t_cmd *cmd, t_tool *tools, t_list **data)
 {
 	if (cmd == 0)
-		return (258);
+		exit (255);
 	if (cmd->type == EXEC)
 		type_exec(cmd, tools, data);
 	else if (cmd->type == PIPE)
 		type_pipe(cmd, tools, data);
 	else if (cmd->type == REDIR)
 		type_redir(cmd, tools, data);
-	return (0);
 }

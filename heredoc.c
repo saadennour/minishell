@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 19:30:48 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/14 18:31:49 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/17 16:15:28 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	heredoc(t_redir *red, t_tool *tools)
 	}
 }
 
-void	exe_doc(char *buf, t_exec *exe, t_tool *tools)
+void	exe_doc(char *buf, t_exec *exe, t_tool *tools, t_list **data)
 {
 	char	**end;
 	char	*ar;
@@ -82,6 +82,7 @@ void	exe_doc(char *buf, t_exec *exe, t_tool *tools)
 				free_tab(end, 0);
 				tools->fd = open("/tmp/ ", O_RDONLY, 0644);
 				dup2(tools->fd, STDIN_FILENO);
+				buf = get_path(exe, data);
 				execve(buf, exe->args, tools->envp);
 			}
 		}

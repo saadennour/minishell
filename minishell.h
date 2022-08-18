@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 23:18:45 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 00:01:50 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ typedef struct t_quote
 	int	start;
 }	t_quote;
 
-void	check_leaks();
 int		ft_strlen(char *str);
 char	*clean(char *str);
 int		ft_limites(char *str);
@@ -114,9 +113,9 @@ int		ft_skip(char *s, char *skip);
 int		exist(char **ps, char *token);
 int		get_token(char **ps, char **q);
 t_cmd	*parsecmd(char *str, t_list **env);
-t_cmd	*parsepipe(char	**ps, t_list **env, t_quote quote);
+t_cmd	*parsepipe(char	*ps, t_list **env, t_quote quote);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote, int *x);
-int		run_cmd(t_cmd *cmd, t_tool *tools, t_list **data);
+void	run_cmd(t_cmd *cmd, t_tool *tools, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int		if_builtins(char **inpt, t_list **data, char **path);
 void	ft_skip_spaces(char *inpt, int *i);
@@ -145,7 +144,7 @@ void	type_pipe(t_cmd *cmd, t_tool *tools, t_list **data);
 void	type_exec(t_cmd *cmd, t_tool *tools, t_list **data);
 void	type_redir(t_cmd *cmd, t_tool *tools, t_list **data);
 void	heredoc(t_redir *red, t_tool *tools);
-void	exe_doc(char *buf, t_exec *exe, t_tool *tools);
+void	exe_doc(char *buf, t_exec *exe, t_tool *tools, t_list **data);
 void	ft_putstr_fd(char *s, int fd);
 int		is_alnum(int c);
 int		ifenv(t_cmd *cmd, t_list **data, char **path);
@@ -180,6 +179,5 @@ int		ft_strlcpy(char *dest, char *src, unsigned int size);
 void	ft_bzero(void *b, size_t n);
 int		should_open(t_redir *red);
 void	inside_quotes(char *str, int *i);
-
 
 #endif

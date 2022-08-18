@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 20:22:24 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 01:14:10 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,33 @@ char	*assigning(char *more, char *end, t_list **env, int *thief)
 	int		i;
 	t_list	*tmp;
 	char	*dollar;
-	//char	*maybe;
+	char	*garbage;
 
 	i = 0;
 	tmp = *env;
 	dollar = NULL;
-	if (ft_strcmp(more, ft_strjoin("?", end)) == 0)
+	garbage = ft_strjoin("?", end);
+	if (ft_strcmp(more, garbage) == 0)
 	{
 		dollar = ft_itoa(g_exit_status);
+		free (garbage);
 		return (dollar);
 	}
+	free (garbage);
 	while (tmp)
 	{
-		//printf ("p => %p\n", maybe);
-		//printf ("%s%s\n", tmp->name, end);
-		if (ft_strcmp(more, ft_strjoin(tmp->name, end)) == 0)
+		garbage = ft_strjoin(tmp->name, end);
+		if (ft_strcmp(more, garbage) == 0)
 		{
 			dollar = tmp->value;
 			end = NULL;
+			free (garbage);
 			break ;
 		}
 		tmp = tmp->next;
 		if (tmp == NULL)
 			(*thief) = 1;
+		free (garbage);
 	}
 	return (dollar);
 }
@@ -113,6 +117,5 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 		j++;
 	}
 	free_tab (var, 0);
-	//printf ("assign %s\n", assign);
 	return (assign);
 }

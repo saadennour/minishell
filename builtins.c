@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/15 15:19:07 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 01:07:04 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int	if_builtins(char **inpt, t_list **data, char **path)
 	int	status;
 
 	path = NULL;
+	if (ft_strcmp(inpt[0], "exit") == 0)
+		return (2);
 	status = bult_1(inpt);
 	if (status)
 		return (status);

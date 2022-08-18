@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:10:50 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/13 14:29:19 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/17 16:34:11 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,9 @@ void	deletenode(t_list **head, char *name)
 
 int	ft_unset(char **cmd, t_list **data)
 {
-	int		i;
-	t_list	*tmp;
+	int	i;
 
 	i = 1;
-	tmp = *data;
 	while (cmd[i])
 	{
 		deletenode(data, cmd[i]);

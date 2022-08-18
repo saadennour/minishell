@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 23:38:04 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 00:06:25 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,25 @@ t_cmd	*parseexec(char **ps, t_list **env, t_quote quote)
 		if (cmd == 0)
 			return (0);
 	}
+	if (i == 0 && ft_strlen(*ps) != 0)
+	{
+		printf ("minishell: syntax error near unexpected token\n");
+		return (0);
+	}
 	return (cmd);
 }
 
 t_cmd	*parsecmd(char *str, t_list **env)
 {
 	int		x;
+	int		len;
 	int		words;
 	t_cmd	*cmd;
 	t_quote	quote;
 
 	x = 0;
+	len = ft_strlen(str);
+	str = ft_path(str);
 	words = num_quotes(str, ' ');
 	quote.quote = malloc(sizeof(int) * words);
 	while (x < words)
@@ -92,26 +100,29 @@ t_cmd	*parsecmd(char *str, t_list **env)
 	}
 	if (str[0] == '|' || ft_strcmp(str, ".") == 0 || ft_strcmp(str, "..") == 0)
 	{
-		printf ("minishell: syntax error near unexpected token '%s'\n", str);
+		printf ("minishell: syntax error near unexpected token\n");
 		return (0);
 	}
 	str = quotes(str, &quote);
 	if (!str)
 		return (0);
-	str = ft_path(str);
-	cmd = parsepipe(&str, env, quote);
+	cmd = parsepipe(str, env, quote);
+	if (len < ft_strlen(str))
+		free (str);
 	free (quote.quote);
 	return (cmd);
 }
 
-t_cmd	*parsepipe(char	**ps, t_list **env, t_quote quote)
+t_cmd	*parsepipe(char	*ps, t_list **env, t_quote quote)
 {
 	t_cmd	*cmd;
 
-	cmd = parseexec(ps, env, quote);
-	if (exist(ps, "|"))
+	cmd = parseexec(&ps, env, quote);
+	if (cmd == 0)
+		return (0);
+	if (exist(&ps, "|"))
 	{
-		get_token(ps, 0);
+		get_token(&ps, 0);
 		cmd = piping(cmd, parsepipe(ps, env, quote));
 	}
 	return (cmd);
@@ -131,8 +142,11 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote, int *x)
 			printf ("Error missing file\n");
 			return (0);
 		}
+		printf ("p => %p\n", q);
 		clear = clean(q);
+		printf ("p => %p\n", clear);
 		clear = if_dsigne(clear, env, quote, x);
+		printf ("p => %p\n", clear);
 		//printf ("exe : %s x should be %d\n", clear, x);
 		if (token == '<')
 			cmd = redirect(cmd, clear, O_RDONLY, 0);

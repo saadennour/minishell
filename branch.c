@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 17:37:31 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/17 20:24:42 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	type_exec(t_cmd *cmd, t_tool *tools, t_list **data)
 	char	*buf;
 	int		bult;
 
+	buf = NULL;
 	exe = (t_exec *)cmd;
 	if (exe->args[0] == 0)
 		exit (0);
@@ -67,9 +68,9 @@ void	type_exec(t_cmd *cmd, t_tool *tools, t_list **data)
 			exit(0);
 		exit(bult);
 	}
-	buf = get_path(exe, data);
 	if (tools->limiter != NULL)
-		exe_doc(buf, exe, tools);
+		exe_doc(buf, exe, tools, data);
+	buf = get_path(exe, data);
 	execve(buf, exe->args, tools->envp);
 }
 
@@ -96,7 +97,6 @@ void	type_redir(t_cmd *cmd, t_tool *tools, t_list **data)
 		heredoc(red, tools);
 	else
 	{
-		//printf ("file => %s\n", red->file);
 		tools->fd = open(red->file, red->mode, 0644);
 		if (tools->fd < 0)
 		{
