@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 21:12:21 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 19:17:39 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 19:46:19 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,16 @@ int	is_alnum(int c)
 		|| (c >= '0' && c <= '9'))
 		return (1);
 	return (0);
+}
+
+void	next_quote(char *str, int *i, int *x, int tmp)
+{
+	if (str[(*i)] == ' ' || str[(*i)] == 34 || str[(*i)] == 39)
+	{
+		if (tmp + 2 == (*i))
+			(*x)--;
+		(*x)++;
+		if (str[(*i)] == ' ')
+			(*i)++;
+	}
 }

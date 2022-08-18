@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 01:05:54 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 18:35:38 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	main(int ac, char **av, char **envp)
 			exit(0);
 		}
 		add_history(buf);
-		printf ("p => %p\n", buf);
+		//printf ("p => %p\n", buf);
 		cmd = parsecmd(buf, &data);
 		//while (1);
 		if (ifexit(cmd) || ifenv(cmd, &data, &tools.path))
@@ -138,7 +138,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		free (buf);
 		free_struct(cmd);
-		system("leaks minishell");
+		//system("leaks minishell");
 	}
 	return (0);
 }

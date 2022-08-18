@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 01:14:10 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 18:44:33 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	expand(char **assign, t_list **env, char *var)
 	free_tab(more, 0);
 }
 
-char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
+char	*if_dsigne(char *inpt, t_list **env, t_quote *quote)
 {
 	char	*assign;
 	char	**var;
@@ -106,14 +106,14 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 	var = cashier(inpt);
 	while (var[j])
 	{
-		if (quote.quote[(*x)] == 1)
+		if (quote->quote[(quote->x)] != 2)
 			expand(&assign, env, var[j]);
 		else
 		{
 			var[j] = sq_undo(var[j]);
 			assign = ft_strjoin(assign, var[j]);
 		}
-		(*x)++;
+		(quote->x)++;
 		j++;
 	}
 	free_tab (var, 0);

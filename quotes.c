@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 13:44:37 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/15 20:59:07 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 19:32:39 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,7 @@ char	*quotes(char *str, t_quote *quote)
 		if (quote->quote[x] == 0)
 			return (NULL);
 		i++;
-		if (str[i] == ' ' || str[i] == 34 || str[i] == 39)
-		{
-			if (tmp + 2 == i)
-				x--;
-			x++;
-			if (str[i] == ' ')
-				i++;
-		}
+		next_quote(str, &i, &x, tmp);
 	}
 	return (str);
 }

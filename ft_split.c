@@ -6,23 +6,29 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 00:49:01 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 18:55:21 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	if_quote(const char *str, int *i, int *len)
+int	no_quote(const char *str, int i, char c)
 {
-	(*i)++;
-	while (str[(*i)] != '\0' && !((str[(*i)] == 1 && str[(*i) + 1] == ' ')))
-		(*i)++;
-	if (str[(*i)])
-		(*i)++;
-	(*len)++;
+	while (str[i] != '\0' && str[i] != c)
+	{
+		if (str[i] == 1)
+		{
+			i++;
+			while (str[i] && !(str[i] == 1))
+				i++;
+			if (str[i])
+				i++;
+		}
+		else
+			i++;
+	}
+	return (i);
 }
-
-// static void	
 
 int	wd_count(const char *str, char c, int access)
 {
@@ -36,24 +42,15 @@ int	wd_count(const char *str, char c, int access)
 	while (str[i])
 	{
 		if (str[i] == 1 && access == 1)
-			if_quote(str, &i, &len);
+		{
+			if_quote(str, &i);
+			len++;
+		}
 		while (str[i] == c)
 			i++;
 		if (str[i] != '\0' && str[i] != c && str[i] != 1)
 		{
-			while (str[i] != '\0' && str[i] != c)
-			{
-				if (str[i] == 1)
-				{
-					i++;
-					while (str[i] && !((str[i] == 1 && str[i + 1] == ' ')))
-						i++;
-					if (str[i])
-						i++;
-				}
-				else
-					i++;
-			}
+			i = no_quote(str, i, c);
 			len++;
 		}
 	}
@@ -68,25 +65,13 @@ static int	ft_test(const char *str, int i, char c, int access)
 	len = i;
 	s = (char *)str;
 	if (s[i] == 1)
-	{
-		i++;
-		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ')))
-			i++;
-		if (s[i])
-			i++;
-	}
+		if_quote(str, &i);
 	else
 	{
 		while (s[i] && (s[i] != c))
 		{
 			if (s[i] == 1)
-			{
-				i++;
-				while (s[i] && !((s[i] == 1 && s[i + 1] == ' ')))
-					i++;
-				if (s[i])
-				i++;
-			}
+				i = no_quote(str, i, c);
 			else
 				i++;
 		}

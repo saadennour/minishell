@@ -6,13 +6,13 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:42 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 18:44:58 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 19:39:01 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoin(char	*s1, char	*s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ret;
 	int		i;

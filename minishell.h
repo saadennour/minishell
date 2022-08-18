@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 00:01:50 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 19:42:19 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct t_redir
 typedef struct t_quote
 {
 	int	*quote;
+	int	x;
 	int	start;
 }	t_quote;
 
@@ -114,12 +115,12 @@ int		exist(char **ps, char *token);
 int		get_token(char **ps, char **q);
 t_cmd	*parsecmd(char *str, t_list **env);
 t_cmd	*parsepipe(char	*ps, t_list **env, t_quote quote);
-t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote, int *x);
+t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote *quote);
 void	run_cmd(t_cmd *cmd, t_tool *tools, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int		if_builtins(char **inpt, t_list **data, char **path);
 void	ft_skip_spaces(char *inpt, int *i);
-char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x);
+char	*if_dsigne(char *inpt, t_list **env, t_quote *quote);
 char	*quotes(char *str, t_quote *quote);
 void	handle_c(int sig);
 void	handle_s(int sig);
@@ -169,15 +170,12 @@ char	*skip_c(char *str, char c);
 int		withvalue(char *cmd, t_list **data);
 int		existkey(char *cmd, char **op, t_list **data, char c);
 int		check_exp(char *str);
-char	**abortmission(char **final, int i);
-char	**fill_it(char *s, char c, char **final, int flag);
-char	**ft_split_special(char *s, char c);
-size_t	len_count(const char *s, char c);
-int		wc(const char *s, char c);
-void	*ft_calloc(size_t count, size_t size);
-int		ft_strlcpy(char *dest, char *src, unsigned int size);
-void	ft_bzero(void *b, size_t n);
 int		should_open(t_redir *red);
 void	inside_quotes(char *str, int *i);
+void	if_quote(const char *str, int *i);
+int		no_quote(const char *str, int i, char c);
+int		error_scanner(char *str);
+int		inside_string(char *s, int i);
+void	next_quote(char *str, int *i, int *x, int tmp);
 
 #endif

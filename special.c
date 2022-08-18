@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:09:37 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/17 20:27:21 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 19:24:30 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,54 @@ void	inside_quotes(char *str, int *i)
 		if (str[(*i)])
 			(*i)++;
 	}
+}
+
+void	if_quote(const char *str, int *i)
+{
+	(*i)++;
+	while (str[(*i)] != '\0' && !((str[(*i)] == 1 && str[(*i) + 1] == ' ')))
+		(*i)++;
+	if (str[(*i)])
+		(*i)++;
+}
+
+int	inside_string(char *s, int i)
+{
+	while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f")
+		&& !ft_strchr(s[i], "|<>"))
+	{
+		if (s[i] == 1)
+		{
+			i++;
+			while (s[i] && !(s[i] == 1))
+				i++;
+			if (s[i])
+				i++;
+		}
+		else
+			i++;
+	}
+	return (i);
+}
+
+int	tokenizer(char *s, int *x)
+{
+	int		token;
+	int		i;
+
+	i = (*x);
+	token = s[i];
+	if (s[i] == 0)
+		return (token);
+	else if (s[i] == '|')
+	{
+		i++;
+		token = '|';
+	}
+	else if (s[i] == '<' || s[i] == '>')
+		token = followed(s, &i);
+	else
+		token = 'F';
+	*x = i;
+	return (token);
 }

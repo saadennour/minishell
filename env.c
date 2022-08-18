@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:50:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/18 00:56:30 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 19:33:16 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ft_envp(char **envp, t_list **data)
 		op = ft_splito(envp[i], '=');
 		ft_lstadd_back(data, ft_lstnew(op[0], op[1], "="));
 		i++;
-		//free_tab(op, 0);
 		free (op);
 	}
 	return ;
