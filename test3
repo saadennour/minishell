@@ -25,12 +25,13 @@ export underscore		done
 exit(builts) | ls		done
 atoi
 
-$USER leaks
-heredoc leaks
-> leaks
-exit status leaks
+$USER leaks				done
+heredoc leaks			done
+> leaks					done
+exit status leaks		done
 env leaks
 export leaks
+gsa leaks				done
 
 cmd && cmd[j] && 
 

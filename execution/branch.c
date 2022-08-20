@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 23:08:10 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/20 19:34:34 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	type_pipe(t_cmd *cmd, t_tool *tools, t_list **data)
 	}
 	else
 		right_pipe(pip, tools, data, p);
-	close(p[0]);
-	close(p[1]);
 	wait(0);
 }
 

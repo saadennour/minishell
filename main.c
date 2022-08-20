@@ -6,43 +6,11 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 23:16:26 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/20 23:55:49 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (i);
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char	*ft_lastcar(char *str, char c)
-{
-	int	lent;
-
-	lent = ft_strlen(str);
-	while (*str)
-		str++;
-	while (lent)
-	{
-		if (*str == c)
-		{
-			str++;
-			return (str);
-		}
-		lent--;
-		str--;
-	}
-	return (NULL);
-}
 
 void	handle_c(int sig)
 {
@@ -53,15 +21,6 @@ void	handle_c(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 		g_exit_status = 1;
-	}
-}
-
-void	handle_d(int sig)
-{
-	if (sig == 11)
-	{
-		printf ("exit\n");
-		exit(0);
 	}
 }
 
@@ -110,12 +69,17 @@ int	main(int ac, char **av, char **envp)
 		if (buf == NULL)
 		{
 			printf ("exit\n");
-			exit(0);
+			exit(g_exit_status);
 		}
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
-		if (ifexit(cmd) || ifenv(cmd, &data))
+		if (ifexit(cmd)|| ifenv(cmd, &data))
+		{
+			printf ("hello\n");
+			free (buf);
+			free_struct(cmd);
 			continue ;
+		}
 		else
 		{
 			pid = fork();
@@ -126,6 +90,7 @@ int	main(int ac, char **av, char **envp)
 				run_cmd(cmd, &tools, &data);
 			}
 			signal(SIGINT, SIG_IGN);
+			free_struct(cmd);
 			waitpid(pid, &wait_status, 0);
 			g_exit_status = WEXITSTATUS(wait_status);
 			if (WIFSIGNALED(wait_status))
@@ -135,8 +100,7 @@ int	main(int ac, char **av, char **envp)
 				unlink("/tmp/ ");
 		}
 		free (buf);
-		free_struct(cmd);
-		system("leaks minishell");
+		//system("leaks minishell");
 	}
 	return (0);
 }

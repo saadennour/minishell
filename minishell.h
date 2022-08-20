@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 21:21:59 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/20 23:32:52 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,5 +184,6 @@ void	fperror(char *arg, char *error);
 char	*ft_itoa(int n);
 char	*findkey(char *key, t_list **env);
 int		ft_pwd(char **inpt);
+char	*ft_strdup(const char *src);
 
 #endif

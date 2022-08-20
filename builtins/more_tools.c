@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/18 21:10:40 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 00:03:42 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	existkey(char *cmd, char **op, t_list **data, char c)
 			if (c == '+')
 				tmp->value = ft_strjoin(tmp->value, ++cmd);
 			else
-				tmp->value = ++cmd;
+				tmp->value = ft_strdup(++cmd);
 			return (2);
 		}
 		tmp = tmp->next;
