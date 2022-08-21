@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 18:30:42 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 22:53:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char	*assigning(char *more, char *end, t_list **env, int *thief)
 	garbage = ft_strjoin("?", end);
 	if (ft_strcmp(more, garbage) == 0)
 	{
-		dollar = ft_itoa(g_exit_status);
+		dollar = ft_itoa(g_global.exit);
 		free (garbage);
 		(*thief) = 2;
 		return (dollar);

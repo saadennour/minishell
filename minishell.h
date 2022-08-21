@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 20:02:21 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 22:55:06 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # define YELLOW  "\e[1;33m"
 # define RESET   "\e[0m"
 
-int	g_exit_status;
 
 enum e_define
 {
@@ -38,6 +37,12 @@ enum e_define
 	PIPE,
 	REDIR,
 } ;
+
+typedef struct t_global
+{
+	int	exit;
+	int	error;
+}	t_global;
 
 typedef struct t_list
 {
@@ -94,6 +99,8 @@ typedef struct t_quote
 	int	x;
 	int	start;
 }	t_quote;
+
+t_global	g_global;
 
 int		ft_strlen(char *str);
 char	*clean(char *str);

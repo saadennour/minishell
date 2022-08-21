@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 21:31:44 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 22:56:06 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	exec_args(t_exec **exec, int i, char **ps)
 	if (token != 'F')
 	{
 		printf ("minishell : syntax error unexpected token '%c'\n", token);
+		g_global.error = 258;
 		return (0);
 	}
 	one = ft_split(q, ' ', 1);

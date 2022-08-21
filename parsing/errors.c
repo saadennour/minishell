@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 19:01:44 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 20:02:55 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 22:55:46 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	error_scanner(char *str)
 		|| ft_strcmp(str, "<") == 0 || ft_strcmp (str, ">") == 0)
 	{
 		printf ("minishell: syntax error near unexpected token\n");
+		g_global.error = 258;
 		return (0);
 	}
 	return (1);
