@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 00:03:42 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 04:48:41 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@ char	*skip_c(char *str, char c)
 	return (str);
 }
 
+// still 1 leaks
+
 int	existkey(char *cmd, char **op, t_list **data, char c)
 {
 	t_list	*tmp;
+	char	*join;
 
 	tmp = *data;
+	join = NULL;
 	while (tmp)
 	{
 		if (!ft_strcmp(op[0], tmp->name))
@@ -31,10 +35,13 @@ int	existkey(char *cmd, char **op, t_list **data, char c)
 			cmd = skip_c(cmd, '=');
 			if (!tmp->sep)
 				tmp->sep = "=";
+			join = ft_strdup(++cmd);
 			if (c == '+')
-				tmp->value = ft_strjoin(tmp->value, ++cmd);
-			else
-				tmp->value = ft_strdup(++cmd);
+				join = ft_strjoin(tmp->value, join);
+			free(tmp->value);
+			tmp->value = ft_strdup(join);
+			free(join);
+			free_tab(op, 0);
 			return (2);
 		}
 		tmp = tmp->next;

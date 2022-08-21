@@ -36,6 +36,9 @@ gsa leaks				done
 cmd && cmd[j] && 
 
 
-
 check if there is more files who use stdin or stdout
 check if fd wont open then move for the rest reds if u hve to creat it , do it first.
+
+ls << end | grep te  \\??
+ls << end | grep te | wc -c \\??
+ls << end | grep te | wc -c >> test0 \\??

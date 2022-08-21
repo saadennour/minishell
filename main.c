@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/20 23:55:49 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 04:17:58 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,36 @@ static void	init_tools(t_tool *tools, char **envp)
 	tools->free = 25;
 	tools->stdin_copy = dup(STDIN_FILENO);
 	tools->stdout_copy = dup(STDOUT_FILENO);
-	tools->path = getcwd(NULL, 0);
+}
+
+void	execution(t_cmd *cmd, t_list **data, t_tool tools)
+{
+	pid_t	pid;
+	int		wait_status;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		signal (SIGINT, SIG_DFL);
+		signal (SIGQUIT, SIG_DFL);
+		run_cmd(cmd, &tools, data);
+	}
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &wait_status, 0);
+	g_exit_status = WEXITSTATUS(wait_status);
+	if (WIFSIGNALED(wait_status))
+		g_exit_status = WTERMSIG(wait_status) + 128;
+	signal(SIGINT, handle_c);
+	if (access("/tmp/ ", F_OK) != -1)
+		unlink("/tmp/ ");
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	int		wait_status;
 	char	*buf;
 	t_list	*data;
 	t_tool	tools;
 	t_cmd	*cmd;
-	pid_t	pid;
 
 	data = NULL;
 	(void) ac;
@@ -74,33 +93,12 @@ int	main(int ac, char **av, char **envp)
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
 		if (ifexit(cmd)|| ifenv(cmd, &data))
-		{
-			printf ("hello\n");
-			free (buf);
-			free_struct(cmd);
-			continue ;
-		}
+			 ;
 		else
-		{
-			pid = fork();
-			if (pid == 0)
-			{
-				signal (SIGINT, SIG_DFL);
-				signal (SIGQUIT, SIG_DFL);
-				run_cmd(cmd, &tools, &data);
-			}
-			signal(SIGINT, SIG_IGN);
-			free_struct(cmd);
-			waitpid(pid, &wait_status, 0);
-			g_exit_status = WEXITSTATUS(wait_status);
-			if (WIFSIGNALED(wait_status))
-				g_exit_status = WTERMSIG(wait_status) + 128;
-			signal(SIGINT, handle_c);
-			if (access("/tmp/ ", F_OK) != -1)
-				unlink("/tmp/ ");
-		}
+			execution (cmd, &data, tools);
 		free (buf);
-		//system("leaks minishell");
+		free_struct(cmd);
+		system("leaks minishell");
 	}
 	return (0);
 }

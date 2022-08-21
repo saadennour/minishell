@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 00:45:21 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 01:15:30 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	withoutvalue(char *cmd, t_list	**data)
 			return (0);
 		tmp = tmp->next;
 	}
-	printf ("p => %p\n", cmd);
+
 	ft_lstadd_back(data, ft_lstnew(ft_strdup(cmd), NULL, NULL));
 	return (0);
 }
