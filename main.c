@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 20:03:04 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 22:09:04 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ void	handle_c(int sig)
 	}
 }
 
-void	handle_s(int sig)
+void	handle_exit(char *buf)
 {
-	if (sig == 3)
+	if (buf == NULL)
 	{
-		printf ("Quit: 3\n");
-		g_exit_status = 131;
-		exit (131);
+		printf ("exit\n");
+		exit(g_exit_status);
 	}
 }
 
@@ -86,11 +85,7 @@ int	main(int ac, char **av, char **envp)
 		signal (SIGINT, handle_c);
 		signal (SIGQUIT, SIG_IGN);
 		buf = readline("-> minishell ");
-		if (buf == NULL)
-		{
-			printf ("exit\n");
-			exit(g_exit_status);
-		}
+		handle_exit(buf);
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
 		if (ifexit(cmd) || ifenv(cmd, &data))
@@ -98,7 +93,6 @@ int	main(int ac, char **av, char **envp)
 		else
 			execution (cmd, &data, tools);
 		free (buf);
-		system("leaks minishell");
 	}
 	return (0);
 }

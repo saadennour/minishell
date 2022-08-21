@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 19:30:48 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 19:36:43 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 22:09:31 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	doc_nocmd(t_tool *tools)
 
 	i = 0;
 	end = ft_splito(tools->limiter, ' ');
-	i = 0;
 	while (1)
 	{
+		write(2, "> ", 2);
 		ar = get_next_line(0);
 		if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
 		{
@@ -85,6 +85,7 @@ void	exe_doc(char *buf, t_exec *exe, t_tool *tools, t_list **data)
 	end = ft_splito(tools->limiter, ' ');
 	while (1)
 	{
+		write(2, "> ", 2);
 		ar = get_next_line(0);
 		if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
 		{

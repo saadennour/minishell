@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 04:48:41 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 22:04:47 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	existkey(char *cmd, char **op, t_list **data, char c)
 {
 	t_list	*tmp;
 	char	*join;
+	char	*join2;
 
 	tmp = *data;
 	join = NULL;
@@ -37,7 +38,12 @@ int	existkey(char *cmd, char **op, t_list **data, char c)
 				tmp->sep = "=";
 			join = ft_strdup(++cmd);
 			if (c == '+')
-				join = ft_strjoin(tmp->value, join);
+			{
+				join2 = ft_strdup(join);
+				free(join);
+				join = ft_strjoin(tmp->value, join2);
+				free(join2);
+			}
 			free(tmp->value);
 			tmp->value = ft_strdup(join);
 			free(join);
