@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 04:17:58 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 20:03:04 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	execution(t_cmd *cmd, t_list **data, t_tool tools)
 		run_cmd(cmd, &tools, data);
 	}
 	signal(SIGINT, SIG_IGN);
+	free_struct(cmd);
 	waitpid(pid, &wait_status, 0);
 	g_exit_status = WEXITSTATUS(wait_status);
 	if (WIFSIGNALED(wait_status))
@@ -92,12 +93,11 @@ int	main(int ac, char **av, char **envp)
 		}
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
-		if (ifexit(cmd)|| ifenv(cmd, &data))
-			 ;
+		if (ifexit(cmd) || ifenv(cmd, &data))
+			free_struct(cmd);
 		else
 			execution (cmd, &data, tools);
 		free (buf);
-		free_struct(cmd);
 		system("leaks minishell");
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 03:08:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 04:50:16 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 17:24:09 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	check_exp(char *str)
 	if (pos == 1)
 		return (export_error(str, str2, 1));
 	else if (pos == 2)
-		return (export_error(skip_c(str, '!'), str2,  2));
+		return (export_error(skip_c(str, '!'), str2, 2));
 	if (!str2[1])
 	{
 		free_tab(str2, 0);
