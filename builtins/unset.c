@@ -53,10 +53,8 @@ void	deletenode(t_list **head, char *name)
 int	ft_unset(char **cmd, t_list **data)
 {
 	int		i;
-	t_list	*tmp;
 
 	i = 1;
-	tmp = *data;
 	while (cmd[i])
 	{
 		deletenode(data, cmd[i]);

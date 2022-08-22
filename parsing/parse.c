@@ -41,12 +41,6 @@ t_cmd	*parseexec(char **ps, t_list **env, t_quote quote)
 
 	i = 0;
 	quote.x = memo;
-	if (ft_strlen(*ps) == 0)
-	{
-		printf ("minishell: syntax error near unexpected token\n");
-		g_global.error = 258;
-		return (0);
-	}
 	cmd = parser(ps, env, &quote, &i);
 	if (exist(ps, "|"))
 		quote.x++;
@@ -96,6 +90,12 @@ t_cmd	*parsepipe(char	*ps, t_list **env, t_quote quote)
 	if (exist(&ps, "|"))
 	{
 		get_token(&ps, 0);
+		if (ft_strlen(ps) == 0)
+		{
+			printf ("minishell: syntax error near unexpected token\n");
+			g_global.error = 258;
+			return (0);
+		}
 		cmd = piping(cmd, parsepipe(ps, env, quote));
 	}
 	return (cmd);

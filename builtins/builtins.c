@@ -16,11 +16,9 @@ int	ft_pwd(char **inpt)
 {
 	char	*cwd;
 	int		i;
-	int		n;
 
 	cwd = NULL;
 	i = 1;
-	n = 0;
 	while (inpt[i])
 	{
 		if (v_position(inpt[i], '!') == 2)

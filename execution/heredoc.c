@@ -44,9 +44,7 @@ static void	doc_nocmd(t_tool *tools)
 void	heredoc(t_redir *red, t_tool *tools)
 {
 	t_exec	*exe;
-	int		i;
 
-	i = 0;
 	red->file = ft_strjoin(red->file, " ");
 	tools->fd = open("/tmp/ ", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (tools->fd < 0)

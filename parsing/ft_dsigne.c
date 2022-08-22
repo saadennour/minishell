@@ -123,13 +123,9 @@ static char	*get_value(char *more, char *end, t_list **env, int *thief)
 
 char	*assigning(char *more, char *end, t_list **env, int *thief)
 {
-	int		i;
-	t_list	*tmp;
 	char	*dollar;
 	char	*garbage;
 
-	i = 0;
-	tmp = *env;
 	dollar = NULL;
 	garbage = ft_strjoin("?", end);
 	if (ft_strcmp(more, garbage) == 0)
