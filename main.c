@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 22:57:14 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/22 01:45:47 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_exit(char *buf)
 	if (buf == NULL)
 	{
 		printf ("exit\n");
-		exit(g_global.exit);
+		exit (g_global.exit);
 	}
 }
 
@@ -90,7 +90,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		signal (SIGINT, handle_c);
 		signal (SIGQUIT, SIG_IGN);
-		buf = readline("-> minishell ");
+		buf = readline("minishell-$ ");
 		handle_exit(buf);
 		add_history(buf);
 		cmd = parsecmd(buf, &data);

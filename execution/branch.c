@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   branch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 04:50:27 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 02:17:11 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	type_redir(t_cmd *cmd, t_tool *tools, t_list **data)
 			tools->fd = should_open(red);
 			if (tools->fd == -1)
 			{
-				printf ("Errooor\n");
+				fperror (NULL, "Error in opening file descriptor\n");
 				exit (1);
 			}
 		}

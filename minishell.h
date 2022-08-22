@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 22:55:06 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/22 02:07:34 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # define GREEN   "\e[0;32m"
 # define YELLOW  "\e[1;33m"
 # define RESET   "\e[0m"
-
 
 enum e_define
 {
@@ -105,12 +104,10 @@ t_global	g_global;
 int		ft_strlen(char *str);
 char	*clean(char *str);
 int		ft_limites(char *str);
-t_cmd	*end_it(t_cmd *cmd);
 char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split(char const *s, char c, int access);
 char	**ft_advanced(char const *s, char *buf);
 char	*get_path(t_exec *exe, t_list **data);
-int		lets_check(char *str);
 char	*ft_path(char *line);
 int		followed(char *s, int *i);
 t_cmd	*piping(t_cmd *left, t_cmd *right);
@@ -131,22 +128,16 @@ void	ft_skip_spaces(char *inpt, int *i);
 char	*if_dsigne(char *inpt, t_list **env, t_quote *quote);
 char	*quotes(char *str, t_quote *quote);
 void	handle_c(int sig);
-void	handle_s(int sig);
 char	*get_next_line(int fd);
-char	**if_echo(char *str);
 int		wd_count(const char *str, char c, int access);
 int		tokenizer(char *str, int *x);
-char	*no_space(char *str);
 int		ft_echo(char **cmd);
 char	**ft_splito(char const *s, char c);
-int		spaces_still(char *str);
 int		ft_strcmp(char *s1, char *s2);
 int		num_quotes(char *str, char c);
 void	accountant(char **str, int i, int *dollar);
 char	**cashier(char *str);
 char	*after_world(char *str);
-char	*exdsigne(char *op, char **env);
-char	**forenv(char **env);
 int		exec_args(t_exec **exec, int i, char **ps);
 char	*corrected(char *line, char *str);
 void	type_pipe(t_cmd *cmd, t_tool *tools, t_list **data);
@@ -194,5 +185,7 @@ int		ft_pwd(char **inpt);
 char	*ft_strdup(const char *src);
 t_cmd	*which_redir(t_cmd *cmd, char *clear, int token);
 t_cmd	*parser(char **ps, t_list **env, t_quote *quote, int *i);
+int		foldername(char **inpt);
+t_cmd	*empty_pipe(t_cmd *cmd);
 
 #endif

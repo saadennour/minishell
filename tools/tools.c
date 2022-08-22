@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 22:56:06 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/22 02:11:11 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,27 @@ void	ft_skip_spaces(char *inpt, int *i)
 			(*i)++;
 }
 
-int	ft_strcmp(char *s1, char *s2)
+t_cmd	*parser(char **ps, t_list **env, t_quote *quote, int *i)
 {
-	int	i;
+	t_exec		*exec;
+	t_cmd		*cmd;
 
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
+	cmd = exelior(*ps);
+	exec = (t_exec *)cmd;
+	cmd = parsered (cmd, ps, env, quote);
+	if (cmd == 0)
+		return (0);
+	while (!exist(ps, "|"))
+	{
+		if (cmd == 0)
+			return (0);
+		if (exec_args(&exec, (*i), ps) == 0)
+			break ;
+		exec->args[(*i)] = if_dsigne(exec->args[(*i)], env, quote);
+		(*i)++;
+		cmd = parsered (cmd, ps, env, quote);
+		if (cmd == 0)
+			return (0);
+	}
+	return (cmd);
 }
