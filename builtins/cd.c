@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:53:39 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/22 02:03:10 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/23 00:22:38 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,19 @@ char	*findkey(char *key, t_list **env)
 
 int	home(t_list **env, t_list *tmp)
 {
-	findkey("OLDPWD", &tmp);
-	free(tmp->value);
-	tmp->value = getcwd(NULL, 0);
+	char	*oldpwd;
+
+	oldpwd = getcwd(NULL, 0);
 	tmp = *env;
 	if (chdir(findkey("HOME", &tmp)) == -1)
 	{
 		fperror("cd", ": HOME not set\n");
 		return (1);
 	}
+	if (!findkey("OLDPWD", &tmp))
+		return (2);
+	free(tmp->value);
+	tmp->value = oldpwd;
 	return (2);
 }
 
@@ -65,7 +69,12 @@ int	newpwd(char *fd, t_list *tmp)
 		write(2, " No such file or directory\n", 27);
 		return (1);
 	}
-	findkey("OLDPWD", &tmp);
+	if (!findkey("OLDPWD", &tmp))
+	{
+		free (oldpwd);
+		return (2);
+	}
+	printf ("%p\n", tmp->value);
 	free(tmp->value);
 	tmp->value = oldpwd;
 	return (2);

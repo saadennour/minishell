@@ -1,5 +1,5 @@
 NAME = minishell
-FLAGS = -Wall -Wextra -Werror -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
+FLAGS = -Wall -Wextra -Werror -lreadline -L /Users/sfarhan/homebrew/opt/readline/lib -I /Users/sfarhan/homebrew/opt/readline/include
 
 SRCS =	main.c \
 		builtins/builtins.c \
@@ -15,6 +15,7 @@ SRCS =	main.c \
 		execution/branch.c \
 		execution/execute.c \
 		execution/heredoc.c \
+		execution/pipes.c \
 		parsing/constructor.c \
 		parsing/correction.c \
 		parsing/errors.c \
