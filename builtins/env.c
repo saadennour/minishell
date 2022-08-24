@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:50:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 04:50:09 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/24 23:48:05 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,23 @@ int	printenvp(char	**inpt, t_list **data)
 void	ft_envp(char **envp, t_list	**data)
 {
 	int		i;
+	int		j;
 	char	**op;
 
 	i = 0;
 	while (envp[i])
 	{
+		j = 1;
 		op = ft_split(envp[i], '=', 0);
-		ft_lstadd_back(data, ft_lstnew(op[0], op[1], "="));
+		if (!ft_strcmp(op[0], "OLDPWD"))
+			ft_lstadd_back(data, ft_lstnew(op[0], NULL, NULL));
+		else
+		{
+			j = 2;
+			ft_lstadd_back(data, ft_lstnew(op[0], op[1], "="));
+		}
 		i++;
-		free (op);
+		free_tab (op, j);
 	}
 	return ;
 }

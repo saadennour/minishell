@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/22 02:06:57 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/24 21:29:50 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote *quote)
 		}
 		(quote->x)++;
 		clear = if_dsigne(clean(q), env, quote);
-		cmd = which_redir(cmd, clear, token);
+		cmd = which_redir(cmd, clear, token, q);
 		cmd = parsered(cmd, ps, env, quote);
 	}
 	return (cmd);

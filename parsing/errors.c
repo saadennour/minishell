@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 19:01:44 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/22 02:11:02 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/24 21:30:08 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	free_tab(char **path, int i)
 {
 	while (path[i])
 	{
-		free(path[i]);
+		if (ft_strlen(path[i]) != 0)
+			free(path[i]);
 		i++;
 	}
 	free (path);
