@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:53:39 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/24 23:45:50 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/25 00:47:01 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ int	newpwd(char *fd, t_list **env)
 	if (chdir(fd) < 0)
 	{
 		free (oldpwd);
-		write(2, "minishell: ", 11);
-		write(2, "cd: ", 4);
-		write(2, fd, ft_strlen(fd));
-		write(2, " No such file or directory\n", 27);
+		fperror(fd, ": No such file or directory\n");
 		return (1);
 	}
 	setpwd(*env);

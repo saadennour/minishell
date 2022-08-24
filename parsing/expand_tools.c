@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/24 01:35:24 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/25 00:53:59 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*edges(char *more, t_list **env)
 		dollar = garbage;
 	}
 	else if (thief == 1)
-		dollar = "";
+		dollar = NULL;
 	free (end);
 	return (dollar);
 }
