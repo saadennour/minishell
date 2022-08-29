@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:09:37 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/27 02:58:26 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	inside_quotes(char *str, int *i)
 		{
 			if (str[(*i)] == 1)
 			{
-				while (str[(*i)] && str[(*i)] != ' ')
+				while (str[(*i)] && str[(*i) + 1] != ' ')
 					(*i)++;
 				break ;
 			}
@@ -59,7 +59,15 @@ void	if_quote(const char *str, int *i)
 {
 	(*i)++;
 	while (str[(*i)] != '\0' && !((str[(*i)] == 1 && str[(*i) + 1] == ' ')))
+	{
+		if (str[(*i)] == 1)
+		{
+			while (str[(*i)] && str[(*i) + 1] != ' ')
+				(*i)++;
+			break ;
+		}
 		(*i)++;
+	}
 	if (str[(*i)])
 		(*i)++;
 }

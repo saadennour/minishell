@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 13:44:37 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 22:56:52 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/27 02:59:16 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,15 @@ char	*quotes(char *str, t_quote *quote)
 	{
 		tmp = i;
 		if (str[i] == 34)
+		{
 			quote->quote[x] = double_quotes(str, &i);
+			x++;
+		}
 		else if (str[i] == 39)
+		{
 			quote->quote[x] = single_quotes(str, &i);
-		if (quote->quote[x] == 0)
-			return (NULL);
+			x++;
+		}
 		i++;
 		next_quote(str, &i, &x, tmp);
 	}

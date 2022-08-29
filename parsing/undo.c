@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 19:27:13 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/27 02:45:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ char	**dq_undo(char *var)
 
 char	*sq_undo(char *var)
 {
-	char	sign[2];
+	char	sign[3];
 
 	sign[0] = 2;
 	sign[1] = 3;
-	if (ft_skip(var, sign))
+	sign[2] = '\0';
+	if (ft_skip(var, sign) == 1)
 	{
 		var = undo(var, 3);
 		var = undo(var, 2);

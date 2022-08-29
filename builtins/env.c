@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:50:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/25 00:09:31 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/27 02:51:34 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_envp(char **envp, t_list	**data)
 	while (envp[i])
 	{
 		j = 1;
-		op = ft_split(envp[i], '=', 0);
+		op = ft_splito(envp[i], '=');
 		if (!ft_strcmp(op[0], "OLDPWD"))
 			ft_lstadd_back(data, ft_lstnew(op[0], NULL, NULL));
 		else

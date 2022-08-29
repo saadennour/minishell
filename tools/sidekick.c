@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 21:12:21 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/27 03:00:15 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	exist(char **ps, char *token)
 
 	i = 0;
 	s = *ps;
-	while (s[i] != '\0' && s[i] == 2)
+	while (s[i] != '\0' && ft_strchr(s[i], " \n\t\r\f\v"))
 		s++;
 	*ps = &s[i];
 	return (s[i] && ft_strchr(s[i], token));
@@ -71,8 +71,9 @@ void	next_quote(char *str, int *i, int *x, int tmp)
 	{
 		if (tmp + 2 == (*i))
 			(*x)--;
-		(*x)++;
-		if (str[(*i)] == ' ')
+		if ((*i) != 0 && str[(*i) - 1] != 1)
+			(*x)++;
+		while (str[(*i)] == ' ')
 			(*i)++;
 	}
 }
